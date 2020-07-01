@@ -76,6 +76,12 @@
     <Compile Include="ViewController.designer.cs">
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\Directory.cs" />
+    <Compile Include="DataModel\ResultTableDelegate.cs" />
+    <Compile Include="DataModel\DirectoryTableDataSource.cs" />
+    <Compile Include="DataModel\Result.cs" />
+    <Compile Include="DataModel\ResultTableDataSource.cs" />
+    <Compile Include="DataModel\DirectoryTableDelagate.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />

@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Librarian", "Librarian\Librarian.csproj", "{04BD042B-FEE0-45CF-AC8E-8FFE94E92ECC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Custodian", "Custodian\Custodian.csproj", "{E2BAF11A-7078-43DE-BF2F-4AA7089A0CA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,5 +15,9 @@ Global
 		{04BD042B-FEE0-45CF-AC8E-8FFE94E92ECC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04BD042B-FEE0-45CF-AC8E-8FFE94E92ECC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04BD042B-FEE0-45CF-AC8E-8FFE94E92ECC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2BAF11A-7078-43DE-BF2F-4AA7089A0CA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2BAF11A-7078-43DE-BF2F-4AA7089A0CA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2BAF11A-7078-43DE-BF2F-4AA7089A0CA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2BAF11A-7078-43DE-BF2F-4AA7089A0CA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
