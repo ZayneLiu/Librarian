@@ -6,8 +6,6 @@
       - [Precision and Recall](#precision-and-recall)
     - [Multi-threading](#multi-threading)
   - [References](#references)
-- [Note to self: The process of finding better solutions](#note-to-self-the-process-of-finding-better-solutions)
-- [Project Structure](#project-structure)
 ___
 
 # Report
@@ -23,17 +21,3 @@ ___
 ## References
 
 Reiner, K. Chichao, C. Farzin, M. Ravi, K.,2006. [Searching with context | ACM Digital Library](https://dl.acm.org/doi/abs/10.1145/1135777.1135847).Accessed on July 1st, 2020.
-
-
-
-# Note to self: The process of finding better solutions
-- Abandon Electron for Node.js API
-- Adopting C# + Xamarin.Mac due to better performance (benchmark)
-
-# Project Structure
- - Custodian
-   - Indexing Module
-   - Searching Module
-   <!-- -  -->
-- Librarian
-  - UI
