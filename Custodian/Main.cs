@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,44 +10,51 @@ namespace Custodian
     {
         public static void Main(string[] args)
         {
+
             var url = "file:///Users/zayne/Documents/Herts/PG1000/";
+            var targetPath = url.Substring(7);
+
+            var custodian = new Custodian();
 
 
 
-            var files = Directory.GetFiles(url.Substring(7));
+
+            //var files = Directory.GetFiles(url.Substring(7));
 
             //// Exclude system files i.e. `.DS_Store` etc.
+
+            var aaa = DateTime.Now.Millisecond;
+
+            custodian.TakeCareOf(shelfPath: targetPath);
+
+
             //var ignoreList = new string[] { ".DS_Store" };
+            //var files = Index(dirPath, ref db, ref dirPath);
             //var result = from file in files
             //             where !ignoreList.Contains(file.Substring(file.LastIndexOf("/") + 1))
             //             select file;
 
-            //Console.WriteLine(result);
-            //Console.WriteLine($"{dir.Length} files found.");
+            Console.WriteLine($"{DateTime.Now.Millisecond - aaa}ms");
 
-            var a = Index(url.Substring(7));
-            //Console.WriteLine();
+            Console.WriteLine();
+
+            //#region Redis
+            //// DB Data Model [dirPath]:[fileList]
+            //// "/Users/zayne/Documents/Herts/PG1000/" : []
+            ////var client = ConnectionMultiplexer.Connect("localhost");
+            ////var db = client.GetDatabase();
+
+            //db.KeyDelete(dirPath);
+
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    db.ListRightPush(dirPath, "aaa");
+            //}
+            //Console.WriteLine(db.ListRange(dirPath));
+
+            //Console.WriteLine(client.GetDatabase(0));
+            //#endregion
         }
 
-        /// <summary>
-        /// Index all files under given directory (files in sub-directories included)
-        /// </summary>
-        /// <param name="path">Directory path to index</param>
-        /// <returns>List of all file paths under given directory</returns>
-        public static List<string> Index(string path)
-        {
-            #region Recursively Walk Through Sub-dirs
-            var subdir = Directory.GetDirectories(path).ToList();
-            if (subdir.Any())
-            {
-                //subdir.ForEach((element) => { });
-                foreach (var dir in subdir)
-                {
-                    return subdir.Concat(Index(dir)).ToList();
-                }
-            }
-            return subdir;
-            #endregion
-        }
     }
 }
