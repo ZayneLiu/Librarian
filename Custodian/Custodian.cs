@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using LiteDB;
 
 namespace Custodian
@@ -10,47 +8,38 @@ namespace Custodian
     public class Custodian
     {
         #region Persistent Functionalities
-        public static LiteDatabase custodianDB = new LiteDatabase("custodian.db");
-        ILiteCollection<Shelf> shelvesDB = custodianDB.GetCollection<Shelf>("Shelves");
+
+        private static readonly LiteDatabase CustodianDb = new LiteDatabase("custodian.db");
+        private readonly ILiteCollection<Folder> _foldersDb = CustodianDb.GetCollection<Folder>("Files");
+
         #endregion
-        public List<Shelf> shelves = new List<Shelf>();
+        public List<Folder> folders;
 
         public Custodian()
         {
-            shelves = shelvesDB.FindAll().ToList();
+            folders = _foldersDb.FindAll().ToList();
         }
 
         public bool TakeCareOf(string shelfPath)
         {
 
-            var shelf = new Shelf(shelfLocation: shelfPath);
-            shelf.Index();
-            shelves.Add(shelf);
+            var folder = new Folder(shelfLocation: shelfPath);
+            folder.Index();
+            folders.Add(folder);
 
-
-            shelvesDB.Upsert(id: shelf.Location, shelf);
+            _foldersDb.Upsert(id: folder.Location, folder);
+            var a = _foldersDb.FindAll().ToList();
+            //.ForEach((item) => { })) 
             //var a = shelvesDB.FindAll().ToList();
 
-
-            Console.WriteLine(a.Count());
+            //Console.WriteLine(a.Count());
             return true;
         }
 
-
-        //    #region Redis
-        //    // DB Data Model [dirPath]:[fileList]
-        //    // "/Users/zayne/Documents/Herts/PG1000/" : []
-
-
-        //    db.KeyDelete(dirPath);
-
-        //        for (int i = 0; i< 3; i++)
-        //        {
-        //            db.ListRightPush(dirPath, "aaa");
-        //        }
-        //Console.WriteLine(db.ListRange(dirPath));
-
-        //        Console.WriteLine(client.GetDatabase(0));
-        //        #endregion
+        void Find(string[] keywords)
+        {
+            Console.WriteLine();
+            // keywords.ToList().ForEach();
+        }
     }
 }

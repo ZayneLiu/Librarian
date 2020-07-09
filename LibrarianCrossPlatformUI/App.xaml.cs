@@ -22,7 +22,7 @@ namespace LibrarianCrossPlatformUI
                     DataContext = new MainWindowViewModel(),
                 };
             }
-
+            
             base.OnFrameworkInitializationCompleted();
         }
     }

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Custodian
 {
@@ -9,32 +12,73 @@ namespace Custodian
     /// </summary>
     public class Document
     {
-        /// <summary>
-        /// File path.
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
-        /// Preliminary index, only include words and count of ocurances. Hence thumbnail.
-        /// </summary>
-        public Dictionary<string, int> Thumbnail { get; set; }
-        /// <summary>
-        /// Full-text index, contains each word and poitions of occurances in the document.
-        /// </summary>
-        public Dictionary<string, List<string>> FullTextIndex { get; set; }
         //TODO:Exact type of full-text index data is yet determined.
 
         public Document(string filename)
         {
             this.Name = filename;
             this.Thumbnail = new Dictionary<string, int>();
-            this.FullTextIndex = new Dictionary<string, List<string>>();
-            Index();
+            this.IndexData = new Dictionary<string, List<string>>();
+            //TODO:Preliminary Index
+            //TODO:Full-text index first, preliminary index will be added as a extension.
+            FullTextIndex();
         }
 
-        public void Index()
+        /// <summary>
+        /// File path.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Preliminary index, only include words and count of occurrences. Hence thumbnail.
+        /// </summary>
+        public Dictionary<string, int> Thumbnail { get; set; }
+
+        /// <summary>
+        /// Full-text index, contains each word and positions of occurrences in the document.
+        /// </summary>
+        public Dictionary<string, List<string>> IndexData { get; set; }
+
+        private void FullTextIndex()
         {
-            //TODO:Preliminary Index
+            Index();
+            //throw new NotImplementedException();
+        }
+
+        private void Index()
+        {
+            if (Name is null)
+                return;
+
             Console.WriteLine($"Indexing {Path.GetFileName(Name)} ....");
+            //File.ReadLines(Name, encoding: Encoding.UTF8);
+            try
+            {
+                using var doc = WordprocessingDocument.Open(path: Name, isEditable: false);
+                var body = doc.MainDocumentPart.Document.Body;
+
+                var words = body.InnerText.Split(" ").GetEnumerator();
+                while (words.MoveNext())
+                {
+                    if (Thumbnail.ContainsKey(words.Current.ToString().ToLower()))
+                    {
+                        Thumbnail[words.Current.ToString().ToLower()] += 1;
+                        continue;
+                    }
+
+                    Thumbnail.Add(words.Current.ToString().ToLower(), 1);
+                }
+
+                //dict.key
+                Console.WriteLine(Thumbnail.Count);
+                //var a = File.ReadAllLines(Name, Encoding.UTF8);
+                //Console.WriteLine();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                // throw ex;
+            }
         }
     }
 }

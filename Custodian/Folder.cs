@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace Custodian
 {
     /// <summary>
     /// Corresponding concept to Directory in file system.
     /// </summary>
-    public class Shelf
+    public class Folder
     {
         public string Location { get; set; }
         public List<Document> Documents { get; set; }
@@ -18,7 +21,7 @@ namespace Custodian
         /// And perform preliminary indexing against containing documents automatically.
         /// </summary>
         /// <param name="shelfLocation">Location of the shelf. (Path of target directory)</param>
-        public Shelf(string shelfLocation)
+        public Folder(string shelfLocation)
         {
             this.Location = shelfLocation;
             this.Documents = new List<Document>();
@@ -30,25 +33,34 @@ namespace Custodian
         /// <returns>List of all file paths under given directory</returns>
         public void Index()
         {
-            var result = Directory.GetFiles(path: this.Location, searchPattern: "*", searchOption: SearchOption.AllDirectories)
-                 .Where((string filename) =>
-                 {
-                     if (Path.GetExtension(filename).Equals(value: ".icloud", comparisonType: StringComparison.OrdinalIgnoreCase))
-                         Console.WriteLine($"{filename} needs to be downloaded from iCloud!");
-                     return !new[] { ".DS_Store" }.Contains(Path.GetFileName(filename));
-                 }).GetEnumerator();
+            using var result = Directory.GetFiles(path: this.Location,
+                    searchPattern: "*",
+                    searchOption: SearchOption.AllDirectories)
+                .Where((string filename) =>
+                {
+                    var ext = Path.GetExtension(filename);
+                    if (Path.GetExtension(filename)
+                        .Equals(value: ".iCloud", comparisonType: StringComparison.OrdinalIgnoreCase))
+                        Console.WriteLine($"{filename} needs to be downloaded from iCloud!");
+                    var exclude = !new[] {".DS_Store"}.Contains(Path.GetFileName(filename));
+                    var allowedExt = new[] {".doc", ".docx"};
+                    //, ".ppt", ".pptx"
+                    var include = allowedExt.Contains(ext.ToLower());
+                    //var include = new[] { ".doc", ".ppt" }.Contains(Path.GetExtension(filename));
+                    return exclude & include;
+                }).GetEnumerator();
 
             while (result.MoveNext())
             {
+                Console.WriteLine();
                 var book = new Document(result.Current);
                 //book.PreliminaryIndex();
                 Documents.Add(book);
-
             }
+
             //.Where((string filename) =>
             //    !filename.EndsWith(".DS_STORE", StringComparison.OrdinalIgnoreCase)
             //)
         }
-
     }
 }
