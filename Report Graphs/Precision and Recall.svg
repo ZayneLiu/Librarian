@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="500px" height="781px" viewBox="0 0 500 781" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54 (76480) - https://sketchapp.com -->
+    <title>Graphs</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" stroke="#979797" fill="#FFFFFF" x="0.5" y="0.5" width="499" height="780"></rect>
+        <g id="Dataset" transform="translate(50.000000, 37.000000)">
+            <path d="M-0.5,-0.5 L200.5,-0.5 L200.5,400.5 L-0.5,400.5 L-0.5,-0.5 Z" id="Rectangle" stroke="#979797" fill="#A6F4B9"></path>
+            <path d="M199.5,-0.5 L400.5,-0.5 L400.5,400.5 L199.5,400.5 L199.5,-0.5 Z" id="Rectangle" stroke="#979797" fill="#FFBABA"></path>
+            <text id="true-negetive" font-family="Monaco" font-size="18" font-weight="normal" fill="#000000">
+                <tspan x="230" y="39">true negetive</tspan>
+            </text>
+            <text id="false-negetive" font-family="Monaco" font-size="18" font-weight="normal" fill="#000000">
+                <tspan x="24" y="39">false negetive</tspan>
+            </text>
+        </g>
+        <g id="Returned-Results" transform="translate(96.000000, 83.000000)">
+            <path d="M154,308.5 C116.075003,308.5 77.3171775,291.763977 47.7777723,263.254212 C17.3308795,233.868591 -0.5,194.860464 -0.5,154 C-0.5,68.6720062 68.6720062,-0.5 154,-0.5 L154.5,-0.5 L154.5,2.84217094e-14 C154.5,0.564738184 154.5,0.564738184 154.5,3.26370359 C154.5,6.96741985 154.5,6.96741985 154.5,12.5559123 C154.5,26.3729733 154.5,26.3729733 154.5,46.2324328 C154.5,93.5182438 154.5,93.5182438 154.5,153 C154.5,213.853198 154.5,213.853198 154.5,261.608649 C154.5,281.597793 154.5,281.597793 154.5,295.446993 C154.5,301.04126 154.5,301.04126 154.5,304.742352 C154.5,307.437159 154.5,307.437159 154.5,308 L154.5,308.5 L154,308.5 Z" id="Oval" stroke="#979797" fill="#A6F4B9"></path>
+            <path d="M308,308.5 C270.075003,308.5 231.317178,291.763977 201.777772,263.254212 C171.330879,233.868591 153.5,194.860464 153.5,154 C153.5,68.6720062 222.672006,-0.5 308,-0.5 L308.5,-0.5 L308.5,0 C308.5,0.564738184 308.5,0.564738184 308.5,3.26370359 C308.5,6.96741985 308.5,6.96741985 308.5,12.5559123 C308.5,26.3729733 308.5,26.3729733 308.5,46.2324328 C308.5,93.5182438 308.5,93.5182438 308.5,153 C308.5,213.853198 308.5,213.853198 308.5,261.608649 C308.5,281.597793 308.5,281.597793 308.5,295.446993 C308.5,301.04126 308.5,301.04126 308.5,304.742352 C308.5,307.437159 308.5,307.437159 308.5,308 L308.5,308.5 L308,308.5 Z" id="Oval" stroke="#979797" fill="#FFBABA" transform="translate(231.000000, 154.000000) rotate(-180.000000) translate(-231.000000, -154.000000) "></path>
+            <text id="false-positive" font-family="Monaco" font-size="16" font-weight="normal" fill="#000000">
+                <tspan x="207.496094" y="154">false</tspan>
+                <tspan x="193.09375" y="174">positive</tspan>
+            </text>
+            <text id="true-positive" font-family="Monaco" font-size="16" font-weight="normal" fill="#000000">
+                <tspan x="57.296875" y="150">true</tspan>
+                <tspan x="38.09375" y="170">positive</tspan>
+            </text>
+        </g>
+        <g id="Legends" transform="translate(46.000000, 470.000000)">
+            <text id="Returned-irrelevant" font-family="Monaco" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="50.1870117" y="145">Returned irrelevant</tspan>
+            </text>
+            <text id="Dataset" font-family="Monaco" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="282.095215" y="25">Dataset</tspan>
+            </text>
+            <path d="M231.5,-0.5 L252.5,-0.5 L252.5,40.5 L231.5,40.5 L231.5,-0.5 Z" id="Rectangle" stroke="#979797" fill="#A6F4B9"></path>
+            <path d="M251.5,-0.5 L272.5,-0.5 L272.5,40.5 L251.5,40.5 L251.5,-0.5 Z" id="Rectangle" stroke="#979797" fill="#FFBABA"></path>
+            <text id="Returned-results" font-family="Monaco" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="50.2890625" y="25">Returned results</tspan>
+            </text>
+            <path d="M20,40.5 C9.36659545,40.5 -0.5,30.9773195 -0.5,20 C-0.5,8.67816263 8.67816263,-0.5 20,-0.5 L20.5,-0.5 L20.5,0 C20.5,1.17348194 20.5,1.17348194 20.5,6.00421206 C20.5,12.1452265 20.5,12.1452265 20.5,19.8701299 C20.5,27.7731426 20.5,27.7731426 20.5,33.9751492 C20.5,38.830461 20.5,38.830461 20.5,40 L20.5,40.5 L20,40.5 Z" id="Oval" stroke="#979797" fill="#A6F4B9"></path>
+            <path d="M40,40.5 C29.3665954,40.5 19.5,30.9773195 19.5,20 C19.5,8.67816263 28.6781626,-0.5 40,-0.5 L40.5,-0.5 L40.5,0 C40.5,1.17348194 40.5,1.17348194 40.5,6.00421206 C40.5,12.1452265 40.5,12.1452265 40.5,19.8701299 C40.5,27.7731426 40.5,27.7731426 40.5,33.9751492 C40.5,38.830461 40.5,38.830461 40.5,40 L40.5,40.5 L40,40.5 Z" id="Oval" stroke="#979797" fill="#FFBABA" transform="translate(30.000000, 20.000000) rotate(-180.000000) translate(-30.000000, -20.000000) "></path>
+            <path d="M40,160.5 C29.3665954,160.5 19.5,150.97732 19.5,140 C19.5,128.678163 28.6781626,119.5 40,119.5 L40.5,119.5 L40.5,120 C40.5,121.173482 40.5,121.173482 40.5,126.004212 C40.5,132.145226 40.5,132.145226 40.5,139.87013 C40.5,147.773143 40.5,147.773143 40.5,153.975149 C40.5,158.830461 40.5,158.830461 40.5,160 L40.5,160.5 L40,160.5 Z" id="Oval-Copy-2" stroke="#979797" fill="#FFBABA" transform="translate(30.000000, 140.000000) rotate(-180.000000) translate(-30.000000, -140.000000) "></path>
+            <text id="Returned-relevant" font-family="Monaco" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="50.0883789" y="85">Returned relevant</tspan>
+            </text>
+            <path d="M40,100.5 C29.3665954,100.5 19.5,90.9773195 19.5,80 C19.5,68.6781626 28.6781626,59.5 40,59.5 L40.5,59.5 L40.5,60 C40.5,61.1734819 40.5,61.1734819 40.5,66.0042121 C40.5,72.1452265 40.5,72.1452265 40.5,79.8701299 C40.5,87.7731426 40.5,87.7731426 40.5,93.9751492 C40.5,98.830461 40.5,98.830461 40.5,100 L40.5,100.5 L40,100.5 Z" id="Oval-Copy" stroke="#979797" fill="#A6F4B9"></path>
+            <g id="Group-4" transform="translate(20.000000, 180.000000)">
+                <text id="Unreturned-relevant" font-family="Monaco" font-size="14" font-weight="normal" fill="#000000">
+                    <tspan x="30.2753906" y="25">Unreturned relevant (false negetive)</tspan>
+                </text>
+                <path d="M-0.5,-0.5 L20.5,-0.5 L20.5,40.5 L-0.5,40.5 L-0.5,-0.5 Z" id="Rectangle-Copy-2" stroke="#979797" fill="#A6F4B9"></path>
+                <path d="M20,38.5 C10.4056826,38.5 1.5,30.1434956 1.5,20.5 C1.5,10.5556732 9.78583525,2.5 20,2.5 L20.5,2.5 L20.5,3 C20.5,4.0267967 20.5,4.0267967 20.5,8.25368555 C20.5,13.6270732 20.5,13.6270732 20.5,20.3863636 C20.5,27.3014998 20.5,27.3014998 20.5,32.7282555 C20.5,36.9766534 20.5,36.9766534 20.5,38 L20.5,38.5 L20,38.5 Z" id="Oval-Copy-3" stroke="#979797" fill="#FFFFFF"></path>
+            </g>
+            <g id="Group-3" transform="translate(20.000000, 240.000000)">
+                <text id="Unreturned-irrelevan" font-family="Monaco" font-size="14" font-weight="normal" fill="#000000">
+                    <tspan x="30.074707" y="25">Unreturned irrelevant (true negetive)</tspan>
+                </text>
+                <path d="M-0.5,-0.5 L20.5,-0.5 L20.5,40.5 L-0.5,40.5 L-0.5,-0.5 Z" id="Rectangle-Copy-2" stroke="#979797" fill="#FFBABA"></path>
+                <path d="M20,38.5 C10.4056826,38.5 1.5,30.1434956 1.5,20.5 C1.5,10.5556732 9.78583525,2.5 20,2.5 L20.5,2.5 L20.5,3 C20.5,4.0267967 20.5,4.0267967 20.5,8.25368555 C20.5,13.6270732 20.5,13.6270732 20.5,20.3863636 C20.5,27.3014998 20.5,27.3014998 20.5,32.7282555 C20.5,36.9766534 20.5,36.9766534 20.5,38 L20.5,38.5 L20,38.5 Z" id="Oval-Copy-3" stroke="#979797" fill="#FFFFFF"></path>
+            </g>
+            <g id="Group-2" transform="translate(252.000000, 120.000000)">
+                <text id="Irrelevant-data" font-family="Monaco" font-size="14" font-weight="normal" fill="#000000">
+                    <tspan x="30.4897461" y="25">Irrelevant data</tspan>
+                </text>
+                <path d="M-0.5,-0.5 L20.5,-0.5 L20.5,40.5 L-0.5,40.5 L-0.5,-0.5 Z" id="Rectangle-Copy" stroke="#979797" fill="#FFBABA"></path>
+            </g>
+            <g id="Group" transform="translate(252.000000, 60.000000)">
+                <text id="Relevant-data" font-family="Monaco" font-size="14" font-weight="normal" fill="#000000">
+                    <tspan x="30.3911133" y="25">Relevant data</tspan>
+                </text>
+                <path d="M-0.5,-0.5 L20.5,-0.5 L20.5,40.5 L-0.5,40.5 L-0.5,-0.5 Z" id="Rectangle" stroke="#979797" fill="#A6F4B9"></path>
+            </g>
+        </g>
+    </g>
+</svg>
