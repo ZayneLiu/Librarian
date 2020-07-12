@@ -3,41 +3,54 @@
     <!-- <div class="bg"></div> -->
     <aside>
       <add-folder-button />
+      <folder-list :pathList="folderList" />
     </aside>
     <main>
-      <div>
-        <input placeholder="Enter search keyword." type="text" />
-        search bar
-      </div>
+      <search-bar />
+      <result-view :keyword="searchkKeyword" />
     </main>
-    <!-- <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />-->
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { mitter } from "./main";
 import HelloWorld from "./components/HelloWorld.vue";
 import AddFolderButton from "./components/AddFolderButton.vue";
-import { mitter } from "./main";
+import FolderList from "./components/FolderList.vue";
+import SearchBar from "./components/SearchBar.vue";
+import ResultView from "./components/ResultView.vue";
 
 @Component({
   components: {
     HelloWorld,
-    AddFolderButton
+    AddFolderButton,
+    FolderList,
+    SearchBar,
+    ResultView
   }
 })
 export default class App extends Vue {
-  public folderPath: string[] = [];
+  public folderList: string[] = [];
+  public searchkKeyword: string = "";
 
   mounted() {
     mitter.on("folderSelected", path => {
-      this.folderPath.push(path);
+      if (!path) return;
+      if (this.folderList.indexOf(path) >= 0) {
+        alert("folder already selected!");
+        return;
+      }
+      this.folderList.push(path);
     });
-    // nw.App.
-    console.log();
-    // @ts-ignore
-    let input = document.getElementById("folderSelector");
+
+    mitter.on("keywordSubmission", keyword => {
+      this.searchkKeyword = keyword;
+      // TODO:
+      console.log(keyword);
+    });
+
+    // TODO: Load indexed fodlers from backend
   }
 }
 </script>
@@ -75,11 +88,13 @@ export default class App extends Vue {
   //   z-index: -1;
   // }
   main {
+    @include flex-col();
     background-color: lightcoral;
     flex: 2;
     z-index: 1;
   }
   aside {
+    @include flex-col();
     overflow: visible;
     background-color: lightblue;
     max-width: 200px;
