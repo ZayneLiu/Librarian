@@ -6,13 +6,16 @@ using Foundation;
 using Librarian.DataModel;
 using Librarian.Models;
 
+
 namespace Librarian
 {
     public partial class ViewController : NSViewController
     {
 
-        public ResultTableDataSource DataSource_ResultTable;
-        public DirectoryTableDataSource DataSource_DirTable;
+        public ResultTableDataSource DataSourceResultTable;
+        public DirectoryTableDataSource DataSourceDirTable;
+
+        // public static ;
 
         public ViewController(IntPtr handle) : base(handle)
         {
@@ -27,21 +30,21 @@ namespace Librarian
             //TODO:Load Initial Data
 
             // Create the Table Data Source and populate it
-            DataSource_ResultTable = new ResultTableDataSource();
-            DataSource_ResultTable.Files.Add(new Result(name: "Xamarin.iOS", similarity: "100%", path: "Allows you to develop native iOS Applications in C#"));
-            DataSource_ResultTable.Files.Add(new Result(name: "Xamarin.Android", similarity: "70%", path: "Allows you to develop native Android Applications in C#"));
+            DataSourceResultTable = new ResultTableDataSource();
+            DataSourceResultTable.Files.Add(new Result(name: "Xamarin.iOS", similarity: "100%", path: "Allows you to develop native iOS Applications in C#"));
+            DataSourceResultTable.Files.Add(new Result(name: "Xamarin.Android", similarity: "70%", path: "Allows you to develop native Android Applications in C#"));
             //DataSource_FileTable.Files.Add(new Result("Xamarin.Mac", "Allows you to develop Mac native Applications in C#"));
 
-            DataSource_DirTable = new DirectoryTableDataSource();
+            DataSourceDirTable = new DirectoryTableDataSource();
             //DataSource_DirTable.Directories.Add(new Directory("path/to/dir"));
             //DataSource_DirTable.Directories.Add(new Directory("path/to/dir"));
 
             // Populate the Table
-            ResultTable.DataSource = DataSource_ResultTable;
-            ResultTable.Delegate = new ResultTableDelegate(DataSource_ResultTable);
+            ResultTable.DataSource = DataSourceResultTable;
+            ResultTable.Delegate = new ResultTableDelegate(DataSourceResultTable);
 
-            DirectoryTable.DataSource = DataSource_DirTable;
-            DirectoryTable.Delegate = new DirectoryTableDelegate(DataSource_DirTable);
+            DirectoryTable.DataSource = DataSourceDirTable;
+            DirectoryTable.Delegate = new DirectoryTableDelegate(DataSourceDirTable);
 
         }
         public override void ViewDidLoad()
@@ -73,7 +76,8 @@ namespace Librarian
             {
                 //Console.WriteLine(dlg.DirectoryUrl);
                 //DataSource_DirTable.Directories.Add(new Directory("path/to/dir"));
-                DataSource_DirTable.Directories.Add(new Directory(dlg.Url.ToString()));
+// Custodian.
+                DataSourceDirTable.Directories.Add(new Directory(dlg.Url.ToString()));
                 Console.WriteLine(dlg.Url.ToString());
 
             }

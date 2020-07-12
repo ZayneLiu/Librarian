@@ -1,0 +1,58 @@
+@import url("open-iconic/font/css/open-iconic-bootstrap.min.css");
+@import url("bootstrap/bootstrap.min.css");
+html,
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.app {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+}
+.main {
+  @include flex-column;
+
+  flex: 1;
+  .search-bar {
+    padding: 5px 10px;
+    input {
+      border: 1px grey solid;
+    }
+  }
+}
+.sidebar {
+  @include flex-column;
+
+  align-items: start;
+  border: 1px gray solid;
+  width: 20%;
+  min-width: 200px;
+  background-color: transparent;
+  .add-dir-btn {
+    margin: 0;
+    width: 100%;
+    border-radius: 0;
+    justify-content: center;
+  }
+  .folder-list {
+    width: 100%;
+    .folder-list-wrapper {
+      //overflow: scroll;
+      .folder-list-item {
+        div {
+          display: block;
+          border-bottom: lightgray 0.5px solid;
+          padding: 5px 10px;
+
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  //padding: 2px;
+}

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Custodian", "Custodian\Cust
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibrarianCrossPlatformUI", "LibrarianCrossPlatformUI\LibrarianCrossPlatformUI.csproj", "{9472CC0D-9266-4318-9FF5-51A5D562429A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibrarianUI", "LibrarianUI\LibrarianUI.csproj", "{E13E4291-0399-477D-9F4C-593F1538C3BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,5 +27,9 @@ Global
 		{9472CC0D-9266-4318-9FF5-51A5D562429A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9472CC0D-9266-4318-9FF5-51A5D562429A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9472CC0D-9266-4318-9FF5-51A5D562429A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E13E4291-0399-477D-9F4C-593F1538C3BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E13E4291-0399-477D-9F4C-593F1538C3BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E13E4291-0399-477D-9F4C-593F1538C3BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E13E4291-0399-477D-9F4C-593F1538C3BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
