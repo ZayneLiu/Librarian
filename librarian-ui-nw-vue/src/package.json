@@ -1,0 +1,6 @@
+{
+  "name": "librarian-nw-vue",
+  "main": "http://localhost:8080",
+  "window": {},
+  "nodejs": true
+}
