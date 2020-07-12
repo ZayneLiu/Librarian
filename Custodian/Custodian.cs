@@ -3,37 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using LiteDB;
 
+
 namespace Custodian
 {
     public class Custodian
     {
         #region Persistent Functionalities
-
-        private static readonly LiteDatabase CustodianDb = new LiteDatabase("custodian.db");
-        private readonly ILiteCollection<Folder> _foldersDb = CustodianDb.GetCollection<Folder>("Files");
-
+        private static readonly LiteDatabase CustodianDb = new LiteDatabase("./custodian.db");
+        private static readonly ILiteCollection<Folder> FoldersDb = CustodianDb.GetCollection<Folder>("Files");
         #endregion
-        public List<Folder> folders;
+
+        public List<Folder> Folders;
 
         public Custodian()
         {
-            folders = _foldersDb.FindAll().ToList();
+            Folders = FoldersDb.FindAll().ToList();
         }
 
-        public bool TakeCareOf(string shelfPath)
+        public Folder TakeCareOf(string shelfPath)
         {
 
-            var folder = new Folder(shelfLocation: shelfPath);
+            var folder = new Folder(folderLocation: shelfPath);
             folder.Index();
-            folders.Add(folder);
+            Folders.Add(folder);
 
-            _foldersDb.Upsert(id: folder.Location, folder);
-            var a = _foldersDb.FindAll().ToList();
+            FoldersDb.Upsert(id: folder.Location, folder);
+            var a = FoldersDb.FindAll().ToList();
             //.ForEach((item) => { })) 
             //var a = shelvesDB.FindAll().ToList();
 
             //Console.WriteLine(a.Count());
-            return true;
+            return folder;
         }
 
         void Find(string[] keywords)
@@ -41,5 +41,61 @@ namespace Custodian
             Console.WriteLine();
             // keywords.ToList().ForEach();
         }
+        public static void Main(string[] args)
+        {
+            // var dirnameIndex =
+            //     args.ToList().IndexOf(
+            //         args.First((s => s.StartsWith("-")))
+            //     ) + 1;
+            // var dirname = args[dirnameIndex];
+            // Console.WriteLine(dirname);
+
+            // var url = "file:///Users/zayne/Documents/Herts/PG1000/";
+            // var targetPath = url.Substring(7);
+            var targetPath =  "/Users/zayne/Workspace/__Data__/Files";
+
+            var custodian = new Custodian();
+
+
+            //var files = Directory.GetFiles(url.Substring(7));
+
+            //// Exclude system files i.e. `.DS_Store` etc.
+
+            var aaa = DateTime.Now.Millisecond;
+
+            var result = custodian.TakeCareOf(shelfPath: targetPath);
+
+
+            //var ignoreList = new string[] { ".DS_Store" };
+            //var files = Index(dirPath, ref db, ref dirPath);
+            //var result = from file in files
+            //             where !ignoreList.Contains(file.Substring(file.LastIndexOf("/") + 1))
+            //             select file;
+
+            Console.WriteLine(
+                System.Text.Json.JsonSerializer.Serialize(result)
+            );
+            Console.WriteLine($"{DateTime.Now.Millisecond - aaa}ms");
+
+            Console.WriteLine();
+
+            //#region Redis
+            //// DB Data Model [dirPath]:[fileList]
+            //// "/Users/zayne/Documents/Herts/PG1000/" : []
+            ////var client = ConnectionMultiplexer.Connect("localhost");
+            ////var db = client.GetDatabase();
+
+            //db.KeyDelete(dirPath);
+
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    db.ListRightPush(dirPath, "aaa");
+            //}
+            //Console.WriteLine(db.ListRange(dirPath));
+
+            //Console.WriteLine(client.GetDatabase(0));
+            //#endregion
+        }
+
     }
 }

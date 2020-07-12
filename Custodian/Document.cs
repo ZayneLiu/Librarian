@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 
@@ -54,10 +55,12 @@ namespace Custodian
             //File.ReadLines(Name, encoding: Encoding.UTF8);
             try
             {
+                // ReadFiles
+
                 using var doc = WordprocessingDocument.Open(path: Name, isEditable: false);
                 var body = doc.MainDocumentPart.Document.Body;
 
-                var words = body.InnerText.Split(" ").GetEnumerator();
+                var words = body.InnerText.Split(' ').GetEnumerator();
                 while (words.MoveNext())
                 {
                     if (Thumbnail.ContainsKey(words.Current.ToString().ToLower()))

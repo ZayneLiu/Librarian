@@ -20,10 +20,10 @@ namespace Custodian
         /// Instantiate a Shelf instance (A directory).
         /// And perform preliminary indexing against containing documents automatically.
         /// </summary>
-        /// <param name="shelfLocation">Location of the shelf. (Path of target directory)</param>
-        public Folder(string shelfLocation)
+        /// <param name="folderLocation">Location of the shelf. (Path of target directory)</param>
+        public Folder(string folderLocation)
         {
-            this.Location = shelfLocation;
+            this.Location = folderLocation;
             this.Documents = new List<Document>();
         }
 
