@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
@@ -13,22 +14,28 @@ namespace CustodianAPI
     /// </summary>
     public class Document
     {
-        //TODO:Exact type of full-text index data is yet determined.
+        //TODO: Exact type of full-text index data is yet determined.
 
-        public Document(string filename)
+        public Document(string filePath)
         {
-            this.Name = filename;
+            this.Name = Path.GetFileName(filePath) ;
             this.Thumbnail = new Dictionary<string, int>();
-            this.IndexData = new Dictionary<string, List<string>>();
-            //TODO:Preliminary Index
-            //TODO:Full-text index first, preliminary index will be added as a extension.
+            this.Location = filePath;
+            //TODO: Preliminary Index
+            //TODO: Full-text index first, preliminary index will be added as a extension.
+            // this.IndexData = new Dictionary<string, List<string>>();
             FullTextIndex();
         }
 
         /// <summary>
-        /// File path.
+        /// File name.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// File path.
+        /// </summary>
+        public string Location { get; set; }
 
         /// <summary>
         /// Preliminary index, only include words and count of occurrences. Hence thumbnail.
@@ -48,28 +55,30 @@ namespace CustodianAPI
 
         private void Index()
         {
-            if (Name is null)
+            if (Location is null)
                 return;
 
-            Console.WriteLine($"Indexing {Path.GetFileName(Name)} ....");
-            //File.ReadLines(Name, encoding: Encoding.UTF8);
+            Console.WriteLine($"Indexing {Name} ....");
             try
             {
                 // ReadFiles
 
-                using var doc = WordprocessingDocument.Open(path: Name, isEditable: false);
+                using var doc = WordprocessingDocument.Open(path: Location, isEditable: false);
                 var body = doc.MainDocumentPart.Document.Body;
 
-                var words = body.InnerText.Split(' ').GetEnumerator();
+                using var words = body.InnerText.Split(" ").AsEnumerable().GetEnumerator();
                 while (words.MoveNext())
                 {
-                    if (Thumbnail.ContainsKey(words.Current.ToString().ToLower()))
+                    var currentWord = words.Current;
+                    if (currentWord == null)
+                        throw new Exception();
+                    if (Thumbnail.ContainsKey(currentWord.ToLower()))
                     {
-                        Thumbnail[words.Current.ToString().ToLower()] += 1;
+                        Thumbnail[currentWord.ToLower()] += 1;
                         continue;
                     }
 
-                    Thumbnail.Add(words.Current.ToString().ToLower(), 1);
+                    Thumbnail.Add(currentWord.ToLower(), 1);
                 }
 
                 //dict.key
