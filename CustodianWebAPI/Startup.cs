@@ -23,6 +23,8 @@ namespace CustodianWebAPI
             Configuration = configuration;
         }
 
+        // Cors config
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -38,6 +40,16 @@ namespace CustodianWebAPI
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
+            });
+
+            // Cors config
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name:this.MyAllowSpecificOrigins, builder =>
+                {
+                    builder.WithOrigins().AllowAnyOrigin();
+                });
+
             });
         }
 
@@ -60,6 +72,8 @@ namespace CustodianWebAPI
             app.UseRouting();
 
             app.UseAuthorization();
+            // Cors config
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
