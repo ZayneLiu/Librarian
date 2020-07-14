@@ -34,7 +34,7 @@ namespace CustodianAPI
         public void Index()
         {
             // FIXME: Potential performance issue, use EnumerateFiles instead.
-            using var result = Directory.GetFiles(path: this.Location,
+            using var filePaths = Directory.GetFiles(path: this.Location,
                     searchPattern: "*",
                     searchOption: SearchOption.AllDirectories)
                 .Where((string filename) =>
@@ -44,17 +44,18 @@ namespace CustodianAPI
                         .Equals(value: ".iCloud", comparisonType: StringComparison.OrdinalIgnoreCase))
                         Console.WriteLine($"{filename} needs to be downloaded from iCloud!");
                     var exclude = !new[] {".DS_Store"}.Contains(Path.GetFileName(filename));
-                    var allowedExt = new[] {".doc", ".docx"};
+                    // var allowedExt = new[] {".doc", ".docx"};
+                    var allowedExt = new[] {".txt"};
                     //, ".ppt", ".pptx"
                     var include = allowedExt.Contains(ext.ToLower());
                     //var include = new[] { ".doc", ".ppt" }.Contains(Path.GetExtension(filename));
                     return exclude & include;
                 }).GetEnumerator();
 
-            while (result.MoveNext())
+            while (filePaths.MoveNext())
             {
                 Console.WriteLine();
-                var book = new Document(result.Current);
+                var book = new Document(filePaths.Current);
                 //book.PreliminaryIndex();
                 Documents.Add(book);
             }

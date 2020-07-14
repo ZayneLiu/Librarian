@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.ExtendedProperties;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 
@@ -18,7 +20,7 @@ namespace CustodianAPI
 
         public Document(string filePath)
         {
-            this.Name = Path.GetFileName(filePath) ;
+            this.Name = Path.GetFileName(filePath);
             this.Thumbnail = new Dictionary<string, int>();
             this.Location = filePath;
             //TODO: Preliminary Index
@@ -59,38 +61,94 @@ namespace CustodianAPI
                 return;
 
             Console.WriteLine($"Indexing {Name} ....");
-            try
+
+            #region txt
+
+            var encoding = new StreamReader(Location, true).CurrentEncoding;
+            var lines = File.ReadAllLines(Location, encoding);
+
+            using var linesEnum = lines.AsEnumerable().GetEnumerator();
+            while (linesEnum.MoveNext())
             {
-                // ReadFiles
-
-                using var doc = WordprocessingDocument.Open(path: Location, isEditable: false);
-                var body = doc.MainDocumentPart.Document.Body;
-
-                using var words = body.InnerText.Split(" ").AsEnumerable().GetEnumerator();
-                while (words.MoveNext())
+                var currentLine = linesEnum.Current;
+                if (currentLine == null)
+                    break;
+                var ws = currentLine.Split(" ").ToList();
+                foreach (var word in ws.Where(word => word != ""))
                 {
-                    var currentWord = words.Current;
-                    if (currentWord == null)
-                        throw new Exception();
-                    if (Thumbnail.ContainsKey(currentWord.ToLower()))
+                    var processedWord = ExtractWord(word);
+                    if (processedWord == null) continue;
+
+                    if (Thumbnail.ContainsKey(processedWord))
                     {
-                        Thumbnail[currentWord.ToLower()] += 1;
+                        Thumbnail[processedWord]++;
                         continue;
                     }
 
-                    Thumbnail.Add(currentWord.ToLower(), 1);
+                    Thumbnail.Add(processedWord, 1);
                 }
+            }
 
-                //dict.key
-                Console.WriteLine(Thumbnail.Count);
-                //var a = File.ReadAllLines(Name, Encoding.UTF8);
-                //Console.WriteLine();
-            }
-            catch (Exception ex)
+            #endregion
+
+            #region doc / docx
+
+            // try
+            // {
+            //     // ReadFiles
+            //     using var doc = WordprocessingDocument.Open(path: Location, isEditable: false);
+            //     var body = doc.MainDocumentPart.Document.Body;
+            //
+            //     using var words = body.InnerText.Split(" ").AsEnumerable().GetEnumerator();
+            //     while (words.MoveNext())
+            //     {
+            //         var currentWord = words.Current;
+            //         if (currentWord == null)
+            //             throw new Exception();
+            //         if (Thumbnail.ContainsKey(currentWord.ToLower()))
+            //         {
+            //             Thumbnail[currentWord.ToLower()] += 1;
+            //             continue;
+            //         }
+            //
+            //         Thumbnail.Add(currentWord.ToLower(), 1);
+            //     }
+            //     Console.WriteLine(Thumbnail.Count);
+            // }
+            // catch (Exception ex)
+            // {
+            //     Console.WriteLine(ex.Message);
+            // }
+
+            #endregion
+        }
+
+        /// <summary>
+        /// Extract word from given string, similar to <code>trim()</code>.
+        /// Example:
+        /// input => "---:#hello-world?/.,"
+        /// output => "hello-world"
+        /// </summary>
+        /// <param name="word">A string containing the word to be extracted.</param>
+        /// <returns>Extracted word.</returns>
+        private static string ExtractWord(string word)
+        {
+            if (word.Length == 1 && !char.IsLetterOrDigit(word[0]))
             {
-                Console.WriteLine(ex.Message);
-                // throw ex;
+                var a = char.GetUnicodeCategory(word[0]);
+                if (char.IsPunctuation(word[0]))
+                    Console.WriteLine(word);
+                // Potential semantic search data.
+                Console.WriteLine(word);
+                return null;
             }
+
+            var firstCharIndex = word.IndexOf(word.First(char.IsLetterOrDigit));
+            var lastCharIndex = word.IndexOf(word.Last(c => char.IsLetterOrDigit(c)));
+
+            var processedWord = word.Substring(firstCharIndex, lastCharIndex - firstCharIndex + 1).ToLower();
+
+            return processedWord;
         }
     }
 }
