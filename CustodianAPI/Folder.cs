@@ -33,6 +33,7 @@ namespace CustodianAPI
         /// <returns>List of all file paths under given directory</returns>
         public void Index()
         {
+            // FIXME: Potential performance issue, use EnumerateFiles instead.
             using var result = Directory.GetFiles(path: this.Location,
                     searchPattern: "*",
                     searchOption: SearchOption.AllDirectories)
