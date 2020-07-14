@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Librarian", "Librarian\Librarian.csproj", "{04BD042B-FEE0-45CF-AC8E-8FFE94E92ECC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Custodian", "Custodian\Custodian.csproj", "{E2BAF11A-7078-43DE-BF2F-4AA7089A0CA8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibrarianCrossPlatformUI", "LibrarianCrossPlatformUI\LibrarianCrossPlatformUI.csproj", "{9472CC0D-9266-4318-9FF5-51A5D562429A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustodianAPI", "CustodianAPI\CustodianAPI.csproj", "{E2BAF11A-7078-43DE-BF2F-4AA7089A0CA8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibrarianUI", "LibrarianUI\LibrarianUI.csproj", "{E13E4291-0399-477D-9F4C-593F1538C3BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustodianWebAPI", "CustodianWebAPI\CustodianWebAPI.csproj", "{78D05141-4EE5-4354-A71C-507BF2AB7442}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,13 +23,13 @@ Global
 		{E2BAF11A-7078-43DE-BF2F-4AA7089A0CA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2BAF11A-7078-43DE-BF2F-4AA7089A0CA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2BAF11A-7078-43DE-BF2F-4AA7089A0CA8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9472CC0D-9266-4318-9FF5-51A5D562429A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9472CC0D-9266-4318-9FF5-51A5D562429A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9472CC0D-9266-4318-9FF5-51A5D562429A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9472CC0D-9266-4318-9FF5-51A5D562429A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E13E4291-0399-477D-9F4C-593F1538C3BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E13E4291-0399-477D-9F4C-593F1538C3BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E13E4291-0399-477D-9F4C-593F1538C3BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E13E4291-0399-477D-9F4C-593F1538C3BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78D05141-4EE5-4354-A71C-507BF2AB7442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78D05141-4EE5-4354-A71C-507BF2AB7442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78D05141-4EE5-4354-A71C-507BF2AB7442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78D05141-4EE5-4354-A71C-507BF2AB7442}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

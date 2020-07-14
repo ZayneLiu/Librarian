@@ -4,7 +4,7 @@ using System.Linq;
 using LiteDB;
 
 
-namespace Custodian
+namespace CustodianAPI
 {
     public class Custodian
     {

@@ -6,7 +6,7 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 
-namespace Custodian
+namespace CustodianAPI
 {
     /// <summary>
     /// A object of Document Class contains everything u need to know about a file. path, thumbnail, ful-text index data.
