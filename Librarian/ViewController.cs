@@ -76,7 +76,7 @@ namespace Librarian
             {
                 //Console.WriteLine(dlg.DirectoryUrl);
                 //DataSource_DirTable.Directories.Add(new Directory("path/to/dir"));
-// Custodian.
+                //CustodianAPI.
                 DataSourceDirTable.Directories.Add(new Directory(dlg.Url.ToString()));
                 Console.WriteLine(dlg.Url.ToString());
 
