@@ -1,4 +1,6 @@
 ### Report can be found at [here](./Report.md)
+# A Cross-platform Full-text Search Engine for Local Filesystem  
+
 
 # Note to self: The process of finding better solutions
 - Abandon Electron for Node.js API
@@ -11,3 +13,6 @@
    <!-- -  -->
 - Librarian
   - UI
+
+# Notes
+for electron + edge-js,
