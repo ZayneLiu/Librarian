@@ -16,17 +16,23 @@ namespace CustodianAPI
     /// </summary>
     public class Document
     {
-        //TODO: Exact type of full-text index data is yet determined.
+        /// <summary>
+        /// Reserved for deserialization with BSON mapper.
+        /// </summary>
+        public Document()
+        {
 
+        }
+        //TODO: Exact type of full-text index data is yet determined.
         public Document(string filePath)
         {
             this.Name = Path.GetFileName(filePath);
             this.Thumbnail = new Dictionary<string, int>();
             this.Location = filePath;
+            this.Extension = Path.GetExtension(filePath);
             //TODO: Preliminary Index
             //TODO: Full-text index first, preliminary index will be added as a extension.
             // this.IndexData = new Dictionary<string, List<string>>();
-            FullTextIndex();
         }
 
         /// <summary>
@@ -40,6 +46,11 @@ namespace CustodianAPI
         public string Location { get; set; }
 
         /// <summary>
+        /// File extension.
+        /// </summary>
+        public string Extension { get; set; }
+
+        /// <summary>
         /// Preliminary index, only include words and count of occurrences. Hence thumbnail.
         /// </summary>
         public Dictionary<string, int> Thumbnail { get; set; }
@@ -49,78 +60,13 @@ namespace CustodianAPI
         /// </summary>
         public Dictionary<string, List<string>> IndexData { get; set; }
 
-        private void FullTextIndex()
+        protected void FullTextIndex()
         {
             Index();
-            //throw new NotImplementedException();
         }
 
-        private void Index()
+        protected virtual void Index()
         {
-            if (Location is null)
-                return;
-
-            Console.WriteLine($"Indexing {Name} ....");
-
-            #region txt
-
-            var encoding = new StreamReader(Location, true).CurrentEncoding;
-            var lines = File.ReadAllLines(Location, encoding);
-
-            using var linesEnum = lines.AsEnumerable().GetEnumerator();
-            while (linesEnum.MoveNext())
-            {
-                var currentLine = linesEnum.Current;
-                if (currentLine == null)
-                    break;
-                var ws = currentLine.Split(" ").ToList();
-                foreach (var word in ws.Where(word => word != ""))
-                {
-                    var processedWord = ExtractWord(word);
-                    if (processedWord == null) continue;
-
-                    if (Thumbnail.ContainsKey(processedWord))
-                    {
-                        Thumbnail[processedWord]++;
-                        continue;
-                    }
-
-                    Thumbnail.Add(processedWord, 1);
-                }
-            }
-
-            #endregion
-
-            #region doc / docx
-
-            // try
-            // {
-            //     // ReadFiles
-            //     using var doc = WordprocessingDocument.Open(path: Location, isEditable: false);
-            //     var body = doc.MainDocumentPart.Document.Body;
-            //
-            //     using var words = body.InnerText.Split(" ").AsEnumerable().GetEnumerator();
-            //     while (words.MoveNext())
-            //     {
-            //         var currentWord = words.Current;
-            //         if (currentWord == null)
-            //             throw new Exception();
-            //         if (Thumbnail.ContainsKey(currentWord.ToLower()))
-            //         {
-            //             Thumbnail[currentWord.ToLower()] += 1;
-            //             continue;
-            //         }
-            //
-            //         Thumbnail.Add(currentWord.ToLower(), 1);
-            //     }
-            //     Console.WriteLine(Thumbnail.Count);
-            // }
-            // catch (Exception ex)
-            // {
-            //     Console.WriteLine(ex.Message);
-            // }
-
-            #endregion
         }
 
         /// <summary>
@@ -131,7 +77,7 @@ namespace CustodianAPI
         /// </summary>
         /// <param name="word">A string containing the word to be extracted.</param>
         /// <returns>Extracted word.</returns>
-        private static string ExtractWord(string word)
+        protected static string ExtractWord(string word)
         {
             if (word.Length == 1 && !char.IsLetterOrDigit(word[0]))
             {
@@ -143,12 +89,26 @@ namespace CustodianAPI
                 return null;
             }
 
-            var firstCharIndex = word.IndexOf(word.First(char.IsLetterOrDigit));
-            var lastCharIndex = word.IndexOf(word.Last(c => char.IsLetterOrDigit(c)));
+            if (word.Length < 1)
+            {
+                return null;
+            }
 
-            var processedWord = word.Substring(firstCharIndex, lastCharIndex - firstCharIndex + 1).ToLower();
+            try
+            {
+                var firstCharIndex = word.IndexOf(word.First(char.IsLetterOrDigit));
+                var lastCharIndex = word.IndexOf(word.Last(c => char.IsLetterOrDigit(c)));
 
-            return processedWord;
+                var processedWord = word.Substring(firstCharIndex, lastCharIndex - firstCharIndex + 1).ToLower();
+
+                return processedWord;
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine(e);
+            }
+
+            return null;
         }
     }
 }

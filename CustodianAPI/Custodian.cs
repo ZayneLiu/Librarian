@@ -15,23 +15,24 @@ namespace CustodianAPI
 
         #endregion
 
-        public List<Folder> Folders;
+        public static List<Folder> Folders
+        {
+            get => FoldersDb.FindAll().ToList();
+            set { }
+        }
 
         public Custodian()
         {
-            Folders = FoldersDb.FindAll().ToList();
         }
 
         public Folder TakeCareOf(string shelfPath)
         {
             var folder = new Folder(folderLocation: shelfPath);
             folder.Index();
-            Folders.Add(folder);
 
             FoldersDb.Upsert(id: folder.Location, folder);
-            var a = FoldersDb.FindAll().ToList();
-            //.ForEach((item) => { })) 
-            //var a = shelvesDB.FindAll().ToList();
+
+            // var a = Folders;
 
             //Console.WriteLine(a.Count());
             return folder;
@@ -109,9 +110,9 @@ namespace CustodianAPI
             //             where !ignoreList.Contains(file.Substring(file.LastIndexOf("/") + 1))
             //             select file;
 
-            Console.WriteLine(
-                System.Text.Json.JsonSerializer.Serialize(result)
-            );
+            // Console.WriteLine(
+            //     System.Text.Json.JsonSerializer.Serialize(result)
+            // );
             Console.WriteLine($"{DateTime.Now.Millisecond - aaa}ms");
 
             Console.WriteLine();
