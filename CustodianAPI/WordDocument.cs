@@ -26,6 +26,7 @@ namespace CustodianAPI
         protected override void Index()
         {
             #region doc / docx
+            System.Console.Write($"Indexing {Name}");
 
             // ReadFiles
             using var doc = WordprocessingDocument.Open(path: Location, isEditable: false);
@@ -48,7 +49,7 @@ namespace CustodianAPI
 
                 Thumbnail.Add(processedWord, 1);
             }
-
+            System.Console.Write($" >==> {Thumbnail.Count} unique words.");
             #endregion
         }
     }

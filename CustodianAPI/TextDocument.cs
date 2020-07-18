@@ -21,13 +21,12 @@ namespace CustodianAPI
             FullTextIndex();
         }
 
-
         protected override void Index()
         {
             if (Location is null)
                 return;
 
-            Console.WriteLine($"Indexing {Name} ....");
+            Console.Write($"Indexing {Name}");
 
             #region txt
 
@@ -56,6 +55,7 @@ namespace CustodianAPI
                 }
             }
 
+            System.Console.Write($" >==> {Thumbnail.Count} unique words.");
             #endregion
         }
     }

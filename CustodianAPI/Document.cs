@@ -81,11 +81,11 @@ namespace CustodianAPI
         {
             if (word.Length == 1 && !char.IsLetterOrDigit(word[0]))
             {
-                var a = char.GetUnicodeCategory(word[0]);
-                if (char.IsPunctuation(word[0]))
-                    Console.WriteLine(word);
-                // Potential semantic search data.
-                Console.WriteLine(word);
+                // var a = char.GetUnicodeCategory(word[0]);
+                // if (char.IsPunctuation(word[0]))
+                //     Console.WriteLine(word);
+                //TODO: Potential semantic search data.
+                // Console.WriteLine(word);
                 return null;
             }
 
@@ -94,21 +94,22 @@ namespace CustodianAPI
                 return null;
             }
 
+            var firstChar = ' ';
             try
             {
-                var firstCharIndex = word.IndexOf(word.First(char.IsLetterOrDigit));
-                var lastCharIndex = word.IndexOf(word.Last(c => char.IsLetterOrDigit(c)));
-
-                var processedWord = word.Substring(firstCharIndex, lastCharIndex - firstCharIndex + 1).ToLower();
-
-                return processedWord;
+                firstChar = word.First(char.IsLetterOrDigit);
             }
             catch (InvalidOperationException e)
             {
-                Console.WriteLine(e);
+                System.Console.WriteLine(e.Message);
+                return null;
             }
 
-            return null;
+            var firstCharIndex = word.IndexOf(firstChar);
+            var lastCharIndex = word.IndexOf(word.Last(c => char.IsLetterOrDigit(c)));
+
+            var processedWord = word.Substring(firstCharIndex, lastCharIndex - firstCharIndex + 1).ToLower();
+            return processedWord;
         }
     }
 }
