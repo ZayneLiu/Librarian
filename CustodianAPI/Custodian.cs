@@ -81,20 +81,9 @@ namespace CustodianAPI
 
         public static void Main(string[] args)
         {
-            // var dirnameIndex =
-            //     args.ToList().IndexOf(
-            //         args.First((s => s.StartsWith("-")))
-            //     ) + 1;
-            // var dirname = args[dirnameIndex];
-            // Console.WriteLine(dirname);
-
-            // var url = "file:///Users/zayne/Documents/Herts/PG1000/";
-            // var targetPath = url.Substring(7);
             var targetPath = "/Users/zayne/Workspace/__Data__/Files";
 
             var custodian = new Custodian();
-
-            //var files = Directory.GetFiles(url.Substring(7));
 
             //// Exclude system files i.e. `.DS_Store` etc.
 
