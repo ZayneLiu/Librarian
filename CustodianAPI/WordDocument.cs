@@ -25,32 +25,59 @@ namespace CustodianAPI
 
         protected override void Index()
         {
+            var startTime = DateTime.Now;
             #region doc / docx
             System.Console.Write($"Indexing {Name}");
 
             // ReadFiles
             using var doc = WordprocessingDocument.Open(path: Location, isEditable: false);
             var body = doc.MainDocumentPart.Document.Body;
-
-            using var words = body.InnerText.Split(" ").AsEnumerable().GetEnumerator();
-            while (words.MoveNext())
+            // doc.MainDocumentPart.Document
+            // body.ClearAllAttributes();
+            var children = body.ChildElements.GetEnumerator();
+            while (children.MoveNext())
             {
-                var currentWord = words.Current;
-                if (currentWord == null)
-                    throw new Exception();
-                var processedWord = ExtractWord(currentWord.ToLower());
-                if (processedWord == null) continue;
+                var p = children.Current.InnerText;
+                if (new[] { "" }.Contains(p)) continue;
 
-                if (Thumbnail.ContainsKey(processedWord))
+                var words = p.Split(" ").AsEnumerable().GetEnumerator();
+                while (words.MoveNext())
                 {
-                    Thumbnail[processedWord]++;
-                    continue;
-                }
+                    var processedWord = ExtractWord(words.Current);
+                    if (processedWord == null) continue;
 
-                Thumbnail.Add(processedWord, 1);
+                    if (Thumbnail.ContainsKey(processedWord))
+                    {
+                        Thumbnail[processedWord]++;
+                        continue;
+                    }
+
+                    Thumbnail.Add(processedWord, 1);
+
+                }
             }
-            System.Console.Write($" >==> {Thumbnail.Count} unique words.");
+
+            System.Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
             #endregion
+
+            // FIXME: Elements with similar structure show be ignored.
+
+            /*
+            <w:r>
+                <w:rPr>
+                    <w:noProof/>
+                    <w:webHidden/>
+                </w:rPr>
+                <w:fldChar w:fldCharType="begin"/>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:noProof/>
+                    <w:webHidden/>
+                </w:rPr>
+                <w:instrText xml:space="preserve"> PAGEREF _Toc26994498 \h </w:instrText>
+            </w:r>
+            */
         }
     }
 }
