@@ -106,7 +106,7 @@ namespace CustodianAPI
             }
 
             var firstCharIndex = word.IndexOf(firstChar);
-            var lastCharIndex = word.IndexOf(word.Last(c => char.IsLetterOrDigit(c)));
+            var lastCharIndex = word.LastIndexOf(word.Last(c => char.IsLetterOrDigit(c)));
 
             var processedWord = word.Substring(firstCharIndex, lastCharIndex - firstCharIndex + 1).ToLower();
             return processedWord;
