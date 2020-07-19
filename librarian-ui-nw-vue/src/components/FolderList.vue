@@ -11,8 +11,9 @@
           fill-rule="evenodd"
         />
       </svg>
-      <div class="path-container">
-        <span>{{folder}}</span>
+      <div :title="folder.folderPath" class="path-container">
+        <!-- <span>{{folder}}</span> -->
+        <span>.../{{folder.folderName}}</span>
       </div>
     </div>
   </div>
@@ -54,7 +55,8 @@
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      direction: rtl;
+      margin-left: 15px;
+      // direction: rtl;
     }
   }
 }
@@ -65,6 +67,6 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 @Component({})
 export default class FolderList extends Vue {
   @Prop({ default: () => [] })
-  public pathList!: string[];
+  public pathList!: { folderName: string; folderPath: string }[];
 }
 </script>
