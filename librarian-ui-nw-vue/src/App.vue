@@ -15,6 +15,8 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { mitter } from "./main";
+import Axios from "axios";
+
 import HelloWorld from "./components/HelloWorld.vue";
 import AddFolderButton from "./components/AddFolderButton.vue";
 import FolderList from "./components/FolderList.vue";
@@ -31,7 +33,7 @@ import ResultView from "./components/ResultView.vue";
   }
 })
 export default class App extends Vue {
-  public folderList: string[] = [];
+  public folderList: { folderName: string; folderPath: string }[] = [];
   public searchkKeyword: string = "";
 
   mounted() {
@@ -50,7 +52,16 @@ export default class App extends Vue {
       console.log(keyword);
     });
 
-    // TODO: Load indexed fodlers from backend
+    this.loadIndexedFolders();
+  }
+
+  // TODO: Load indexed fodlers from backend
+  loadIndexedFolders() {
+    Axios({ method: "GET", url: "https://localhost:5001/folders" }).then(
+      res => {
+        this.folderList = res.data;
+      }
+    );
   }
 }
 </script>
