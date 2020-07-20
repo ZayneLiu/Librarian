@@ -28,42 +28,6 @@ namespace CustodianAPI
         protected override void Index()
         {
             var startTime = DateTime.Now;
-            // System.Console.Write($"Indexing {Name}");
-            // // Unzip
-            // const string xmlDocument = "document.xml";
-            // var zip = new ZipArchive(new FileStream(Location, FileMode.Open), ZipArchiveMode.Read);
-            // var entries = zip.Entries.AsQueryable();
-            // var result = from entry in entries
-            //              where entry.Name == xmlDocument
-            //              select entry;
-            // if (result.Count() != 1)
-            // {
-            //     var exceptionMsg = result.Count() == 0 ? $"No entry named `{xmlDocument}` found." : $"More than one entries named `{xmlDocument}` found.";
-            //     throw new Exception(exceptionMsg);
-            // }
-
-            // var arch = result.First().Open();
-            // var xml = XmlReader.Create(arch);
-            // while (xml.Read())
-            // {
-            //     if (!xml.CanReadValueChunk)
-            //         System.Console.WriteLine();
-            //     var s = xml.ReadElementContentAsString();
-            //     System.Console.WriteLine();
-            // }
-
-            // System.Console.WriteLine(arch.GetType());
-
-            // var a = zip.Entries;
-
-            // Get document.xml
-
-            // Read document.xml
-
-            // Ignore hidden stuff
-
-            // Extract words form the document as usual
-
             #region doc / docx
             // ReadFiles
             using var doc = WordprocessingDocument.Open(path: Location, isEditable: false);
@@ -105,7 +69,7 @@ namespace CustodianAPI
             #endregion
             System.Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
 
-            // FIXME: Elements with similar structure show be ignored.
+            // FIXED: Elements with similar structure show be ignored.
 
             /*
             <w:r>
