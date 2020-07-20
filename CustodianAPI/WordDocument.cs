@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace CustodianAPI
 {
@@ -27,17 +29,25 @@ namespace CustodianAPI
         {
             var startTime = DateTime.Now;
             #region doc / docx
-            System.Console.Write($"Indexing {Name}");
-
             // ReadFiles
             using var doc = WordprocessingDocument.Open(path: Location, isEditable: false);
             var body = doc.MainDocumentPart.Document.Body;
-            // doc.MainDocumentPart.Document
-            // body.ClearAllAttributes();
-            var children = body.ChildElements.GetEnumerator();
-            while (children.MoveNext())
+            var paragraphParts = body.Descendants<Paragraph>().GetEnumerator();
+            var textList = new List<string>();
+            while (paragraphParts.MoveNext())
             {
-                var p = children.Current.InnerText;
+                var currentParagraph = paragraphParts.Current;
+                var textParts = currentParagraph.Descendants<Text>().AsQueryable();
+                var p_temp = from text in textParts
+                             where text.Text != ""
+                             select char.IsNumber(text.Text, text.Text.Length - 1) ? " " + text.Text : text.Text;
+                var paragraph = string.Concat(p_temp);
+                textList.Add(paragraph);
+            }
+            var texts = textList.GetEnumerator();
+            while (texts.MoveNext())
+            {
+                var p = texts.Current;
                 if (new[] { "" }.Contains(p)) continue;
 
                 var words = p.Split(" ").AsEnumerable().GetEnumerator();
@@ -56,11 +66,10 @@ namespace CustodianAPI
 
                 }
             }
-
-            System.Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
             #endregion
+            System.Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
 
-            // FIXME: Elements with similar structure show be ignored.
+            // FIXED: Elements with similar structure show be ignored.
 
             /*
             <w:r>
