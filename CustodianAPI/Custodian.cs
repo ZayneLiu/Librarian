@@ -79,36 +79,36 @@ namespace CustodianAPI
             return result;
         }
 
-        public static void Main(string[] args)
-        {
-            var targetPath = "/Users/zayne/Workspace/__Data__/Files";
+        // public static void Main(string[] args)
+        // {
+        //     var targetPath = "/Users/zayne/Workspace/__Data__/Files";
 
-            var custodian = new Custodian();
+        //     var custodian = new Custodian();
 
-            //// Exclude system files i.e. `.DS_Store` etc.
+        //     //// Exclude system files i.e. `.DS_Store` etc.
 
-            var aaa = DateTime.Now;
+        //     var aaa = DateTime.Now;
 
-            var result = custodian.TakeCareOf(shelfPath: targetPath);
+        //     var result = custodian.TakeCareOf(shelfPath: targetPath);
 
-            Console.WriteLine($"\n{(DateTime.Now - aaa).TotalMilliseconds} ms");
+        //     Console.WriteLine($"\n{(DateTime.Now - aaa).TotalMilliseconds} ms");
 
-            //#region Redis
-            //// DB Data Model [dirPath]:[fileList]
-            //// "/Users/zayne/Documents/Herts/PG1000/" : []
-            ////var client = ConnectionMultiplexer.Connect("localhost");
-            ////var db = client.GetDatabase();
+        //     //#region Redis
+        //     //// DB Data Model [dirPath]:[fileList]
+        //     //// "/Users/zayne/Documents/Herts/PG1000/" : []
+        //     ////var client = ConnectionMultiplexer.Connect("localhost");
+        //     ////var db = client.GetDatabase();
 
-            //db.KeyDelete(dirPath);
+        //     //db.KeyDelete(dirPath);
 
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    db.ListRightPush(dirPath, "aaa");
-            //}
-            //Console.WriteLine(db.ListRange(dirPath));
+        //     //for (int i = 0; i < 3; i++)
+        //     //{
+        //     //    db.ListRightPush(dirPath, "aaa");
+        //     //}
+        //     //Console.WriteLine(db.ListRange(dirPath));
 
-            //Console.WriteLine(client.GetDatabase(0));
-            //#endregion
-        }
+        //     //Console.WriteLine(client.GetDatabase(0));
+        //     //#endregion
+        // }
     }
 }
