@@ -1,3 +1,4 @@
+using CustodianAPI.DocumentParser;
 using Xunit;
 namespace CustodianAPI.Test
 {
