@@ -44,14 +44,16 @@ namespace CustodianAPI
                 .Where((string filename) =>
                 {
                     var ext = Path.GetExtension(filename);
+                    // iCloud files that are not local .
                     if (Path.GetExtension(filename)
                         .Equals(value: ".iCloud", comparisonType: StringComparison.OrdinalIgnoreCase))
                         Console.WriteLine($"{filename} needs to be downloaded from iCloud!");
-                    var exclude = !new[] {".DS_Store"}.Contains(Path.GetFileName(filename));
-                    var allowedExt = new[] {".txt",".doc", ".docx"};
+                    var allowedExt = new[] {".txt",".doc", ".docx", ".pdf"};
                     //, ".ppt", ".pptx"
+                    // extensions to ignore.
+                    var exclude = !new[] {".DS_Store"}.Contains(Path.GetFileName(filename));
                     var include = allowedExt.Contains(ext.ToLower());
-                    //var include = new[] { ".doc", ".ppt" }.Contains(Path.GetExtension(filename));
+
                     return exclude & include;
                 }).GetEnumerator();
 
