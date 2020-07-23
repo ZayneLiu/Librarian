@@ -1,5 +1,6 @@
 using System.IO;
 using System.Linq;
+using CustodianAPI.DocumentParser;
 
 namespace CustodianAPI
 {
@@ -12,6 +13,8 @@ namespace CustodianAPI
             var textDocExtensions = new[] {".txt",};
             // MS Word Document
             var wordDocExtensions = new[] {".doc",".docx"};
+            // PDF Document
+            var pdfDocExtensions = new[] {".pdf"};
 
             if (textDocExtensions.Contains(ext))
             {
@@ -21,6 +24,11 @@ namespace CustodianAPI
             if (wordDocExtensions.Contains(ext))
             {
                 return new WordDocument(path);
+            }
+
+            if (pdfDocExtensions.Contains(ext))
+            {
+                return new PdfDocument(path);
             }
 
             return null;
