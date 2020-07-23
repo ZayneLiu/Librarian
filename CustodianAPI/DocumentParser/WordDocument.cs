@@ -1,10 +1,10 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 
-namespace CustodianAPI
+namespace CustodianAPI.DocumentParser
 {
     public class WordDocument : Document
     {
@@ -28,6 +28,7 @@ namespace CustodianAPI
         protected override void Index()
         {
             var startTime = DateTime.Now;
+            Console.Write($"Indexing {Name}");
 
             #region doc / docx
 

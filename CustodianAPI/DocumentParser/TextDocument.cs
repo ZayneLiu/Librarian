@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using LiteDB;
 
-namespace CustodianAPI
+namespace CustodianAPI.DocumentParser
 {
     public class TextDocument : Document
     {
