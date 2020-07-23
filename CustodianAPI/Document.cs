@@ -67,6 +67,7 @@ namespace CustodianAPI
 
         protected virtual void Index()
         {
+            throw new NotImplementedException();
         }
 
         /// <summary>

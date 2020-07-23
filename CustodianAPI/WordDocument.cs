@@ -28,28 +28,32 @@ namespace CustodianAPI
         protected override void Index()
         {
             var startTime = DateTime.Now;
+
             #region doc / docx
+
             // ReadFiles
             using var doc = WordprocessingDocument.Open(path: Location, isEditable: false);
             var body = doc.MainDocumentPart.Document.Body;
-            var paragraphParts = body.Descendants<Paragraph>().GetEnumerator();
+            using var paragraphParts = body.Descendants<Paragraph>().GetEnumerator();
             var textList = new List<string>();
             while (paragraphParts.MoveNext())
             {
                 var currentParagraph = paragraphParts.Current;
                 var textParts = currentParagraph.Descendants<Text>().AsQueryable();
-                var p_temp = from text in textParts
-                             where text.Text != ""
-                             select char.IsNumber(text.Text, text.Text.Length - 1) ? " " + text.Text : text.Text;
-                var paragraph = string.Concat(p_temp);
+                var paragraphTemp = from text in textParts
+                    where text.Text != ""
+                    // Last char is number, possibly page number in Table of content. Add a space manually.
+                    select char.IsNumber(text.Text, text.Text.Length - 1) ? " " + text.Text : text.Text;
+                var paragraph = string.Concat(paragraphTemp);
                 textList.Add(paragraph);
             }
-            var texts = textList.GetEnumerator();
+            using var texts = textList.GetEnumerator();
             while (texts.MoveNext())
             {
                 var p = texts.Current;
                 if (new[] { "" }.Contains(p)) continue;
 
+                if (p == null) continue;
                 var words = p.Split(" ").AsEnumerable().GetEnumerator();
                 while (words.MoveNext())
                 {
@@ -63,11 +67,12 @@ namespace CustodianAPI
                     }
 
                     Thumbnail.Add(processedWord, 1);
-
                 }
             }
             #endregion
-            System.Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
+
+            System.Console.Write(
+                $" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
 
             // FIXED: Elements with similar structure show be ignored.
 

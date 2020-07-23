@@ -39,8 +39,8 @@ namespace CustodianAPI
                 var currentLine = linesEnum.Current;
                 if (currentLine == null)
                     break;
-                var ws = currentLine.Split(" ").ToList();
-                foreach (var word in ws.Where(word => word != ""))
+                var wordList = currentLine.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
+                foreach (var word in wordList)
                 {
                     var processedWord = ExtractWord(word);
                     if (processedWord == null) continue;
