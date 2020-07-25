@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using CustodianAPI;
@@ -14,12 +15,6 @@ namespace CustodianWebAPI.Controllers
         public static readonly Custodian Custodian = new Custodian();
         public static readonly char PathDelimiter = Path.DirectorySeparatorChar;
 
-
-        public class FolderResult
-        {
-            public string FolderName { get; set; }
-            public string FolderPath { get; set; }
-        }
 
         /// <summary>
         /// Get indexed folders.
@@ -47,6 +42,10 @@ namespace CustodianWebAPI.Controllers
         [HttpPost("folders")]
         public IActionResult IndexGivenFolder(string folderPath)
         {
+#if DEBUG
+            if (folderPath == null) folderPath = "/Users/zayne/Workspace/__Data__/Files";
+#endif
+
             var result = Custodian.TakeCareOf(folderPath);
             // Console.WriteLine();
             var folderName = result.Location.Split(PathDelimiter).Last();
@@ -61,18 +60,13 @@ namespace CustodianWebAPI.Controllers
             );
         }
 
-        public class DocumentResult
-        {
-            public string DocumentName { get; set; }
-            public Dictionary<string, int> Result { get; set; }
-        }
 
         [HttpPost("search")]
         public ActionResult<List<DocumentResult>> Search(string keyword)
         {
             keyword = keyword.ToLower();
             var result = new List<DocumentResult>();
-            var keywords = keyword.Split(" ");
+            var keywords = keyword.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
             Console.WriteLine(Custodian.Search(keywords));
             using var resultDocList = Custodian.Search(keywords).GetEnumerator();
@@ -86,13 +80,42 @@ namespace CustodianWebAPI.Controllers
                 result.Add(
                     new DocumentResult()
                     {
-                        DocumentName = currentDoc.Name,
+                        Name = currentDoc.Name,
+                        Path = currentDoc.Location,
                         Result = resultDict
                     }
                 );
             }
 
             return result;
+        }
+
+        public class FolderResult
+        {
+            [Required] public string FolderName { get; set; }
+
+            [Required] public string FolderPath { get; set; }
+        }
+
+        public class DocumentResult
+        {
+            /// <summary>
+            /// File name of the document.
+            /// </summary>
+            [Required]
+            public string Name { get; set; }
+
+            /// <summary>
+            /// Path of the document.
+            /// </summary>
+            [Required]
+            public string Path { get; set; }
+
+            /// <summary>
+            /// Key-value pairs of each keyword and its occurrences.
+            /// </summary>
+            [Required]
+            public Dictionary<string, int> Result { get; set; }
         }
     }
 }

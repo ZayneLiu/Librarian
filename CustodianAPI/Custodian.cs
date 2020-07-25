@@ -57,8 +57,8 @@ namespace CustodianAPI
                         if (currentDoc == null)
                             throw new Exception("no documents indexed.");
 
-                        var intersectResult = currentDoc.Thumbnail.Keys.Intersect(keywords);
-                        if (intersectResult.Any())
+                        var intersection = currentDoc.Thumbnail.Keys.Intersect(keywords);
+                        if (intersection.Any())
                         {
                             result.Add(currentDoc);
                         }
