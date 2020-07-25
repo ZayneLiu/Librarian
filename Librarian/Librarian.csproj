@@ -87,11 +87,6 @@
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Custodian\Custodian.csproj">
-      <Project>{e2baf11a-7078-43de-bf2f-4aa7089a0ca8}</Project>
-      <Name>Custodian</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup></ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>
