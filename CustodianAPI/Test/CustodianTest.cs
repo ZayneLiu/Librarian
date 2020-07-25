@@ -1,6 +1,5 @@
 using System;
 using Xunit;
-using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace CustodianAPI.Test
@@ -10,7 +9,6 @@ namespace CustodianAPI.Test
         [Fact]
         public void Test()
         {
-            var outputHelper = new TestOutputHelper();
             var targetPath = "/Users/zayne/Workspace/__Data__/Files";
 
             var custodian = new Custodian();
@@ -20,9 +18,7 @@ namespace CustodianAPI.Test
             var aaa = DateTime.Now;
 
             var result = custodian.TakeCareOf(shelfPath: targetPath);
-
-            outputHelper.WriteLine($"\n{(DateTime.Now - aaa).TotalMilliseconds} ms");
-
+            Assert.Equal(11, result.Documents.Count);
             //#region Redis
             //// DB Data Model [dirPath]:[fileList]
             //// "/Users/zayne/Documents/Herts/PG1000/" : []

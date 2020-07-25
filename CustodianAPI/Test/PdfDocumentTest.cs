@@ -1,3 +1,4 @@
+using System;
 using CustodianAPI.DocumentParser;
 using Xunit;
 using Xunit.Sdk;
@@ -10,7 +11,6 @@ namespace CustodianAPI.Test
         public void IndexTest()
         {
             var testDoc = new PdfDocument("/Users/zayne/Workspace/Desktop/Librarian/CustodianAPI/Test Doc/Database System 1.pdf");
-            new TestOutputHelper().WriteLine(testDoc.Thumbnail.ToString());
         }
     }
 }
