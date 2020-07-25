@@ -95,18 +95,20 @@ namespace CustodianAPI
                 return null;
             }
 
-            var firstChar = ' ';
-            try
-            {
-                firstChar = word.First(char.IsLetterOrDigit);
-            }
-            catch (InvalidOperationException e)
-            {
-                System.Console.WriteLine(e.Message);
-                return null;
-            }
+            var firstCharIndex = -1;
 
-            var firstCharIndex = word.IndexOf(firstChar);
+            for (int i = 0; i < word.Length; i++)
+            {
+
+                if (char.IsLetterOrDigit(word[i]))
+                {
+                    firstCharIndex = i;
+                    break;
+                }
+            }
+            if (firstCharIndex == -1) return null;
+
+
             var lastCharIndex = word.LastIndexOf(word.Last(c => char.IsLetterOrDigit(c)));
 
             var processedWord = word.Substring(firstCharIndex, lastCharIndex - firstCharIndex + 1).ToLower();
