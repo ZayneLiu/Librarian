@@ -75,6 +75,7 @@ namespace CustodianAPI
                 folders.Dispose();
             }
 
+            result.Sort((a, b) => b.Thumbnail[keywords[0]].CompareTo(a.Thumbnail[keywords[0]]));
             return result;
         }
 
