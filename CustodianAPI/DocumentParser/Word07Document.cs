@@ -6,16 +6,19 @@ using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace CustodianAPI.DocumentParser
 {
-    public class WordDocument : Document
+    /// <summary>
+    /// .docx files.
+    /// </summary>
+    public class Word07Document : Document
     {
         /// <summary>
         /// Reserved for deserialization with BSON mapper.
         /// </summary>
-        public WordDocument() : base()
+        public Word07Document() : base()
         {
         }
 
-        public WordDocument(string filePath) : base(filePath)
+        public Word07Document(string filePath) : base(filePath)
         {
             if (filePath == null)
             {
@@ -42,9 +45,9 @@ namespace CustodianAPI.DocumentParser
                 var currentParagraph = paragraphParts.Current;
                 var textParts = currentParagraph.Descendants<Text>().AsQueryable();
                 var paragraphTemp = from text in textParts
-                    where text.Text != ""
-                    // Last char is number, possibly page number in Table of content. Add a space manually.
-                    select char.IsNumber(text.Text, text.Text.Length - 1) ? " " + text.Text : text.Text;
+                                    where text.Text != ""
+                                    // Last char is number, possibly page number in Table of content. Add a space manually.
+                                    select char.IsNumber(text.Text, text.Text.Length - 1) ? " " + text.Text : text.Text;
                 var paragraph = string.Concat(paragraphTemp);
                 textList.Add(paragraph);
             }

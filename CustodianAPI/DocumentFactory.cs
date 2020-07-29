@@ -10,11 +10,11 @@ namespace CustodianAPI
         {
             var ext = Path.GetExtension(path);
             // Text Document
-            var textDocExtensions = new[] {".txt",};
+            var textDocExtensions = new[] { ".txt", };
             // MS Word Document
-            var wordDocExtensions = new[] {".doc",".docx"};
+            var wordDocExtensions = new[] { ".doc", ".docx" };
             // PDF Document
-            var pdfDocExtensions = new[] {".pdf"};
+            var pdfDocExtensions = new[] { ".pdf" };
 
             if (textDocExtensions.Contains(ext))
             {
@@ -23,7 +23,10 @@ namespace CustodianAPI
 
             if (wordDocExtensions.Contains(ext))
             {
-                return new WordDocument(path);
+                if (ext == ".doc")
+                    return new Word97Document(path);
+                else
+                    return new Word07Document(path);
             }
 
             if (pdfDocExtensions.Contains(ext))
