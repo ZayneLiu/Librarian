@@ -7,7 +7,7 @@ namespace CustodianAPI.Test
     public class CustodianTest
     {
         [Fact]
-        public void Test()
+        public void IndexTest()
         {
             var targetPath = "/Users/zayne/Workspace/__Data__/Files";
 
@@ -35,6 +35,16 @@ namespace CustodianAPI.Test
 
             //Console.WriteLine(client.GetDatabase(0));
             //#endregion
+        }
+        [Fact]
+        public void SearchTest()
+        {
+            //Given
+            var result = new Custodian().Search(new string[] { "university" });
+
+            //When
+
+            //Then
         }
 
     }
