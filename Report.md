@@ -16,17 +16,20 @@
     - [Ranking](#ranking)
   - [Semantic Search](#semantic-search)
   - [Apache Tika](#apache-tika)
+  - [Gantt Chart](#gantt-chart)
 - [Requirements Analysis](#requirements-analysis)
   - [Functional Requirements and Progress](#functional-requirements-and-progress)
 - [Implementation](#implementation)
-  - [C](#c)
-  - [.NET Core](#net-core)
-  - [<span>ASP.NET</span> Core](#aspnet-core)
-  - [Visual Studio Code](#visual-studio-code)
-  - [Third-party Libraries](#third-party-libraries)
-    - [LiteDB](#litedb)
-    - [Optical Character Recognition](#optical-character-recognition)
-    - [Office Open XML](#office-open-xml)
+  - [API Design](#api-design)
+  - [Tools](#tools)
+    - [C](#c)
+    - [.NET Core](#net-core)
+    - [<span>ASP.NET</span> Core](#aspnet-core)
+    - [Visual Studio Code](#visual-studio-code)
+    - [Third-party Libraries](#third-party-libraries)
+      - [LiteDB](#litedb)
+      - [Optical Character Recognition](#optical-character-recognition)
+      - [Office Open XML](#office-open-xml)
 - [References](#references)
 - [Appendix:](#appendix)
 
@@ -72,8 +75,16 @@ ranking—measuring the similarity of a matching record to the query string -->
 The Apache Tika™ toolkit detects and extracts metadata and text from over a thousand different file types (such as PPT, XLS, and PDF). All of these file types can be parsed through a single interface, making Tika useful for search engine indexing, content analysis, translation, and much more. You can find the latest release on the download page. Please see the Getting Started page for more information on how to start using Tika.
 [TBC]
 
+## Gantt Chart
+The planning of this project is done by utilizing Gantt chart (See [Appendix b.](#appendix)).
+
+There're several complications result in a shift of priority to develop a functional cross-platform full-text search API which return search result either from CLI (command-line interface) or `JSON` via REST Web API, instead of building both cross-platform UI and API.
+
+The main processes of this project were requirements analysis, implementation, testing and reporting.
+
+
 # Requirements Analysis
-[sth. about requirement analysis]
+[sth. about requirement analysis in general]
 
 ## Functional Requirements and Progress
 
@@ -105,27 +116,33 @@ The Apache Tika™ toolkit detects and extracts metadata and text from over a th
 
 # Implementation
 
+## API Design
+[Class Diagram]
 
-## C#
+[API WorkFlow]
 
-## .NET Core
+## Tools
+
+### C#
+
+### .NET Core
 
 
-## <span>ASP.NET</span> Core
+### <span>ASP.NET</span> Core
 
 
-## Visual Studio Code
+### Visual Studio Code
 
-## Third-party Libraries
+### Third-party Libraries
 This project also utilizes several third-party libraries to implement certain functionalities.
 
-### LiteDB
+#### LiteDB
 [LiteDB](https://github.com/mbdavid/LiteDB) is a embedded No-SQL single-file Database. It's used in this project as an object storage for indexed data.
 
-### Optical Character Recognition
+#### Optical Character Recognition
 OCR Library
 
-### Office Open XML
+#### Office Open XML
 [Open-XML SDK](https://github.com/OfficeDev/Open-XML-SDK) is an SDK
 that provides tools for working with Office Word, Excel, and PowerPoint documents developed by [OfficeDev Team](https://github.com/OfficeDev) at Microsoft.
 
@@ -144,5 +161,8 @@ that provides tools for working with Office Word, Excel, and PowerPoint document
 
 
 # Appendix:
-a. Precision & Recall<br/>
-<img width="400px" src="Report Graphs/Precision and Recall.svg"/>
+a. Precision & Recall | [Back to content](#precision-and-recall)<br/>
+<img width="400px" src="Report%20Graphs/Precision%20and%20Recall.svg"/>
+
+b. Gantt Chart | [Back to content](#gantt-chart)<br/>
+<img src="Report%20Graphs/Gantt%20Chart.png" />
