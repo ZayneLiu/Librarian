@@ -70,6 +70,24 @@ namespace CustodianAPI
             throw new NotImplementedException();
         }
 
+        protected void AddToIndex(string texts)
+        {
+            using var words = texts.Split(" ", StringSplitOptions.RemoveEmptyEntries).AsEnumerable().GetEnumerator();
+            while (words.MoveNext())
+            {
+                var word = words.Current;
+                var processedWord = ExtractWord(word);
+                if (processedWord == null) continue;
+
+                if (Thumbnail.ContainsKey(processedWord))
+                {
+                    Thumbnail[processedWord]++;
+                    continue;
+                }
+                Thumbnail.Add(processedWord, 1);
+            }
+        }
+
         /// <summary>
         /// Extract word from given string, similar to <code>trim()</code>.
         /// Example:
