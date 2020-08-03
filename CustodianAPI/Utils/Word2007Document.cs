@@ -4,21 +4,21 @@ using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 
-namespace CustodianAPI.DocumentParser
+namespace CustodianAPI.Utils
 {
     /// <summary>
     /// .docx files.
     /// </summary>
-    public class Word07Document : Document
+    public class Word2007Document : Document
     {
         /// <summary>
         /// Reserved for deserialization with BSON mapper.
         /// </summary>
-        public Word07Document() : base()
+        public Word2007Document() : base()
         {
         }
 
-        public Word07Document(string filePath) : base(filePath)
+        public Word2007Document(string filePath) : base(filePath)
         {
             if (filePath == null)
             {
@@ -75,7 +75,7 @@ namespace CustodianAPI.DocumentParser
             }
             #endregion
 
-            System.Console.Write(
+            Console.Write(
                 $" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
 
             // FIXED: Elements with similar structure show be ignored.

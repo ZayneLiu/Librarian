@@ -4,7 +4,7 @@ using System.Linq;
 using iText.Kernel.Pdf.Canvas.Parser;
 using Pdf = iText.Kernel.Pdf;
 
-namespace CustodianAPI.DocumentParser
+namespace CustodianAPI.Utils
 {
     public class PdfDocument : Document
     {
@@ -56,7 +56,7 @@ namespace CustodianAPI.DocumentParser
             }
             #endregion
 
-            System.Console.Write(
+            Console.Write(
                 $" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
 
         }

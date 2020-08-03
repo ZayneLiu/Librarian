@@ -4,21 +4,21 @@ using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 
-namespace CustodianAPI.DocumentParser
+namespace CustodianAPI.Utils
 {
     /// <summary>
     /// .doc files.
     /// </summary>
-    public class Word97Document : Document
+    public class Word1997Document : Document
     {
         /// <summary>
         /// Reserved for deserialization with BSON mapper.
         /// </summary>
-        public Word97Document() : base()
+        public Word1997Document() : base()
         {
         }
 
-        public Word97Document(string filePath) : base(filePath)
+        public Word1997Document(string filePath) : base(filePath)
         {
             if (filePath == null)
             {

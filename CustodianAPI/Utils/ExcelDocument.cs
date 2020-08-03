@@ -1,6 +1,6 @@
 using System;
 
-namespace CustodianAPI.DocumentParser
+namespace CustodianAPI.Utils
 {
     public class ExcelDocument : Document
     {

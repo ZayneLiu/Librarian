@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace CustodianAPI.DocumentParser
+namespace CustodianAPI.Utils
 {
     public class TextDocument : Document
     {
@@ -53,7 +53,7 @@ namespace CustodianAPI.DocumentParser
                 }
             }
 
-            System.Console.Write($" >==> {Thumbnail.Count} unique words.");
+            Console.Write($" >==> {Thumbnail.Count} unique words.");
             #endregion
         }
     }

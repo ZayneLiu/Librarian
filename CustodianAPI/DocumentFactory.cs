@@ -1,6 +1,6 @@
 using System.IO;
 using System.Linq;
-using CustodianAPI.DocumentParser;
+using CustodianAPI.Utils;
 
 namespace CustodianAPI
 {
@@ -24,9 +24,9 @@ namespace CustodianAPI
             if (wordDocExtensions.Contains(ext))
             {
                 if (ext == ".doc")
-                    return new Word97Document(path);
+                    return new Word1997Document(path);
                 else
-                    return new Word07Document(path);
+                    return new Word2007Document(path);
             }
 
             if (pdfDocExtensions.Contains(ext))
