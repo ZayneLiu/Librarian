@@ -25,9 +25,9 @@ namespace CustodianAPI
         {
         }
 
-        public Folder TakeCareOf(string shelfPath)
+        public Folder TakeCareOf(string folderPath)
         {
-            var folder = new Folder(folderLocation: shelfPath);
+            var folder = new Folder(location: folderPath);
             folder.Index();
 
             FoldersDb.Upsert(id: folder.Location, folder);

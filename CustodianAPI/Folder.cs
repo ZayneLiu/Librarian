@@ -24,11 +24,11 @@ namespace CustodianAPI
         /// Instantiate a Shelf instance (A directory).
         /// And perform preliminary indexing against containing documents automatically.
         /// </summary>
-        /// <param name="folderLocation">Location of the shelf. (Path of target directory)</param>
-        public Folder(string folderLocation)
+        /// <param name="location">Location of the folder. (Path of target directory)</param>
+        public Folder(string location)
         {
-            this.Location = folderLocation;
-            this.Documents =  new List<Document>();
+            this.Location = location;
+            this.Documents = new List<Document>();
         }
 
         /// <summary>
@@ -48,10 +48,10 @@ namespace CustodianAPI
                     if (Path.GetExtension(filename)
                         .Equals(value: ".iCloud", comparisonType: StringComparison.OrdinalIgnoreCase))
                         Console.WriteLine($"{filename} needs to be downloaded from iCloud!");
-                    var allowedExt = new[] {".txt",".doc", ".docx", ".pdf"};
+                    var allowedExt = new[] { ".txt", ".doc", ".docx", ".pdf" };
                     //, ".ppt", ".pptx"
                     // extensions to ignore.
-                    var exclude = !new[] {".DS_Store"}.Contains(Path.GetFileName(filename));
+                    var exclude = !new[] { ".DS_Store" }.Contains(Path.GetFileName(filename));
                     var include = allowedExt.Contains(ext.ToLower());
 
                     return exclude & include;
