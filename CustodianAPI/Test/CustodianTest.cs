@@ -45,7 +45,7 @@ namespace CustodianAPI.Test
             custodian.TakeCareOf(folderPath);
             var result = custodian.Search(keywords);
             //Then
-            Assert.Equal(expected: 0, actual: result.Count)
+            Assert.Equal(expected: 0, actual: result.Count);
         }
 
     }
