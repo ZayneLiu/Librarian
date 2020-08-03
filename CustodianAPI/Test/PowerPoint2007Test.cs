@@ -9,10 +9,9 @@ namespace CustodianAPI.Test
         public void PDFIndexTest()
         {
             //Given
-            var ppt = new PowerPoint2007Document(SharedTest.TestDocFolderPath + "Functional Programming.pptx");
+            var filePath = SharedTestData.TestDocFolderPath + "Functional Programming.pptx";
             //When
-
-
+            var ppt = new PowerPoint2007Document(filePath);
             //Then
             Assert.Equal(expected: 1, actual: ppt.Thumbnail["harikala"]);
             //FIXME: Check for `tx:body` issue

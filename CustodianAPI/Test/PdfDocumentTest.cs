@@ -10,8 +10,11 @@ namespace CustodianAPI.Test
         [Fact]
         public void IndexTest()
         {
-            var testDoc = new PdfDocument("/Users/zayne/Workspace/Desktop/Librarian/CustodianAPI/Test Doc/Database System 1.pdf");
-
+            // Given
+            var filePath = SharedTestData.TestDocFolderPath + "Database System 1.pdf";
+            // When
+            var testDoc = new PdfDocument(filePath);
+            // Then
             Assert.Equal(expected: 9, actual: testDoc.Thumbnail["university"]);
         }
     }
