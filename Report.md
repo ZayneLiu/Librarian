@@ -103,7 +103,7 @@ The main processes of this project were requirements analysis, implementation, t
 - File type support
   - [ ] Microsoft Office 2007+ documents support.
     - [x] `.docx`, `.docm` | Word 2007+ documents.
-    - [ ] `.pptx`, `.pptm` | PowerPoint 2007+ documents. :construction:
+    - [x] `.pptx`, `.pptm` | PowerPoint 2007+ documents.
     - [ ] `.xlsx`, `.xlsm` | Excel 2007+ documents. :construction:
   - [ ] Plain-text documents.
     - [x] `.txt` | Text documents.
