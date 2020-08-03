@@ -35,23 +35,8 @@ namespace CustodianAPI.Utils
                 // parser.ProcessPageContent(pdfDocument.GetPage(i+1));
                 // var text = strategy.GetResultantText();
                 var text = PdfTextExtractor.GetTextFromPage(pdfDocument.GetPage(i));
-                using var wordEnumerator = text.Split(' ', StringSplitOptions.RemoveEmptyEntries).AsEnumerable()
-                    .GetEnumerator();
-                while (wordEnumerator.MoveNext())
-                {
-                    var word = wordEnumerator.Current;
-                    var processedWord = ExtractWord(word);
-                    if (processedWord == null) continue;
 
-                    if (Thumbnail.ContainsKey(processedWord))
-                    {
-                        Thumbnail[processedWord]++;
-                        continue;
-                    }
-
-                    Thumbnail.Add(processedWord, 1);
-                }
-
+                this.AddToIndex(texts: text);
                 // parser.Reset();
             }
             #endregion

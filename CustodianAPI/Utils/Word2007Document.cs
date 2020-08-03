@@ -58,20 +58,22 @@ namespace CustodianAPI.Utils
                 if (new[] { "" }.Contains(p)) continue;
 
                 if (p == null) continue;
-                var words = p.Split(" ").AsEnumerable().GetEnumerator();
-                while (words.MoveNext())
-                {
-                    var processedWord = ExtractWord(words.Current);
-                    if (processedWord == null) continue;
 
-                    if (Thumbnail.ContainsKey(processedWord))
-                    {
-                        Thumbnail[processedWord]++;
-                        continue;
-                    }
+                this.AddToIndex(texts: p);
+                // var words = p.Split(" ").AsEnumerable().GetEnumerator();
+                // while (words.MoveNext())
+                // {
+                //     var processedWord = ExtractWord(words.Current);
+                //     if (processedWord == null) continue;
 
-                    Thumbnail.Add(processedWord, 1);
-                }
+                //     if (Thumbnail.ContainsKey(processedWord))
+                //     {
+                //         Thumbnail[processedWord]++;
+                //         continue;
+                //     }
+
+                //     Thumbnail.Add(processedWord, 1);
+                // }
             }
             #endregion
 

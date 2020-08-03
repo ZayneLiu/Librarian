@@ -35,22 +35,9 @@ namespace CustodianAPI.Utils
             while (linesEnum.MoveNext())
             {
                 var currentLine = linesEnum.Current;
-                if (currentLine == null)
-                    break;
-                var wordList = currentLine.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
-                foreach (var word in wordList)
-                {
-                    var processedWord = ExtractWord(word);
-                    if (processedWord == null) continue;
+                if (currentLine == null) break;
 
-                    if (Thumbnail.ContainsKey(processedWord))
-                    {
-                        Thumbnail[processedWord]++;
-                        continue;
-                    }
-
-                    Thumbnail.Add(processedWord, 1);
-                }
+                this.AddToIndex(texts: currentLine);
             }
 
             Console.Write($" >==> {Thumbnail.Count} unique words.");

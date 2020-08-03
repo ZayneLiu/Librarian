@@ -21,12 +21,12 @@ namespace CustodianAPI.Utils
         {
             // TODO: PPT
             var ppt = PresentationDocument.Open(path: Location, isEditable: false);
-            var slides = ppt.PresentationPart.SlideParts.GetEnumerator();
+            using var slides = ppt.PresentationPart.SlideParts.GetEnumerator();
 
             while (slides.MoveNext())
             {
                 var slide = slides.Current;
-                var text = slide.Slide.Descendants<TextBody>().GetEnumerator();
+                using var text = slide.Slide.Descendants<TextBody>().GetEnumerator();
                 while (text.MoveNext())
                 {
                     this.AddToIndex(texts: text.Current.InnerText);
