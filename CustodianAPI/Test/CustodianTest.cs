@@ -16,7 +16,6 @@ namespace CustodianAPI.Test
             var result = custodian.TakeCareOf(folderPath: folderPath);
             // Then
             Assert.Equal(11, result.Documents.Count);
-            Assert.Equal(11, result.Documents.Count, "a", "asd", "a", "asd");
 
             //#region Redis
             //// DB Data Model [dirPath]:[fileList]
