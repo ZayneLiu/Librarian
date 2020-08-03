@@ -9,16 +9,15 @@ namespace CustodianAPI.Test
         [Fact]
         public void IndexTest()
         {
-            var targetPath = "/Users/zayne/Workspace/__Data__/Files";
-
+            // Given
+            var folderPath = SharedTestData.TestDocFolderPath;
             var custodian = new Custodian();
-
-            // Exclude system files i.e. `.DS_Store` etc.
-
-            var aaa = DateTime.Now;
-
-            var result = custodian.TakeCareOf(shelfPath: targetPath);
+            // When
+            var result = custodian.TakeCareOf(folderPath: folderPath);
+            // Then
             Assert.Equal(11, result.Documents.Count);
+            Assert.Equal(11, result.Documents.Count, "a", "asd", "a", "asd");
+
             //#region Redis
             //// DB Data Model [dirPath]:[fileList]
             //// "/Users/zayne/Documents/Herts/PG1000/" : []
@@ -40,11 +39,14 @@ namespace CustodianAPI.Test
         public void SearchTest()
         {
             //Given
-            var result = new Custodian().Search(new string[] { "university" });
-
+            var keywords = new string[] { "university" };
+            var folderPath = SharedTestData.TestDocFolderPath;
+            var custodian = new Custodian();
             //When
-
+            custodian.TakeCareOf(folderPath);
+            var result = custodian.Search(keywords);
             //Then
+            Assert.Equal(expected: 0, actual: result.Count)
         }
 
     }
