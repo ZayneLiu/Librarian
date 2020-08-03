@@ -11,6 +11,8 @@ namespace CustodianAPI.Test
         public void IndexTest()
         {
             var testDoc = new PdfDocument("/Users/zayne/Workspace/Desktop/Librarian/CustodianAPI/Test Doc/Database System 1.pdf");
+
+            Assert.Equal(expected: 9, actual: testDoc.Thumbnail["university"]);
         }
     }
 }
