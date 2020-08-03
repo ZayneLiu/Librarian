@@ -19,7 +19,7 @@ namespace CustodianAPI.Utils
 
         protected override void Index()
         {
-            // TODO: PPT
+            //TODO: PPT
             var ppt = PresentationDocument.Open(path: Location, isEditable: false);
             using var slides = ppt.PresentationPart.SlideParts.GetEnumerator();
 

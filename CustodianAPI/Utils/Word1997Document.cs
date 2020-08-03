@@ -30,7 +30,7 @@ namespace CustodianAPI.Utils
 
         protected override void Index()
         {
-            // TODO: Add .doc file support.
+            //TODO: Add .doc file support.
             throw new NotImplementedException();
             // var startTime = DateTime.Now;
             // Console.Write($"Indexing {Name}");

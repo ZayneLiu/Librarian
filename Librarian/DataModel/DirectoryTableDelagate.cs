@@ -20,7 +20,7 @@ namespace Librarian.DataModel
             btn.Title = DataSource.Directories[(int)row].Path;
             btn.State = NSCellStateValue.On;
             //btn.LineBreakMode = NSLineBreakMode.Clipping;
-            //TODO:add horizontal scrollbar
+            //TODO: add horizontal scrollbar
 
             return btn;
         }

@@ -27,7 +27,7 @@ namespace Librarian
         public override void AwakeFromNib()
         {
             base.AwakeFromNib();
-            //TODO:Load Initial Data
+            //TODO: Load Initial Data
 
             // Create the Table Data Source and populate it
             DataSourceResultTable = new ResultTableDataSource();

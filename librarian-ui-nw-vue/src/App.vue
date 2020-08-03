@@ -29,15 +29,15 @@ import ResultView from "./components/ResultView.vue";
     AddFolderButton,
     FolderList,
     SearchBar,
-    ResultView
-  }
+    ResultView,
+  },
 })
 export default class App extends Vue {
   public folderList: { folderName: string; folderPath: string }[] = [];
   public searchkKeyword: string = "";
 
   mounted() {
-    mitter.on("folderSelected", path => {
+    mitter.on("folderSelected", (path) => {
       if (!path) return;
       if (this.folderList.indexOf(path) >= 0) {
         alert("folder already selected!");
@@ -46,19 +46,19 @@ export default class App extends Vue {
       this.folderList.push(path);
     });
 
-    mitter.on("keywordSubmission", keyword => {
+    mitter.on("keywordSubmission", (keyword) => {
       this.searchkKeyword = keyword;
-      // TODO:
+      //TODO: Submit keyword
       console.log(keyword);
     });
 
     this.loadIndexedFolders();
   }
 
-  // TODO: Load indexed fodlers from backend
+  //TODO: Load indexed fodlers from backend
   loadIndexedFolders() {
     Axios({ method: "GET", url: "https://localhost:5001/folders" }).then(
-      res => {
+      (res) => {
         this.folderList = res.data;
       }
     );
