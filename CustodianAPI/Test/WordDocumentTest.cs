@@ -1,6 +1,7 @@
-using CustodianAPI.DocumentParser;
 using Xunit;
 using System.Reflection;
+using CustodianAPI.Utils;
+
 namespace CustodianAPI.Test
 {
     public class WordDocumentTest
@@ -10,7 +11,7 @@ namespace CustodianAPI.Test
         {
             // var testOdt = new WordDocument("/Users/zayne/Workspace/Desktop/Librarian/CustodianAPI/Test Doc/test.odt");
             // Word 2007 (.docx, .docm)
-            var testDocx = new Word07Document("/Users/zayne/Workspace/Desktop/Librarian/CustodianAPI/Test Doc/EazyCyber.docx");
+            var testDocx = new Word2007Document("/Users/zayne/Workspace/Desktop/Librarian/CustodianAPI/Test Doc/EazyCyber.docx");
             // Word 1997 (.doc)
             // var testDoc = new Word97Document("/Users/zayne/Workspace/Desktop/Librarian/CustodianAPI/Test Doc/test.doc");
 
