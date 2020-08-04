@@ -1,6 +1,4 @@
 
-using System.IO;
-using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Presentation;
 

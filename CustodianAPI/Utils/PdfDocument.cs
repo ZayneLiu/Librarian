@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 using iText.Kernel.Pdf.Canvas.Parser;
 using Pdf = iText.Kernel.Pdf;
 
