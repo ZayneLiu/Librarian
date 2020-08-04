@@ -37,6 +37,11 @@ namespace CustodianAPI
             //Console.WriteLine(a.Count());
             return folder;
         }
+        public void Reset()
+        {
+            foreach (var collection in CustodianDb.GetCollectionNames())
+                CustodianDb.DropCollection(collection);
+        }
 
         public List<Document> Search(string[] keywords)
         {
