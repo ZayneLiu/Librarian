@@ -10,11 +10,17 @@ namespace CustodianAPI.Test
         public void Word2007IndexTest()
         {
             // Given
-            var filePath = SharedTestData.TestDocFolderPath + "EazyCyber.docx";
+            var docxPath = SharedTestData.TestDocFolderPath + "test.docx";
+            var docmPath = SharedTestData.TestDocFolderPath + "test.docm";
+
             // When
-            var testDocx = new Word2007Document(filePath);
+            var docx = new Word2007Document(docxPath);
+            var docm = new Word2007Document(docmPath);
+
             // Then
-            Assert.Equal(6, testDocx.Thumbnail["university"]);
+            Assert.Equal(6, docx.Thumbnail["university"]);
+
+            Assert.Equal(6, docm.Thumbnail["university"]);
         }
     }
 }

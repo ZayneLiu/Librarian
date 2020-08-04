@@ -9,12 +9,19 @@ namespace CustodianAPI.Test
         public void ExcelIndexTest()
         {
             //Given
-            var filePath = SharedTestData.TestDocFolderPath + "test.xlsx";
+            var xlsmPath = SharedTestData.TestDocFolderPath + "test.xlsm";
+            var xlsxPath = SharedTestData.TestDocFolderPath + "test.xlsx";
+
             //When
-            var xlsx = new Excel2007Document(filePath);
+            var xlsx = new Excel2007Document(xlsxPath);
+            var xlsm = new Excel2007Document(xlsmPath);
+
             //Then
             Assert.Equal(1, xlsx.Thumbnail["university"]);
             Assert.Equal(3, xlsx.Thumbnail["123"]);
+
+            Assert.Equal(1, xlsm.Thumbnail["university"]);
+            Assert.Equal(3, xlsm.Thumbnail["123"]);
         }
     }
 }

@@ -9,14 +9,23 @@ namespace CustodianAPI.Test
         public void PDFIndexTest()
         {
             //Given
-            var filePath = SharedTestData.TestDocFolderPath + "Functional Programming.pptx";
+            var pptxPath = SharedTestData.TestDocFolderPath + "test.pptx";
+            var pptmPath = SharedTestData.TestDocFolderPath + "test.pptm";
+
             //When
-            var ppt = new PowerPoint2007Document(filePath);
+            var pptx = new PowerPoint2007Document(pptxPath);
+            var pptm = new PowerPoint2007Document(pptmPath);
+
             //Then
-            Assert.Equal(expected: 1, actual: ppt.Thumbnail["harikala"]);
             //FIXME: Check for `tx:body` issue
-            Assert.Equal(expected: 28, actual: ppt.Thumbnail["paradigm"]);
-            Assert.Equal(expected: 44, actual: ppt.Thumbnail["programming"]);
+            // Find another test doc?
+            Assert.Equal(expected: 1, actual: pptx.Thumbnail["harikala"]);
+            Assert.Equal(expected: 44, actual: pptx.Thumbnail["programming"]);
+            Assert.Equal(expected: 28, actual: pptx.Thumbnail["paradigm"]);
+
+            Assert.Equal(expected: 1, actual: pptm.Thumbnail["harikala"]);
+            Assert.Equal(expected: 28, actual: pptm.Thumbnail["paradigm"]);
+            Assert.Equal(expected: 44, actual: pptm.Thumbnail["programming"]);
         }
     }
 }
