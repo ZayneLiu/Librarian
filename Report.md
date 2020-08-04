@@ -169,11 +169,35 @@ that provides tools for working with Office Word, Excel, and PowerPoint document
 ##### Excel 2007
     issues & difficulties
 ##### PowerPoint 2007
-    issues & difficulties
+```csharp
+protected override void Index()
+{
+    var startTime = DateTime.Now;
+    Console.Write($"Indexing {Name}");
+
+    # region PowerPoint
+    var ppt = PresentationDocument.Open(path: Location, isEditable: false);
+    using var slides = ppt.PresentationPart.SlideParts.GetEnumerator();
+
+    while (slides.MoveNext())
+    {
+        var slide = slides.Current;
+        using var text = slide.Slide.Descendants<TextBody>().GetEnumerator();
+        while (text.MoveNext())
+        {
+            this.AddToIndex(texts: text.Current.InnerText);
+        }
+    }
+    #endregion
+
+    Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
+}
+```
 
 
 
 
+<div style="page-break-after: always;"></div>
 
 # References
 - Erickson, 2008. [sql - What is Full Text Search vs LIKE - Stack Overflow](https://stackoverflow.com/a/224726/8702601). Accessed on July 1st, 2020.
