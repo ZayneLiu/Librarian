@@ -206,7 +206,7 @@ protected override void Index()
 
 # Appendix:
 a. Precision & Recall | [Back to content](#precision-and-recall)<br/>
-<img height="400px" src="Report%20Graphs/Precision%20and%20Recall.svg"/>
+<img height="500px" src="Report%20Graphs/Precision%20and%20Recall.svg"/>
 
 b. Gantt Chart | [Back to content](#gantt-chart)<br/>
 <img width="600px" src="Report%20Graphs/Gantt%20Chart.png" />
