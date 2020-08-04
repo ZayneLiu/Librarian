@@ -1,9 +1,4 @@
 ﻿<meta charset="utf-8"/>
-<style>
-.italic{
-  font-family:"sanserif";
-}
-</style>
 
 # Report <!-- omit in toc -->
 ## Table of Contents <!-- omit in toc -->
@@ -207,11 +202,26 @@ protected override void Index()
 - Reiner, K. Chichao, C. Farzin, M. Ravi, K.,2006. [Searching with context | ACM Digital Library](https://dl.acm.org/doi/abs/10.1145/1135777.1135847). Accessed on July 1st, 2020.
 - Tekli, J., Chbeir, R.,  Traina, A., Traina, C Jr., Yetongnon, K., Ibanez, C., Assad, M., Kallas, C., 2018. [Full-fledged semantic indexing and querying model designed for seamless integration in legacy RDBMS](https://doi-org.ezproxy.herts.ac.uk/10.1016/j.datak.2018.07.007). Accessed on July 2nd, 2020.
 
-
+<div style="page-break-after: always;"></div>
 
 # Appendix:
 a. Precision & Recall | [Back to content](#precision-and-recall)<br/>
-<img width="400px" src="Report%20Graphs/Precision%20and%20Recall.svg"/>
+<img height="400px" src="Report%20Graphs/Precision%20and%20Recall.svg"/>
 
 b. Gantt Chart | [Back to content](#gantt-chart)<br/>
-<img src="Report%20Graphs/Gantt%20Chart.png" />
+<img width="600px" src="Report%20Graphs/Gantt%20Chart.png" />
+
+<style>
+.italic{
+  font-family:"sanserif";
+}
+code{
+    /* GitHub flavored `code` style */
+    color:#24292e !important;
+    padding: .2em .4em;
+    margin: 0;
+    font-size: 85%;
+    background-color: rgba(27,31,35,.05);
+    border-radius: 6px;
+}
+</style>
