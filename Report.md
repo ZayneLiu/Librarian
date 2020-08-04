@@ -30,6 +30,9 @@
       - [LiteDB](#litedb)
       - [Optical Character Recognition](#optical-character-recognition)
       - [Office Open XML](#office-open-xml)
+        - [Word 2007](#word-2007)
+        - [Excel 2007](#excel-2007)
+        - [PowerPoint 2007](#powerpoint-2007)
 - [References](#references)
 - [Appendix:](#appendix)
 
@@ -160,6 +163,13 @@ OCR Library
 #### Office Open XML
 [Open-XML SDK](https://github.com/OfficeDev/Open-XML-SDK) is an SDK
 that provides tools for working with Office Word, Excel, and PowerPoint documents developed by [OfficeDev Team](https://github.com/OfficeDev) at Microsoft.
+
+##### Word 2007
+    issues & difficulties
+##### Excel 2007
+    issues & difficulties
+##### PowerPoint 2007
+    issues & difficulties
 
 
 
