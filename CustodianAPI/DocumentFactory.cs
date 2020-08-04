@@ -7,12 +7,12 @@ namespace CustodianAPI
 {
     public static class DocumentFactory
     {
-        public static string[] AllowedExtentions
+        public static string[] AllowedExtensions
         {
             get
             {
                 return TextDocExtensions.Concat(WordExtensions)
-                                        .Concat(PowerPointExtentions)
+                                        .Concat(PowerPointExtensions)
                                         .Concat(ExcelExtension)
                                         .Concat(PdfExtensions)
                                         .ToArray();
@@ -24,7 +24,7 @@ namespace CustodianAPI
         // MS Word Document
         public static string[] WordExtensions = new[] { ".docx", ".docm" };
         // MS PowerPoint Documents
-        public static string[] PowerPointExtentions = new[] { ".pptx", ".pptm" };
+        public static string[] PowerPointExtensions = new[] { ".pptx", ".pptm" };
         // MS Excel Documents
         public static string[] ExcelExtension = new[] { ".xlsx", ".xlsm" };
         // PDF Document
@@ -37,7 +37,7 @@ namespace CustodianAPI
                 return new TextDocument(path);
             else if (WordExtensions.Contains(ext))
                 return new Word2007Document(path);
-            else if (PowerPointExtentions.Contains(ext))
+            else if (PowerPointExtensions.Contains(ext))
                 return new PowerPoint2007Document(path);
             else if (ExcelExtension.Contains(ext))
                 return new Excel2007Document(path);
