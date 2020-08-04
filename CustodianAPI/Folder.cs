@@ -48,8 +48,8 @@ namespace CustodianAPI
                     if (Path.GetExtension(filename)
                         .Equals(value: ".iCloud", comparisonType: StringComparison.OrdinalIgnoreCase))
                         Console.WriteLine($"{filename} needs to be downloaded from iCloud!");
-                    var allowedExt = new[] { ".txt", ".doc", ".docx", ".pdf" };
-                    //, ".ppt", ".pptx"
+
+                    var allowedExt = DocumentFactory.AllowedExtentions;
                     // extensions to ignore.
                     var exclude = !new[] { ".DS_Store" }.Contains(Path.GetFileName(filename));
                     var include = allowedExt.Contains(ext.ToLower());
