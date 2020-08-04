@@ -50,7 +50,7 @@ For example, the SQL LIKE operator can be extremely inefficient. If you apply it
 ### Inverted Index
 Inverted Index is an index where the keys are individual terms, and the associated values are sets of records that contain the term. Full text search is optimized to compute the intersection, union, etc. of these record sets, and usually provides a ranking algorithm to quantify how strongly a given record matches search keywords (Erickson, 2008).
 
-As mentioned earlier, non-expert users of full-text search system often don't know how to formulate advanced queries or don't know the vocabularies used when indexing the documents (Tekli, Chbeir, et al., 2018). To address said issue the authors designed and constructed a extended version of inverted index called <i class="italic">SemIndex</i>, which empowered standard inverted index with a semantic network and a general keyword query model, in order to yield semantic-aware results (ibid.).
+As mentioned earlier, non-expert users of full-text search system often don't know how to formulate advanced queries or don't know the vocabularies used when indexing the documents (Tekli, Chbeir, et al., 2018). To address said issue the authors designed and constructed a extended version of inverted index called <i style="font-family:sanserif;">SemIndex</i>, which empowered standard inverted index with a semantic network and a general keyword query model, in order to yield semantic-aware results (ibid.).
 
 <!-- Other features typical of Full-Text search are
 
@@ -211,7 +211,7 @@ a. Precision & Recall | [Back to content](#precision-and-recall)<br/>
 b. Gantt Chart | [Back to content](#gantt-chart)<br/>
 <img width="600px" src="Report%20Graphs/Gantt%20Chart.png" />
 
-<style>
+<!-- <style>
 .italic{
   font-family:"sanserif";
 }
@@ -224,4 +224,4 @@ code{
     background-color: rgba(27,31,35,.05);
     border-radius: 6px;
 }
-</style>
+</style> -->
