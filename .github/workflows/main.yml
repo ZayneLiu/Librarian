@@ -31,10 +31,10 @@ jobs:
       run: |
         echo Add other actions to build,
         echo test, and deploy your project.
-    - name: Create PDF
-      uses: mkrakowitzer/actions-makepdfs@1.1
+        
+    - uses: mkrakowitzer/actions-makepdfs@master
+      if: github.ref == 'refs/heads/master'
+    - uses: actions/upload-artifact@v1
       with:
-        # Location of markdown files in github repository
-        markdown_dir: "." # default is doc
-        # Location to output PDF files to
-        output_dir: "pdf" # default is tmp
+        name: platform-architecture-docs
+        path: tmp
