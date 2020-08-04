@@ -19,10 +19,14 @@ namespace CustodianAPI.Utils
 
         protected override void Index()
         {
+            var startTime = DateTime.Now;
+            Console.Write($"Indexing {Name}");
+
+            #region Excel
             var xlsx = SpreadsheetDocument.Open(path: Location, isEditable: false);
             var workSheets = xlsx.WorkbookPart.WorksheetParts.GetEnumerator();
 
-            // Get sharedStringTable
+            # region Get sharedStringTable
             IQueryable<string> sharedStringTableList = null;
             using (var parts = xlsx.RootPart.Parts.GetEnumerator())
             {
@@ -37,24 +41,25 @@ namespace CustodianAPI.Utils
                     }
                 }
             }
+            #endregion
 
             while (workSheets.MoveNext())
             {
                 var sheet = workSheets.Current;
-                var sheetData = sheet.Worksheet.Elements<SheetData>().GetEnumerator();
+                using var sheetData = sheet.Worksheet.Elements<SheetData>().GetEnumerator();
                 while (sheetData.MoveNext())
                 {
-
-                    var rows = sheetData.Current.Elements<Row>().GetEnumerator();
+                    using var rows = sheetData.Current.Elements<Row>().GetEnumerator();
                     while (rows.MoveNext())
                     {
                         var row = rows.Current;
-                        var cells = row.Elements<Cell>().GetEnumerator();
+                        using var cells = row.Elements<Cell>().GetEnumerator();
                         while (cells.MoveNext())
                         {
                             var cell = cells.Current;
                             var text = "";
                             // TODO: Potential issue with the cell type
+                            // FIXME: The value the cells with type `Date`
                             if (cell.DataType == null)
                                 text = cell.CellValue.InnerText;
                             else if (cell.DataType == CellValues.SharedString)
@@ -67,7 +72,9 @@ namespace CustodianAPI.Utils
                     }
                 }
             }
+            #endregion
 
+            Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
         }
     }
 }

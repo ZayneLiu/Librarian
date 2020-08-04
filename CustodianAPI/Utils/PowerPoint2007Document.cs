@@ -1,4 +1,5 @@
 
+using System;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Presentation;
 
@@ -17,7 +18,10 @@ namespace CustodianAPI.Utils
 
         protected override void Index()
         {
-            //TODO: PPT
+            var startTime = DateTime.Now;
+            Console.Write($"Indexing {Name}");
+
+            # region PowerPoint
             var ppt = PresentationDocument.Open(path: Location, isEditable: false);
             using var slides = ppt.PresentationPart.SlideParts.GetEnumerator();
 
@@ -30,6 +34,9 @@ namespace CustodianAPI.Utils
                     this.AddToIndex(texts: text.Current.InnerText);
                 }
             }
+            #endregion
+
+            Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
         }
     }
 }
