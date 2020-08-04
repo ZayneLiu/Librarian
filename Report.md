@@ -88,9 +88,9 @@ The main processes of this project were requirements analysis, implementation, t
 
 ## Functional Requirements and Progress
 
-| Icon  | <input type="checkbox" disabled /> | <input type="checkbox" disabled checked /> | :construction: |
-| :---: | :--------------------------------: | :----------------------------------------: | :------------: |
-|       |               Planed               |                    Done                    |      WIP       |
+|  Icon   | <input type="checkbox" disabled /> | <input type="checkbox" disabled checked /> | :construction: |
+| :-----: | :--------------------------------: | :----------------------------------------: | :------------: |
+| Meaning |               Planed               |                    Done                    |      WIP       |
 
 
 - API
@@ -101,10 +101,10 @@ The main processes of this project were requirements analysis, implementation, t
   - [x] Web API + API Documentation.
 
 - File type support
-  - [ ] Microsoft Office 2007+ documents support.
+  - [x] Microsoft Office 2007+ documents support.
     - [x] `.docx`, `.docm` | Word 2007+ documents.
-    - [x] `.pptx`, `.pptm` | PowerPoint 2007+ documents.
-    - [ ] `.xlsx`, `.xlsm` | Excel 2007+ documents. :construction:
+    - [x] `.pptx`, `.pptm` | PowerPoint 2007+ documents. :warning:
+    - [x] `.xlsx`, `.xlsm` | Excel 2007+ documents. :warning:
   - [ ] Plain-text documents.
     - [x] `.txt` | Text documents.
     - [ ] `.md` | Markdown documents. :construction:
@@ -113,6 +113,21 @@ The main processes of this project were requirements analysis, implementation, t
     - [x] Text-based PDF.
     - [ ] Image-only PDF. :construction:
   - [ ] `.epub`, `.mobi`
+- Testing
+
+  |        Icon        |                    Meaning                     |
+  | :----------------: | :--------------------------------------------: |
+  | :white_check_mark: |                  Fully Tested                  |
+  | :heavy_check_mark: | Partially Tested<br/>( Basic functionalities ) |
+
+
+  |    File Type     |   Testing Status   |
+  | :--------------: | :----------------: |
+  |      `.txt`      | :white_check_mark: |
+  | `.docx`, `.docm` | :white_check_mark: |
+  | `.pptx`, `.pptm` | :heavy_check_mark: |
+  | `.xlsx`, `.xlsm` | :heavy_check_mark: |
+  |      `.pdf`      | :heavy_check_mark: |
 
 # Implementation
 
