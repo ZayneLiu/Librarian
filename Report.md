@@ -210,18 +210,3 @@ a. Precision & Recall | [Back to content](#precision-and-recall)<br/>
 
 b. Gantt Chart | [Back to content](#gantt-chart)<br/>
 <img width="600px" src="Report%20Graphs/Gantt%20Chart.png" />
-
-<!-- <style>
-.italic{
-  font-family:"sanserif";
-}
-code{
-    /* GitHub flavored `code` style */
-    color:#24292e !important;
-    padding: .2em .4em;
-    margin: 0;
-    font-size: 85%;
-    background-color: rgba(27,31,35,.05);
-    border-radius: 6px;
-}
-</style> -->
