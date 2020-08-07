@@ -1,17 +1,18 @@
 ### Report can be found [here](./Report.md)
-# A cross-platform full-text search engine for local filesystem
+# Librarian
+
+A cross-platform full-text search engine for local filesystem.
 
 An alternative to Apache Tika for C# ecosystem written in `.NET Core`, `C#`.
 
 # Project Structure
-- Custodian API
+- Custodian API ( Searching / Indexing API )
   - Indexing Module
     - OCR
   - Searching Module
     - Semantic search
-- Custodian Web API (REST API)
-- Librarian
-  - UI
+- Custodian Web API ( REST Web API )
+- Librarian ( Cross-platform Native UI )
 
 # Progress
 |  Icon   | <input type="checkbox" disabled /> | <input type="checkbox" disabled checked /> | :construction: |
