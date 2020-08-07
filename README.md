@@ -15,9 +15,9 @@ An alternative to Apache Tika for C# ecosystem written in `.NET Core`, `C#`.
 - Librarian ( Cross-platform Native UI )
 
 # Progress
-|  Icon   | <input type="checkbox" disabled /> | <input type="checkbox" disabled checked /> | :construction: |
-| :-----: | :--------------------------------: | :----------------------------------------: | :------------: |
-| Meaning |               Planed               |                    Done                    |      WIP       |
+|  Icon   | <input type="checkbox" disabled /> | <input type="checkbox" disabled checked /> | :construction: |    :warning:     |
+| :-----: | :--------------------------------: | :----------------------------------------: | :------------: | :--------------: |
+| Meaning |               Planed               |                    Done                    |      WIP       | Potential issues |
 
 - API
   - [x] 64-bit multi-platform support.
