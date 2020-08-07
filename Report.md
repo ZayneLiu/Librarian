@@ -11,25 +11,29 @@
     - [Ranking](#ranking)
   - [Semantic Search](#semantic-search)
   - [Apache Tika](#apache-tika)
+  - [DocFetcher](#docfetcher)
   - [Gantt Chart](#gantt-chart)
+  - [Rationale](#rationale)
 - [Requirements Analysis](#requirements-analysis)
+  - [API Design](#api-design)
   - [Functional Requirements and Progress](#functional-requirements-and-progress)
 - [Implementation](#implementation)
-  - [API Design](#api-design)
+  - [Third-party Libraries](#third-party-libraries)
+    - [LiteDB](#litedb)
+    - [Optical Character Recognition](#optical-character-recognition)
+    - [Open XML SDK](#open-xml-sdk)
+  - [Specific Implementations](#specific-implementations)
+    - [Document Indexing](#document-indexing)
+    - [Word 2007](#word-2007)
+    - [Excel 2007](#excel-2007)
+    - [PowerPoint 2007](#powerpoint-2007)
   - [Tools](#tools)
-    - [C](#c)
+    - [C Sharp](#c-sharp)
     - [.NET Core](#net-core)
     - [<span>ASP.NET</span> Core](#aspnet-core)
     - [Visual Studio Code](#visual-studio-code)
-    - [Third-party Libraries](#third-party-libraries)
-      - [LiteDB](#litedb)
-      - [Optical Character Recognition](#optical-character-recognition)
-      - [Office Open XML](#office-open-xml)
-        - [Word 2007](#word-2007)
-        - [Excel 2007](#excel-2007)
-        - [PowerPoint 2007](#powerpoint-2007)
 - [References](#references)
-- [Appendix:](#appendix)
+- [Appendix](#appendix)
 
 
 # Introduction
@@ -58,9 +62,9 @@ lexical analysis or tokenization—breaking a block of unstructured text into in
 morphological analysis, or stemming—collapsing variations of a given word into one index term; for example, treating "mice" and "mouse", or "electrification" and "electric" as the same word
 ranking—measuring the similarity of a matching record to the query string -->
 
-
 ### Morphological Analysis (Stemming)
 [TBC]
+
 ### Ranking
 [TBC]
 
@@ -69,9 +73,12 @@ ranking—measuring the similarity of a matching record to the query string -->
 [TBC]
 
 ## Apache Tika
-[Tika](http://tika.apache.org)
-The Apache Tika™ toolkit detects and extracts metadata and text from over a thousand different file types (such as PPT, XLS, and PDF). All of these file types can be parsed through a single interface, making Tika useful for search engine indexing, content analysis, translation, and much more. You can find the latest release on the download page. Please see the Getting Started page for more information on how to start using Tika.
-[TBC]
+Tika was formally a sub-project of [Apache Lucene](https://lucene.apache.org/). Lucene is a Java library for indexing, searching. Lucene also has many other powerful features (e.g. spellchecking, analysis/tokenization, etc.) (Apache Lucene, 2020).
+
+[Apache Tika](http://tika.apache.org) is an open-source toolkit that detects and extracts metadata and text from over a thousand different file types (such as PPT, XLS, and PDF). All of these file types can be parsed through a single interface, making Tika useful for search engine indexing, content analysis, translation, and much more. You can find the latest release on the download page. Please see the Getting Started page for more information on how to start using Tika (Apache Tika, 2020).
+
+## DocFetcher
+[DocFetcher](http://docfetcher.sourceforge.net/en/index.html) is an existing open-source desktop search application written in Java programming language and Apache Tika framework (see [Apache Tika](#apache-tika)). DocFetcher provides very powerful searching capabilities and as well as a wide range of support document formats (DocFetcher, 2020).
 
 ## Gantt Chart
 The planning of this project is done by utilizing Gantt chart (See [Appendix b.](#appendix)).
@@ -80,9 +87,21 @@ There're several complications result in a shift of priority to develop a functi
 
 The main processes of this project were requirements analysis, implementation, testing and reporting.
 
+## Rationale
+This project idea was formed based on specific needs for customisable full-text searching against a huge amount of local documents, and was then inspired by the open-source desktop search application - DocFetcher (see [DocFetcher](#docfetcher)).
+
+As powerful as DocFetcher is, it lacks the full-support for macOS 64-bit platform, also has some minor performance issues. Same thing goes with other existing desktop search applications. So, I decided to build a local document search engine to address said issues and to fit my specific needs.
+
+At first I planed to build both GUI (Graphic User Interface) and API (Application Programming Interface), which later turns out to be not feasible enough given the complexity of implementing GUI document previewer and the time constrain for this project. That said, I decided to shift my focus onto API alone.
+
+Tika came into the picture, as I was going through DocFetcher's source code try to understand the implementations for its powerful features. Given the fact that there're no good alternatives to Tika in C# ecosystem, then it occurs to me that i should implement a similar API for text-extraction or content-analysis in C#.
 
 # Requirements Analysis
 [sth. about requirement analysis in general]
+
+## API Design
+
+![sa](./Report%20Graphs/class%20diagram.png)
 
 ## Functional Requirements and Progress
 
@@ -119,51 +138,150 @@ The main processes of this project were requirements analysis, implementation, t
   | :heavy_check_mark: | Partially Tested<br/>( Basic functionalities ) |
 
 
-  |    File Type     |   Testing Status   |
-  | :--------------: | :----------------: |
-  |      `.txt`      | :white_check_mark: |
+  | File Type        |   Testing Status   |
+  | :--------------- | :----------------: |
+  | `.txt`           | :white_check_mark: |
   | `.docx`, `.docm` | :white_check_mark: |
   | `.pptx`, `.pptm` | :heavy_check_mark: |
   | `.xlsx`, `.xlsm` | :heavy_check_mark: |
-  |      `.pdf`      | :heavy_check_mark: |
+  | `.pdf`           | :heavy_check_mark: |
 
 # Implementation
 
-## API Design
-[Class Diagram]
 
-[API WorkFlow]
-
-## Tools
-
-### C#
-
-### .NET Core
-
-
-### <span>ASP.NET</span> Core
-
-
-### Visual Studio Code
-
-### Third-party Libraries
+## Third-party Libraries
 This project also utilizes several third-party libraries to implement certain functionalities.
 
-#### LiteDB
+### LiteDB
 [LiteDB](https://github.com/mbdavid/LiteDB) is a embedded No-SQL single-file Database. It's used in this project as an object storage for indexed data.
 
-#### Optical Character Recognition
+### Optical Character Recognition
 OCR Library
 
-#### Office Open XML
-[Open-XML SDK](https://github.com/OfficeDev/Open-XML-SDK) is an SDK
-that provides tools for working with Office Word, Excel, and PowerPoint documents developed by [OfficeDev Team](https://github.com/OfficeDev) at Microsoft.
+### Open XML SDK
+[Open-XML SDK](https://github.com/OfficeDev/Open-XML-SDK) is an SDK that provides tools for working with Office (2007+) Word, Excel, and PowerPoint documents developed by [OfficeDev Team](https://github.com/OfficeDev) at Microsoft.
 
-##### Word 2007
-    issues & difficulties
-##### Excel 2007
-    issues & difficulties
-##### PowerPoint 2007
+Office Open XML (aka. OpenXML or OOXML) is an XML-based format for office documents, including word processing documents, spreadsheets, presentations, as well as charts, diagrams, shapes, and other graphical material.
+Since Office 2007 the file formats and structure of all office documents has changed. Instead of older binary formats (i.e. `.doc`, `.xls`, and `.ppt`), they have adopted Open XML to be the default format of all Microsoft Office documents (`.docx`, `.xlsx` and `.pptx`) (Office Open XML, 2012).
+
+OpenXML files can be decompressed into many `.xml` files by compression software or tools.
+
+## Specific Implementations
+
+### Document Indexing
+
+### Word 2007
+The structure of composing `.xml` files for `.docx` documents is similar to the picture (see [Appendix c.](#appendix)).
+
+The main document story of the simplest WordprocessingML (`.docx`) document consists of the following XML elements (Microsoft Docs, 2017):
+| Element  | Description                                                                                          |
+| -------- | ---------------------------------------------------------------------------------------------------- |
+| document | The root element for a WordprocessingML's main document part, which defines the main document story. |
+| body     | The container for the collection of block-level structures that comprise the main story.             |
+| p        | A paragraph.                                                                                         |
+| r        | A run.                                                                                               |
+| t        | A range of text.                                                                                     |
+
+Following is the code to extract text from Word documents.
+```csharp
+protected override void Index()
+{
+    var startTime = DateTime.Now;
+    Console.Write($"Indexing {Name}");
+
+    #region Index Word Document
+    // ReadFiles
+    using var doc = WordprocessingDocument.Open(path: Location, isEditable: false);
+    var body = doc.MainDocumentPart.Document.Body;
+    // Get all <w:p> elements.
+    using var paragraphParts = body.Descendants<Paragraph>().GetEnumerator();
+    while (paragraphParts.MoveNext())
+    {
+        var currentParagraph = paragraphParts.Current;
+        // Find all <w:t> elements inside each <w:p> element.
+        var textParts = currentParagraph.Descendants<Text>().AsQueryable();
+        var paragraphTemp = from text in textParts
+                            where text.Text != ""
+                            // Last char is number, possibly page number in Table of content. Add a space manually.
+                            select char.IsNumber(text.Text, text.Text.Length - 1) ? " " + text.Text : text.Text;
+        var paragraph = string.Concat(paragraphTemp);
+
+        if (new[] { "" }.Contains(paragraph)) continue;
+        if (paragraph == null) continue;
+
+        this.AddToIndex(texts: paragraph);
+    }
+    #endregion
+
+    Console.Write(
+        $" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
+}
+```
+
+### Excel 2007
+```csharp
+protected override void Index()
+{
+    var startTime = DateTime.Now;
+    Console.Write($"Indexing {Name}");
+
+    #region Excel
+    var xlsx = SpreadsheetDocument.Open(path: Location, isEditable: false);
+    var workSheets = xlsx.WorkbookPart.WorksheetParts.GetEnumerator();
+
+    # region Get sharedStringTable
+    IQueryable<string> sharedStringTableList = null;
+    using (var parts = xlsx.RootPart.Parts.GetEnumerator())
+    {
+        while (parts.MoveNext())
+        {
+            var b = parts.Current.OpenXmlPart;
+            if (b.GetType() == typeof(SharedStringTablePart))
+            {
+                var part = (SharedStringTablePart)parts.Current.OpenXmlPart;
+                sharedStringTableList = from item in part.SharedStringTable.Elements().AsQueryable()
+                                        select item.InnerText;
+            }
+        }
+    }
+    #endregion
+
+    while (workSheets.MoveNext())
+    {
+        var sheet = workSheets.Current;
+        using var sheetData = sheet.Worksheet.Elements<SheetData>().GetEnumerator();
+        while (sheetData.MoveNext())
+        {
+            using var rows = sheetData.Current.Elements<Row>().GetEnumerator();
+            while (rows.MoveNext())
+            {
+                var row = rows.Current;
+                using var cells = row.Elements<Cell>().GetEnumerator();
+                while (cells.MoveNext())
+                {
+                    var cell = cells.Current;
+                    var text = "";
+                    // TODO: Potential issue with the cell type
+                    // FIXME: The value the cells with type `Date`
+                    if (cell.DataType == null)
+                        text = cell.CellValue.InnerText;
+                    else if (cell.DataType == CellValues.SharedString)
+                        text = sharedStringTableList.ElementAt(int.Parse(cell.CellValue.InnerText));
+                    else
+                        text = cell.CellValue.InnerText;
+
+                    this.AddToIndex(text);
+                }
+            }
+        }
+    }
+    #endregion
+
+    Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
+}
+```
+
+### PowerPoint 2007
 ```csharp
 protected override void Index()
 {
@@ -192,6 +310,24 @@ protected override void Index()
 
 
 
+
+
+
+
+## Tools
+
+### C Sharp
+
+### .NET Core
+
+
+### <span>ASP.NET</span> Core
+
+
+### Visual Studio Code
+
+
+
 <div style="page-break-after: always;"></div>
 
 # References
@@ -201,12 +337,20 @@ protected override void Index()
 - Microsoft Docs, 2018. [Full-Text Search - SQL Server | Microsoft Docs](https://docs.microsoft.com/en-us/sql/relational-databases/search/full-text-search?view=sql-server-ver15). Accessed on July 1st, 2020.
 - Reiner, K. Chichao, C. Farzin, M. Ravi, K.,2006. [Searching with context | ACM Digital Library](https://dl.acm.org/doi/abs/10.1145/1135777.1135847). Accessed on July 1st, 2020.
 - Tekli, J., Chbeir, R.,  Traina, A., Traina, C Jr., Yetongnon, K., Ibanez, C., Assad, M., Kallas, C., 2018. [Full-fledged semantic indexing and querying model designed for seamless integration in legacy RDBMS](https://doi-org.ezproxy.herts.ac.uk/10.1016/j.datak.2018.07.007). Accessed on July 2nd, 2020.
+- Office Open XML, 2012. [Office Open XML - What is OOXML?](http://officeopenxml.com) Accessed on 5th August, 2020.
+- Microsoft Docs, 2017. [Structure of a WordprocessingML document (Open XML SDK) | Microsoft Docs](https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-wordprocessingml-document). Accessed on 5th August, 2020
+- Apache Tika, 2020. [Apache Tika - Apache Tika](https://tika.apache.org). Accessed on 7th Aug, 2020.
+- Apache Lucene, 2020 [Apache Lucene - Welcome to Apache Lucene](https://lucene.apache.org). Accessed on 7th Aug, 2020.
+- DocFetcher, 2020 [DocFetcher - Fast Document Search](http://docfetcher.sourceforge.net/en/index.html). Accessed on 7th Aug, 2020.
 
 <div style="page-break-after: always;"></div>
 
-# Appendix:
+# Appendix
 a. Precision & Recall | [Back to content](#precision-and-recall)<br/>
-<img height="500px" src="Report%20Graphs/Precision%20and%20Recall.svg"/>
+![precision&recall](Report%20Graphs/Precision%20and%20Recall.svg)
 
 b. Gantt Chart | [Back to content](#gantt-chart)<br/>
-<img width="600px" src="Report%20Graphs/Gantt%20Chart.png" />
+![gantt chart](Report%20Graphs/Gantt%20Chart.png)
+
+c. Structure of decompressed `.docx` file | [Back to content](#open-xml-sdk)<br/>
+![decompressed .docx file](./Report%20Graphs/openxml-word.png)
