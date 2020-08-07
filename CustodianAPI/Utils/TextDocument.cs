@@ -27,7 +27,6 @@ namespace CustodianAPI.Utils
             Console.Write($"Indexing {Name}");
 
             #region txt
-
             var encoding = new StreamReader(Location, true).CurrentEncoding;
             var lines = File.ReadAllLines(Location, encoding);
 
@@ -39,9 +38,9 @@ namespace CustodianAPI.Utils
 
                 this.AddToIndex(texts: currentLine);
             }
+            #endregion
 
             Console.Write($" >==> {Thumbnail.Count} unique words.");
-            #endregion
         }
     }
 }

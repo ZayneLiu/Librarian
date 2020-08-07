@@ -33,47 +33,28 @@ namespace CustodianAPI.Utils
             var startTime = DateTime.Now;
             Console.Write($"Indexing {Name}");
 
-            #region doc / docx
+            #region Indexing Word documents
 
             // ReadFiles
             using var doc = WordprocessingDocument.Open(path: Location, isEditable: false);
             var body = doc.MainDocumentPart.Document.Body;
+            // Get all <w:p> elements.
             using var paragraphParts = body.Descendants<Paragraph>().GetEnumerator();
-            var textList = new List<string>();
             while (paragraphParts.MoveNext())
             {
                 var currentParagraph = paragraphParts.Current;
+                // Find all <w:t> elements inside each <w:p> element.
                 var textParts = currentParagraph.Descendants<Text>().AsQueryable();
                 var paragraphTemp = from text in textParts
                                     where text.Text != ""
                                     // Last char is number, possibly page number in Table of content. Add a space manually.
                                     select char.IsNumber(text.Text, text.Text.Length - 1) ? " " + text.Text : text.Text;
                 var paragraph = string.Concat(paragraphTemp);
-                textList.Add(paragraph);
-            }
-            using var texts = textList.GetEnumerator();
-            while (texts.MoveNext())
-            {
-                var p = texts.Current;
-                if (new[] { "" }.Contains(p)) continue;
 
-                if (p == null) continue;
+                if (new[] { "" }.Contains(paragraph)) continue;
+                if (paragraph == null) continue;
 
-                this.AddToIndex(texts: p);
-                // var words = p.Split(" ").AsEnumerable().GetEnumerator();
-                // while (words.MoveNext())
-                // {
-                //     var processedWord = ExtractWord(words.Current);
-                //     if (processedWord == null) continue;
-
-                //     if (Thumbnail.ContainsKey(processedWord))
-                //     {
-                //         Thumbnail[processedWord]++;
-                //         continue;
-                //     }
-
-                //     Thumbnail.Add(processedWord, 1);
-                // }
+                this.AddToIndex(texts: paragraph);
             }
             #endregion
 

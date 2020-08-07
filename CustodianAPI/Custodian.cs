@@ -8,11 +8,9 @@ namespace CustodianAPI
 {
     public class Custodian
     {
-        #region Persistent Functionalities
-
+        #region Persistence Functionalities
         private static readonly LiteDatabase CustodianDb = new LiteDatabase("./custodian.db");
         private static readonly ILiteCollection<Folder> FoldersDb = CustodianDb.GetCollection<Folder>("Files");
-
         #endregion
 
         public static List<Folder> Folders
@@ -29,12 +27,7 @@ namespace CustodianAPI
         {
             var folder = new Folder(location: folderPath);
             folder.Index();
-
             FoldersDb.Upsert(id: folder.Location, folder);
-
-            // var a = Folders;
-
-            //Console.WriteLine(a.Count());
             return folder;
         }
         public void Reset()
@@ -73,7 +66,6 @@ namespace CustodianAPI
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                // throw;
             }
             finally
             {
