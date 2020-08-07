@@ -26,9 +26,13 @@ namespace CustodianWebAPI.Controllers
             var result = new List<FolderResult>();
 
             var folders = Custodian.Folders;
-            folders.ForEach(folder =>
-                result.Add(new FolderResult
-                    {FolderName = folder.Location.Split(PathDelimiter).Last(), FolderPath = folder.Location})
+            folders.ForEach(
+                folder => result.Add(
+                    new FolderResult
+                    {
+                        FolderName = folder.Location.Split(PathDelimiter).Last(),
+                        FolderPath = folder.Location
+                    })
             );
             return result;
         }
@@ -53,7 +57,7 @@ namespace CustodianWebAPI.Controllers
             return new JsonResult(
                 new
                 {
-                    folder = new {location = result.Location, files = result.Documents.Count},
+                    folder = new { location = result.Location, files = result.Documents.Count },
                     msg =
                         $"folder {folderName} is indexed with {result.Documents.Count} in total."
                 }
