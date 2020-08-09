@@ -16,6 +16,42 @@
   - [Rationale](#rationale)
 - [Requirements Analysis](#requirements-analysis)
   - [API Design](#api-design)
+  - [UI Design](#ui-design)
+  - [Functional Requirements and Progress](#functional-requirements-and-progress)
+- [Implementation](#implementation)
+  - [Third-party Libraries](#third-party-libraries)
+    - [LiteDB](#litedb)
+    - [Optical Character Recognition](#optical-character-recognition)
+    - [Open XML SDK](#open-xml-sdk)
+  - [Specific Implementations](#specific-implementations)
+    - [Document Indexing](#document-indexing)
+    - [Word 2007](#word-2007)
+    - [Excel 2007](#excel-2007)
+    - [PowerPoint 2007](#powerpoint-2007)
+  - [Tools](#tools)
+    - [C Sharp](#c-sharp)
+    - [.NET Core](#net-core)
+    - [<span>ASP.NET</span> Core](#aspnet-core)
+    - [Visual Studio Code](#visual-studio-code)
+- [References](#references)
+- [Appendix](#appendix)
+  -
+  - [Functional Requirements and Progress](#functional-requirements-and-progress)
+- [Introduction](#introduction)
+- [Literature Review](#literature-review)
+  - [Full-Text Search Engine](#full-text-search-engine)
+    - [Precision and Recall](#precision-and-recall)
+    - [Inverted Index](#inverted-index)
+    - [Morphological Analysis (Stemming)](#morphological-analysis-stemming)
+    - [Ranking](#ranking)
+  - [Semantic Search](#semantic-search)
+  - [Apache Tika](#apache-tika)
+  - [DocFetcher](#docfetcher)
+  - [Gantt Chart](#gantt-chart)
+  - [Rationale](#rationale)
+- [Requirements Analysis](#requirements-analysis)
+  - [API Design](#api-design)
+  - [UI Design](#ui-design)
   - [Functional Requirements and Progress](#functional-requirements-and-progress)
 - [Implementation](#implementation)
   - [Third-party Libraries](#third-party-libraries)
@@ -101,7 +137,14 @@ Tika came into the picture, as I was going through DocFetcher's source code try 
 
 ## API Design
 
-![sa](./Report%20Graphs/class%20diagram.png)
+![class%20diagram](./Report%20Graphs/class%20diagram.png)
+
+## UI Design
+I'm using Vue.js + NW.js for the cross-platform UI implementation.
+
+As of now, the UI is still rather simple and act only as a visual user interface for demonstration of `Custodian API`'s functionalities.
+
+![UI%20snapshot](./Report%20Graphs/UI.png)
 
 ## Functional Requirements and Progress
 
@@ -109,14 +152,22 @@ Tika came into the picture, as I was going through DocFetcher's source code try 
 | :-----: | :--------------------------------: | :----------------------------------------: | :------------: |
 | Meaning |               Planed               |                    Done                    |      WIP       |
 
-
+- UI
+  - [x] Index folders.
+  - [x] Retrieve indexed folders.
+  - [x] Search function.
+  - [ ] Advance search query.
+  - [x] Display search result.
+- [ ] Web API
+  - [x] API Documentation.
+  - [x] Indexing.
+  - [x] Searching.
+  - [ ] Advanced search query.
 - API
   - [x] 64-bit multi-platform support.
   - [x] Indexing.
   - [x] Searching.
   - [ ] Semantic Search. !!!
-  - [x] Web API + API Documentation.
-
 - File type support
   - [x] Microsoft Office 2007+ documents support.
     - [x] `.docx`, `.docm` | Word 2007+ documents.
