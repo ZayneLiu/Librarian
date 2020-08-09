@@ -68,6 +68,10 @@ namespace CustodianWebAPI.Controllers
         [HttpPost("search")]
         public ActionResult<List<DocumentResult>> Search(string keyword)
         {
+            if (keyword == null)
+            {
+                return new List<DocumentResult>();
+            }
             keyword = keyword.ToLower();
             var result = new List<DocumentResult>();
             var keywords = keyword.Split(" ", StringSplitOptions.RemoveEmptyEntries);
