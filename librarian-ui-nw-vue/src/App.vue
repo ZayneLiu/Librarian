@@ -7,7 +7,11 @@
     </aside>
     <main>
       <search-bar />
-      <result-view :keyword="searchkKeyword" />
+      <result-view :keyword="searchKeyword" :searchResult="searchResult">
+        <slot>
+          <button @click="clear()" class="btn btn-secondary btn-sm">Clear</button>
+        </slot>
+      </result-view>
     </main>
   </div>
 </template>
@@ -34,7 +38,8 @@ import ResultView from "./components/ResultView.vue";
 })
 export default class App extends Vue {
   public folderList: { folderName: string; folderPath: string }[] = [];
-  public searchkKeyword: string = "";
+  public searchKeyword: string = "";
+  public searchResult: {} = {};
 
   mounted() {
     mitter.on("folderSelected", (path) => {
@@ -47,21 +52,33 @@ export default class App extends Vue {
     });
 
     mitter.on("keywordSubmission", (keyword) => {
-      this.searchkKeyword = keyword;
+      this.searchKeyword = keyword;
       //TODO: Submit keyword
       console.log(keyword);
+      Axios({
+        method: "POST",
+        url: "https://localhost:5001/search",
+        params: { keyword: keyword },
+      }).then((res) => {
+        this.searchResult = res.data;
+      });
     });
 
     this.loadIndexedFolders();
   }
 
-  //TODO: Load indexed fodlers from backend
   loadIndexedFolders() {
-    Axios({ method: "GET", url: "https://localhost:5001/folders" }).then(
-      (res) => {
-        this.folderList = res.data;
-      }
-    );
+    Axios({
+      method: "GET",
+      url: "https://localhost:5001/folders",
+    }).then((res) => {
+      this.folderList = res.data;
+    });
+  }
+  clear() {
+    mitter.emit("clear");
+    this.searchKeyword = "";
+    this.searchResult = "";
   }
 }
 </script>
@@ -100,14 +117,15 @@ export default class App extends Vue {
   // }
   main {
     @include flex-col();
-    background-color: lightcoral;
+    // background-color: lightcoral;
     flex: 2;
     z-index: 1;
+    border-left: black 1px solid;
   }
   aside {
     @include flex-col();
     overflow: visible;
-    background-color: lightblue;
+    // background-color: lightblue;
     max-width: 200px;
     padding: 0;
     flex: 1;

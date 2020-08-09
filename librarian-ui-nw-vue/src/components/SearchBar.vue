@@ -7,11 +7,12 @@
       type="text"
       v-model="keyword"
     />
+    <button @click="submitSearchKeword()" class="btn btn-primary btn-sm">Search</button>
   </div>
 </template>
 
 <style lang='scss'>
-@import url("../assets/bootstrap/bootstrap.css");
+// @import url("../assets/bootstrap/bootstrap.css");
 @mixin flex-row {
   display: flex;
   flex-flow: row nowrap;
@@ -21,10 +22,12 @@
   flex-flow: column nowrap;
 }
 .search-bar {
-  @include flex-col();
-  align-items: center;
+  @include flex-row();
+  // align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  background-color: #e1e1e1;
 
-  margin: 10px 0;
   // width: fit-content;
   input {
     border-bottom: #616161 1px solid;
@@ -34,6 +37,11 @@
     padding: 2px unset;
     width: 60%;
     border: none;
+  }
+  button {
+    margin: 0;
+    margin-left: 5px;
+    padding: 0 5px;
   }
 }
 </style>
@@ -49,6 +57,11 @@ export default class SearchBar extends Vue {
     mitter.emit("keywordSubmission", this.keyword);
     // console.log(`keyword(s) are ${this.keyword.split(" ")}`);
     console.log(this.keyword.split(" "));
+  }
+  mounted() {
+    mitter.on("clear", () => {
+      this.keyword = "";
+    });
   }
 }
 </script>

@@ -30,8 +30,6 @@
   </div>
 </template>
 <style lang="scss">
-@import url("../assets/bootstrap/bootstrap.css");
-
 .btn-add-folder {
   display: flex;
   flex-flow: row nowrap;
@@ -39,7 +37,7 @@
   border: none;
   align-items: center;
   justify-content: center;
-  border-radius: 0;
+  border-radius: 0 !important;
   svg {
     margin-right: 5px;
   }
