@@ -12,7 +12,8 @@ An alternative to Apache Tika for C# ecosystem written in `.NET Core`, `C#`.
   - Searching Module
     - Semantic search
 - Custodian Web API ( REST Web API )
-- Librarian ( Cross-platform Native UI )
+- librarian-ui-nw-vue (NW.js + Vue)
+- [Planed] Librarian ( Cross-platform Native UI )
 
 # Progress
 |  Icon   | <input type="checkbox" disabled /> | <input type="checkbox" disabled checked /> | :construction: |    :warning:     |
