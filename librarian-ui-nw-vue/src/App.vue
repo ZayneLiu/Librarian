@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!-- <div class="bg"></div> -->
+    <div class="no-connection-modal" v-show="!connection">Pending connection to API Server</div>
     <aside>
       <add-folder-button />
       <folder-list :pathList="folderList" />
@@ -19,7 +19,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { mitter } from "./main";
-import Axios from "axios";
+import Axios, { AxiosError } from "axios";
 
 import HelloWorld from "./components/HelloWorld.vue";
 import AddFolderButton from "./components/AddFolderButton.vue";
@@ -40,6 +40,7 @@ export default class App extends Vue {
   public folderList: { folderName: string; folderPath: string }[] = [];
   public searchKeyword: string = "";
   public searchResult: {} = {};
+  public connection: boolean = false;
 
   mounted() {
     mitter.on("folderSelected", (path) => {
@@ -65,15 +66,22 @@ export default class App extends Vue {
     });
 
     this.loadIndexedFolders();
+    // API Server connectivity monitor.
+    setInterval(this.loadIndexedFolders, 1500);
   }
 
   loadIndexedFolders() {
     Axios({
       method: "GET",
       url: "https://localhost:5001/folders",
-    }).then((res) => {
-      this.folderList = res.data;
-    });
+    })
+      .then((res) => {
+        this.connection = true;
+        this.folderList = res.data;
+      })
+      .catch((err: AxiosError) => {
+        if (err.message == "Network Error") this.connection = false;
+      });
   }
   clear() {
     mitter.emit("clear");
@@ -94,7 +102,9 @@ export default class App extends Vue {
   display: flex;
   flex-flow: column nowrap;
 }
-
+* {
+  // transition: all 0.2s cubic-bezier(0.39, 0.575, 0.565, 1);
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -107,7 +117,17 @@ export default class App extends Vue {
   background-color: transparent;
   z-index: 999;
   @include flex-row();
-  // .bg {
+
+  .no-connection-modal {
+    position: absolute;
+    height: 100vh;
+    line-height: 100vh;
+    font-size: 30px;
+    width: 100vw;
+    z-index: 9;
+    background: rgba($color: #e2e2e2, $alpha: 0.5);
+    backdrop-filter: blur(2px);
+  }
   //   position: absolute;
   //   width: 100vw;
   //   height: 100vh;
