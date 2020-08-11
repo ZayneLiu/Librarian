@@ -49,6 +49,7 @@ export default class App extends Vue {
         alert("folder already selected!");
         return;
       }
+      // TODO: API
       this.folderList.push(path);
     });
 
