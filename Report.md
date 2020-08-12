@@ -587,8 +587,21 @@ namespace CustodianAPI.Test
 
 Due to the relatively simple nature of the current implementation for indexing `.txt` files, there are currently no unit testing provided. However, in the future work, as more complex indexing features are implemented or more plain-text file types are supported, detailed Unit Testing will be added.
 
+## Web API
+Web API was documented and tested with `SwaggerUI`.
+### Web API Overview
+![WebAPI-Overview](./Report%20Graphs/WebAPI-Overview.png)
+### Web API Index Folder
+![WebAPI-Overview](./Report%20Graphs/WebAPI-Index-Folder.png)
+### Web API Get Indexed Folders
+![WebAPI-Overview](./Report%20Graphs/WebAPI-Get-Indexed-Folders.png)
+### Web API Search
+![WebAPI-Overview](./Report%20Graphs/WebAPI-Search.png)
 
-# Conclusion & Future Work
+## UI
+Basic functionality of cross-platform UI was tested manually. Some styling issue was found.
+___
+# Conclusion & Future Work [TBC]
 
 
 <div style="page-break-after: always;"></div>
