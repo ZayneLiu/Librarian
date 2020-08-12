@@ -59,7 +59,7 @@ namespace CustodianAPI.Utils
             #endregion
 
             Console.Write(
-                $" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
+                $" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms\n");
 
             // FIXED: Elements with similar structure show be ignored.
 

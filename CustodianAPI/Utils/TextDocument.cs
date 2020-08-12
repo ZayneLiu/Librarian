@@ -24,6 +24,7 @@ namespace CustodianAPI.Utils
             if (Location is null)
                 return;
 
+            var startTime = DateTime.Now;
             Console.Write($"Indexing {Name}");
 
             #region txt
@@ -40,7 +41,7 @@ namespace CustodianAPI.Utils
             }
             #endregion
 
-            Console.Write($" >==> {Thumbnail.Count} unique words.");
+            Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms\n");
         }
     }
 }

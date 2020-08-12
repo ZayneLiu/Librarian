@@ -74,7 +74,7 @@ namespace CustodianAPI.Utils
             }
             #endregion
 
-            Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
+            Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms\n");
         }
     }
 }
