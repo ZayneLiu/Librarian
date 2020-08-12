@@ -615,17 +615,21 @@ ___
 <div style="page-break-after: always;"></div>
 
 # References
-- Erickson, 2008. [sql - What is Full Text Search vs LIKE - Stack Overflow](https://stackoverflow.com/a/224726/8702601). Accessed on July 1st, 2020.
+- Erickson, 2008. *sql - What is Full Text Search vs LIKE - Stack Overflow*. Available at https://stackoverflow.com/a/224726/8702601. Accessed on July 1st 2020.
 - Makhoul, J., Kubala, F., Schwartz, R. and Weischedel, R., 1999, February. Performance measures for information extraction. In Proceedings of DARPA broadcast news workshop (pp. 249-252).
-- Melton, J. Buxton, S., 2006. [Chapter 13 - What's Missing? - Querying XML | ScienceDirect](https://doi.org/10.1016/B978-155860711-8/50014-9). Accessed on July 1st, 2020.
-- Microsoft Docs, 2018. [Full-Text Search - SQL Server | Microsoft Docs](https://docs.microsoft.com/en-us/sql/relational-databases/search/full-text-search?view=sql-server-ver15). Accessed on July 1st, 2020.
-- Reiner, K. Chichao, C. Farzin, M. Ravi, K.,2006. [Searching with context | ACM Digital Library](https://dl.acm.org/doi/abs/10.1145/1135777.1135847). Accessed on July 1st, 2020.
-- Tekli, J., Chbeir, R.,  Traina, A., Traina, C Jr., Yetongnon, K., Ibanez, C., Assad, M., Kallas, C., 2018. [Full-fledged semantic indexing and querying model designed for seamless integration in legacy RDBMS](https://doi-org.ezproxy.herts.ac.uk/10.1016/j.datak.2018.07.007). Accessed on July 2nd, 2020.
-- Office Open XML, 2012. [Office Open XML - What is OOXML?](http://officeopenxml.com) Accessed on 5th August, 2020.
-- Microsoft Docs, 2017. [Structure of a WordprocessingML document (Open XML SDK) | Microsoft Docs](https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-wordprocessingml-document). Accessed on 5th August, 2020
-- Apache Tika, 2020. [Apache Tika - Apache Tika](https://tika.apache.org). Accessed on 7th Aug, 2020.
-- Apache Lucene, 2020 [Apache Lucene - Welcome to Apache Lucene](https://lucene.apache.org). Accessed on 7th Aug, 2020.
-- DocFetcher, 2020 [DocFetcher - Fast Document Search](http://docfetcher.sourceforge.net/en/index.html). Accessed on 7th Aug, 2020.
+- Melton, J. Buxton, S., 2006. *Chapter 13 - What's Missing? - Querying XML | ScienceDirect*. Available at https://doi.org/10.1016/B978-155860711-8/50014-9. Accessed on July 1st 2020.
+- Microsoft Docs, 2018. *Full-Text Search - SQL Server | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/sql/relational-databases/search/full-text-search?view=sql-server-ver15. Accessed on July 1st 2020.
+- Reiner, K. Chichao, C. Farzin, M. Ravi, K.,2006. *Searching with context | ACM Digital Library*. Available at https://dl.acm.org/doi/abs/10.1145/1135777.1135847. Accessed on July 1st 2020.
+- Tekli, J., Chbeir, R.,  Traina, A., Traina, C Jr., Yetongnon, K., Ibanez, C., Assad, M., Kallas, C., 2018. *Full-fledged semantic indexing and querying model designed for seamless integration in legacy RDBMS*. Available at https://doi-org.ezproxy.herts.ac.uk/10.1016/j.datak.2018.07.007. Accessed on July 2nd 2020.
+- Office Open XML, 2012. *Office Open XML - What is OOXML?*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-wordprocessingml-document. Accessed on 5th August 2020.
+- Microsoft Docs, 2017. *Structure of a WordprocessingML document (Open XML SDK) | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-wordprocessingml-document. Accessed on 5th August 2020
+- Apache Tika, 2020. *Apache Tika - Apache Tika*. Available at https://tika.apache.org. Accessed on 7th Aug 2020.
+- Apache Lucene, 2020. *Apache Lucene - Welcome to Apache Lucene*. Available at https://lucene.apache.org. Accessed on 7th Aug 2020.
+- DocFetcher, 2020. *DocFetcher - Fast Document Search*. Available at http://docfetcher.sourceforge.net/en/index.html. Accessed on 7th Aug 2020.
+- VSCode, 2020. *Visual Studio Code - Code Editing. Redefined*. Available at https://code.visualstudio.com. Accessed on 12th August 2020.
+- Axios, 2020. *axios/axios: Promise based HTTP client for the browser and node.js | GitHub*. Available at https://github.com/axios/axios. Accessed on 12th August 2020.
+- MDN, 2020. *Promise - JavaScript | MDN*. Available at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise. Accessed on 12th August 2020.
+- Vue.js, 2020. *Vue.js*. Available at https://vuejs.org. Accessed on 12th August 2020.
 
 <div style="page-break-after: always;"></div>
 
