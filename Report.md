@@ -23,8 +23,8 @@
     - [LiteDB](#litedb)
     - [Optical Character Recognition](#optical-character-recognition)
     - [Open XML SDK](#open-xml-sdk)
-  - [Specific Implementations](#specific-implementations)
-    - [Document Indexing](#document-indexing)
+  - [Document Indexing](#document-indexing)
+    - [Inverted Index](#inverted-index-1)
     - [Word 2007](#word-2007)
     - [Excel 2007](#excel-2007)
     - [PowerPoint 2007](#powerpoint-2007)
@@ -37,59 +37,20 @@
     - [axios](#axios)
     - [Visual Studio Code](#visual-studio-code)
 - [Testing](#testing)
-    - [Unit Testing for Custodian API:](#unit-testing-for-custodian-api)
-    - [Unit Testing for Word documents:](#unit-testing-for-word-documents)
-    - [Unit Test for Excel documents:](#unit-test-for-excel-documents)
-    - [Unit Test for PowerPoint documents:](#unit-test-for-powerpoint-documents)
+  - [API](#api)
+    - [Unit Tests for Custodian API:](#unit-tests-for-custodian-api)
+    - [Unit Tests for Word documents:](#unit-tests-for-word-documents)
+    - [Unit Tests for Excel documents:](#unit-tests-for-excel-documents)
+    - [Unit Tests for PowerPoint documents:](#unit-tests-for-powerpoint-documents)
     - [Unit Test for PDF documents:](#unit-test-for-pdf-documents)
     - [Unit Test for Text documents:](#unit-test-for-text-documents)
-- [Conclusion & Future Work](#conclusion--future-work)
-- [References](#references)
-- [Appendix](#appendix)
-  -
-  - [Functional Requirements and Progress](#functional-requirements-and-progress)
-- [Introduction](#introduction)
-- [Literature Review](#literature-review)
-  - [Full-Text Search Engine](#full-text-search-engine)
-    - [Precision and Recall](#precision-and-recall)
-    - [Inverted Index](#inverted-index)
-    - [Morphological Analysis (Stemming)](#morphological-analysis-stemming)
-    - [Ranking](#ranking)
-  - [Semantic Search](#semantic-search)
-  - [Apache Tika](#apache-tika)
-  - [DocFetcher](#docfetcher)
-  - [Gantt Chart](#gantt-chart)
-  - [Rationale](#rationale)
-- [Methodology & Design](#methodology--design)
-  - [API Design](#api-design)
-  - [UI Design](#ui-design)
-  - [Functional Requirements and Progress](#functional-requirements-and-progress)
-- [Implementation](#implementation)
-  - [Third-party Libraries](#third-party-libraries)
-    - [LiteDB](#litedb)
-    - [Optical Character Recognition](#optical-character-recognition)
-    - [Open XML SDK](#open-xml-sdk)
-  - [Specific Implementations](#specific-implementations)
-    - [Document Indexing](#document-indexing)
-    - [Word 2007](#word-2007)
-    - [Excel 2007](#excel-2007)
-    - [PowerPoint 2007](#powerpoint-2007)
-  - [Tools](#tools)
-    - [C Sharp](#c-sharp)
-    - [.NET Core](#net-core)
-    - [<span>ASP.NET</span> Core](#aspnet-core)
-    - [NW.js](#nwjs)
-    - [Vue.js](#vuejs)
-    - [axios](#axios)
-    - [Visual Studio Code](#visual-studio-code)
-- [Testing](#testing)
-    - [Unit Testing for Custodian API:](#unit-testing-for-custodian-api)
-    - [Unit Testing for Word documents:](#unit-testing-for-word-documents)
-    - [Unit Test for Excel documents:](#unit-test-for-excel-documents)
-    - [Unit Test for PowerPoint documents:](#unit-test-for-powerpoint-documents)
-    - [Unit Test for PDF documents:](#unit-test-for-pdf-documents)
-    - [Unit Test for Text documents:](#unit-test-for-text-documents)
-- [Conclusion & Future Work](#conclusion--future-work)
+  - [Web API](#web-api)
+    - [Web API Overview](#web-api-overview)
+    - [Web API Index Folder](#web-api-index-folder)
+    - [Web API Get Indexed Folders](#web-api-get-indexed-folders)
+    - [Web API Search](#web-api-search)
+  - [UI](#ui)
+- [Conclusion & Future Work [TBC]](#conclusion--future-work-tbc)
 - [References](#references)
 - [Appendix](#appendix)
 
@@ -221,8 +182,8 @@ As of now, the UI is still rather simple and act only as a visual user interface
   | `.xlsx`, `.xlsm` | :heavy_check_mark: |
   | `.pdf`           | :heavy_check_mark: |
 
+___
 # Implementation
-
 
 ## Third-party Libraries
 This project also utilizes several third-party libraries to implement certain functionalities.
@@ -241,10 +202,34 @@ Since Office 2007 the file formats and structure of all office documents has cha
 
 OpenXML files can be decompressed into many `.xml` files by compression software or tools.
 
-## Specific Implementations
 
-### Document Indexing
+## Document Indexing
 
+### Inverted Index
+Code below is responsible for extract words from pre-processed paragraphs or sentences, and add each word into the Dictionary where inverted index is implemented.
+```csharp
+protected void AddToIndex(string texts)
+{
+    using var words = texts.Split(" ", StringSplitOptions.RemoveEmptyEntries).AsEnumerable().GetEnumerator();
+    while (words.MoveNext())
+    {
+        var word = words.Current;
+        var processedWord = ExtractWord(word);
+        if (processedWord == null) continue;
+
+        if (Thumbnail.ContainsKey(processedWord))
+        {
+            Thumbnail[processedWord]++;
+            continue;
+        }
+        Thumbnail.Add(processedWord, 1);
+    }
+}
+```
+![Inverted Index](Report%20Graphs/Inverted%20Index.png)
+
+The figure above shows the partial structure of implemented inverted index in the memory. Based on current implementation each file type will eventually be processed into Dictionaries like this.
+___
 ### Word 2007
 The structure of composing `.xml` files for `.docx` documents is similar to the picture (see [Appendix c.](#appendix)).
 
@@ -292,9 +277,76 @@ protected override void Index()
         $" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
 }
 ```
+There are still some special formats or cases haven't been taken into consideration, which will be covered in future work.
 
-
+___
 ### Excel 2007
+The document structure of a SpreadsheetML document consists of the `workbook` element that contains `sheets` and `sheet` elements that reference the worksheets in the workbook (Microsoft Docs, 2017). (see [Appendix d.](#appendix))
+
+The main parts of a SpreadsheetML document:
+| Name                 |  Element  | Description                                                                                                 |
+| -------------------- | :-------: | ----------------------------------------------------------------------------------------------------------- |
+| Workbook             | workbook  | The root element for the main document part.                                                                |
+| Worksheet            | worksheet | A type of sheet that represent a grid of cells that contains text, numbers, dates or formulas.              |
+| Table                |   table   | A logical construct that specifies that a range of data belongs to a single dataset.                        |
+| Shared Strings Table |    sst    | A construct that contains one occurrence of each unique string that occurs on all worksheets in a workbook. |
+
+
+`sheet1.xml`:
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" >
+    <sheetData>
+        <row r="1" spans="1:3" x14ac:dyDescent="0.2">
+            <c r="A1" t="s">
+                <v>0</v>
+            </c>
+            <c r="B1" s="1">
+                <v>123</v>
+            </c>
+            <c r="C1" s="3">
+                <v>36078</v>
+            </c>
+        </row>
+        <row r="2" spans="1:3" x14ac:dyDescent="0.2">
+            <c r="A2" t="s">
+                <v>1</v>
+            </c>
+            <c r="B2" s="1">
+                <v>123</v>
+            </c>
+            <c r="C2" t="s">
+                <v>3</v>
+            </c>
+        </row>
+    </sheetData>
+</worksheet>
+```
+However, based on the implementation standard of SpreadsheetML documents, strings sometimes can be stored in `sharedStringTable`, which is similar to an Array in programming languages.
+
+Example content of `sharedStrings.xml`.
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="4" uniqueCount="4">
+    <si>
+        <t>university</t>
+    </si>
+    <si>
+        <t>of</t>
+    </si>
+    <si>
+        <t>hertfordshire</t>
+    </si>
+</sst>
+```
+In the example of `sheet1.xml` above, each `<c>` element with `t="s"` attribute mean that it's a reference to shared strings table, with the value inside `<v>` element as the index of the string it's referencing.
+
+Hence in the implementation below, there's a part code for retrieving the `sharedStringTable`. And in the text extraction process,
+
+
+
+<b>Index implementation of Excel 2007 documents:</b>
+
 ```csharp
 protected override void Index()
 {
@@ -356,7 +408,9 @@ protected override void Index()
     Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
 }
 ```
+However, there's still an issue with retrieving formatted date value. Pending for further fixes.
 
+___
 ### PowerPoint 2007
 ```csharp
 protected override void Index()
@@ -623,6 +677,8 @@ ___
 - Tekli, J., Chbeir, R.,  Traina, A., Traina, C Jr., Yetongnon, K., Ibanez, C., Assad, M., Kallas, C., 2018. *Full-fledged semantic indexing and querying model designed for seamless integration in legacy RDBMS*. Available at https://doi-org.ezproxy.herts.ac.uk/10.1016/j.datak.2018.07.007. Accessed on July 2nd 2020.
 - Office Open XML, 2012. *Office Open XML - What is OOXML?*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-wordprocessingml-document. Accessed on 5th August 2020.
 - Microsoft Docs, 2017. *Structure of a WordprocessingML document (Open XML SDK) | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-wordprocessingml-document. Accessed on 5th August 2020
+- Microsoft Docs, 2017. *Structure of a SpreadsheetML document (Open XML SDK) | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-spreadsheetml-document. Accessed on 12th August 2020.
+- Microsoft Docs, 2017. *Structure of a PresentationML document (Open XML SDK) | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-presentationml-document. Accessed on 12th August 2020.
 - Apache Tika, 2020. *Apache Tika - Apache Tika*. Available at https://tika.apache.org. Accessed on 7th Aug 2020.
 - Apache Lucene, 2020. *Apache Lucene - Welcome to Apache Lucene*. Available at https://lucene.apache.org. Accessed on 7th Aug 2020.
 - DocFetcher, 2020. *DocFetcher - Fast Document Search*. Available at http://docfetcher.sourceforge.net/en/index.html. Accessed on 7th Aug 2020.
@@ -640,5 +696,8 @@ a. Precision & Recall | [Back to content](#precision-and-recall)<br/>
 b. Gantt Chart | [Back to content](#gantt-chart)<br/>
 ![gantt chart](Report%20Graphs/Gantt%20Chart.png)
 
-c. Structure of decompressed `.docx` file | [Back to content](#open-xml-sdk)<br/>
+c. Structure of decompressed `.docx` file | [Back to content](#word-2007)<br/>
 ![decompressed .docx file](./Report%20Graphs/openxml-word.png)
+
+d. Structure of decompressed `.xlsx` file | [Back to content](#excel-2007)<br/>
+![sharedStrings.xml](Report%20Graphs/Shared%20Strings%20Table.png)
