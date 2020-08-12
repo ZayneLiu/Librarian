@@ -396,15 +396,23 @@ protected override void Index()
 ### NW.js
 
 ### Vue.js
+Vue.js is a progressive framework that focuses on data binding for view layer in web development. And Vue.js also has the concept of component which is perfectly for powering sophisticated SPA (i.e. Single Page Application) (Vue.js, 2020).
 
 ### axios
+Axios is a promise based HTTP client for the browser and node.js (Axios, 2020). Axios supports Promise API which is a built-in javascript API used to represent the eventual completion (or failure) of an asynchronous operation, and its resulting value (MDN, 2020), promise API also supports method chaining to add more asynchronous actions.
+```js
+// Promise method chaining.
+const promise2 = doSomething().then(successCallback, failureCallback);
+```
 
 ### Visual Studio Code
+Visual Studio Code is an open-source cross-platform code editor developed by Microsoft, with great extensibility and support for syntax highlighting, debugging, IntelliSense (code completion tool developed by Microsoft), etc. And VSCode supports a large variety of programming languages by installing dedicated extensions (VSCode, 2020).
 
-
+___
 # Testing
-
-### Unit Testing for Custodian API:
+## API
+Unit testing was used to test the behaviours of each corresponding class for different file types.
+### Unit Tests for Custodian API:
 
 The code below is a simple unit test for Indexing a given folder and Searching capabilities of `Custodian` class.
 
@@ -451,7 +459,7 @@ namespace CustodianAPI.Test
 ```
 
 
-### Unit Testing for Word documents:
+### Unit Tests for Word documents:
 
 The code below is a simple unit test for `Index` functionality of `Word2007Document` class.
 ```csharp
@@ -481,7 +489,7 @@ namespace CustodianAPI.Test
 }
 ```
 
-### Unit Test for Excel documents:
+### Unit Tests for Excel documents:
 
 The code below is a simple unit test for `Index` functionality of `Excel2007Document` class.
 
@@ -516,7 +524,7 @@ namespace CustodianAPI.Test
 ```
 
 
-### Unit Test for PowerPoint documents:
+### Unit Tests for PowerPoint documents:
 
 The code below is a simple unit test for `Index` functionality of `PowerPoint2007Document` class
 ```csharp
