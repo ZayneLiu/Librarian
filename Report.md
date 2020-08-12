@@ -14,7 +14,7 @@
   - [DocFetcher](#docfetcher)
   - [Gantt Chart](#gantt-chart)
   - [Rationale](#rationale)
-- [Requirements Analysis](#requirements-analysis)
+- [Methodology & Design](#methodology--design)
   - [API Design](#api-design)
   - [UI Design](#ui-design)
   - [Functional Requirements and Progress](#functional-requirements-and-progress)
@@ -32,7 +32,18 @@
     - [C Sharp](#c-sharp)
     - [.NET Core](#net-core)
     - [<span>ASP.NET</span> Core](#aspnet-core)
+    - [NW.js](#nwjs)
+    - [Vue.js](#vuejs)
+    - [axios](#axios)
     - [Visual Studio Code](#visual-studio-code)
+- [Testing](#testing)
+    - [Unit Testing for Custodian API:](#unit-testing-for-custodian-api)
+    - [Unit Testing for Word documents:](#unit-testing-for-word-documents)
+    - [Unit Test for Excel documents:](#unit-test-for-excel-documents)
+    - [Unit Test for PowerPoint documents:](#unit-test-for-powerpoint-documents)
+    - [Unit Test for PDF documents:](#unit-test-for-pdf-documents)
+    - [Unit Test for Text documents:](#unit-test-for-text-documents)
+- [Conclusion & Future Work](#conclusion--future-work)
 - [References](#references)
 - [Appendix](#appendix)
   -
@@ -49,7 +60,7 @@
   - [DocFetcher](#docfetcher)
   - [Gantt Chart](#gantt-chart)
   - [Rationale](#rationale)
-- [Requirements Analysis](#requirements-analysis)
+- [Methodology & Design](#methodology--design)
   - [API Design](#api-design)
   - [UI Design](#ui-design)
   - [Functional Requirements and Progress](#functional-requirements-and-progress)
@@ -67,7 +78,18 @@
     - [C Sharp](#c-sharp)
     - [.NET Core](#net-core)
     - [<span>ASP.NET</span> Core](#aspnet-core)
+    - [NW.js](#nwjs)
+    - [Vue.js](#vuejs)
+    - [axios](#axios)
     - [Visual Studio Code](#visual-studio-code)
+- [Testing](#testing)
+    - [Unit Testing for Custodian API:](#unit-testing-for-custodian-api)
+    - [Unit Testing for Word documents:](#unit-testing-for-word-documents)
+    - [Unit Test for Excel documents:](#unit-test-for-excel-documents)
+    - [Unit Test for PowerPoint documents:](#unit-test-for-powerpoint-documents)
+    - [Unit Test for PDF documents:](#unit-test-for-pdf-documents)
+    - [Unit Test for Text documents:](#unit-test-for-text-documents)
+- [Conclusion & Future Work](#conclusion--future-work)
 - [References](#references)
 - [Appendix](#appendix)
 
@@ -132,12 +154,14 @@ At first I planed to build both GUI (Graphic User Interface) and API (Applicatio
 
 Tika came into the picture, as I was going through DocFetcher's source code try to understand the implementations for its powerful features. Given the fact that there're no good alternatives to Tika in C# ecosystem, then it occurs to me that i should implement a similar API for text-extraction or content-analysis in C#.
 
-# Requirements Analysis
+# Methodology & Design
 [sth. about requirement analysis in general]
 
 ## API Design
 
 ![class%20diagram](./Report%20Graphs/class%20diagram.png)
+
+<!-- TODO: figure -->
 
 ## UI Design
 I'm using Vue.js + NW.js for the cross-platform UI implementation.
@@ -269,6 +293,7 @@ protected override void Index()
 }
 ```
 
+
 ### Excel 2007
 ```csharp
 protected override void Index()
@@ -359,12 +384,6 @@ protected override void Index()
 ```
 
 
-
-
-
-
-
-
 ## Tools
 
 ### C Sharp
@@ -374,9 +393,202 @@ protected override void Index()
 
 ### <span>ASP.NET</span> Core
 
+### NW.js
+
+### Vue.js
+
+### axios
 
 ### Visual Studio Code
 
+
+# Testing
+
+### Unit Testing for Custodian API:
+
+The code below is a simple unit test for Indexing a given folder and Searching capabilities of `Custodian` class.
+
+```csharp
+using Xunit;
+
+namespace CustodianAPI.Test
+{
+    public class CustodianTest
+    {
+        [Fact]
+        public void IndexTest()
+        {
+            // Given
+            var folderPath = SharedTestData.TestDocFolderPath;
+            var custodian = new Custodian();
+
+            // When
+            custodian.Reset();
+            var result = custodian.TakeCareOf(folderPath: folderPath);
+
+            // Then
+            Assert.Equal(10, result.Documents.Count);
+        }
+        [Fact]
+        public void SearchTest()
+        {
+            //Given
+            var keywords = new string[] { "university" };
+            var folderPath = SharedTestData.TestDocFolderPath;
+            var custodian = new Custodian();
+
+            //When
+            custodian.TakeCareOf(folderPath);
+            var result = custodian.Search(keywords);
+            var resultSize = result.Count;
+
+            //Then
+            Assert.Equal(expected: 6, resultSize);
+        }
+
+    }
+}
+```
+
+
+### Unit Testing for Word documents:
+
+The code below is a simple unit test for `Index` functionality of `Word2007Document` class.
+```csharp
+using CustodianAPI.Utils;
+using Xunit;
+
+namespace CustodianAPI.Test
+{
+    public class Word2007DocumentTest
+    {
+        [Fact]
+        public void Word2007IndexTest()
+        {
+            // Given
+            var docxPath = SharedTestData.TestDocFolderPath + "test.docx";
+            var docmPath = SharedTestData.TestDocFolderPath + "test.docm";
+
+            // When
+            var docx = new Word2007Document(docxPath);
+            var docm = new Word2007Document(docmPath);
+
+            // Then
+            Assert.Equal(6, docx.Thumbnail["university"]);
+            Assert.Equal(6, docm.Thumbnail["university"]);
+        }
+    }
+}
+```
+
+### Unit Test for Excel documents:
+
+The code below is a simple unit test for `Index` functionality of `Excel2007Document` class.
+
+```csharp
+using CustodianAPI.Utils;
+using Xunit;
+
+namespace CustodianAPI.Test
+{
+    public class Excel2007Test
+    {
+        [Fact]
+        public void ExcelIndexTest()
+        {
+            //Given
+            var xlsmPath = SharedTestData.TestDocFolderPath + "test.xlsm";
+            var xlsxPath = SharedTestData.TestDocFolderPath + "test.xlsx";
+
+            //When
+            var xlsx = new Excel2007Document(xlsxPath);
+            var xlsm = new Excel2007Document(xlsmPath);
+
+            //Then
+            Assert.Equal(1, xlsx.Thumbnail["university"]);
+            Assert.Equal(3, xlsx.Thumbnail["123"]);
+
+            Assert.Equal(1, xlsm.Thumbnail["university"]);
+            Assert.Equal(3, xlsm.Thumbnail["123"]);
+        }
+    }
+}
+```
+
+
+### Unit Test for PowerPoint documents:
+
+The code below is a simple unit test for `Index` functionality of `PowerPoint2007Document` class
+```csharp
+using CustodianAPI.Utils;
+using Xunit;
+
+namespace CustodianAPI.Test
+{
+    public class PowerPoint2007Test
+    {
+        [Fact]
+        public void PDFIndexTest()
+        {
+            //Given
+            var pptxPath = SharedTestData.TestDocFolderPath + "test.pptx";
+            var pptmPath = SharedTestData.TestDocFolderPath + "test.pptm";
+
+            //When
+            var pptx = new PowerPoint2007Document(pptxPath);
+            var pptm = new PowerPoint2007Document(pptmPath);
+
+            //Then
+            //FIXME: Check for `tx:body` issue
+            // Find another test doc?
+            Assert.Equal(expected: 1, actual: pptx.Thumbnail["harikala"]);
+            Assert.Equal(expected: 44, actual: pptx.Thumbnail["programming"]);
+            Assert.Equal(expected: 28, actual: pptx.Thumbnail["paradigm"]);
+
+            Assert.Equal(expected: 1, actual: pptm.Thumbnail["harikala"]);
+            Assert.Equal(expected: 28, actual: pptm.Thumbnail["paradigm"]);
+            Assert.Equal(expected: 44, actual: pptm.Thumbnail["programming"]);
+        }
+    }
+}
+```
+The unit test above found some inconsistencies where some words inside header or other non-standard elements in `.pptx` / `.pptm` files are not indexed properly. Pending for further fixes.
+
+
+### Unit Test for PDF documents:
+
+The code below is a simple unit test for `Index` functionality of `PdfDocument` class
+
+```csharp
+using CustodianAPI.Utils;
+using Xunit;
+
+namespace CustodianAPI.Test
+{
+    public class PdfDocumentTest
+    {
+        [Fact]
+        public void IndexTest()
+        {
+            // Given
+            var filePath = SharedTestData.TestDocFolderPath + "Database System 1.pdf";
+
+            // When
+            var testDoc = new PdfDocument(filePath);
+
+            // Then
+            Assert.Equal(expected: 9, actual: testDoc.Thumbnail["university"]);
+        }
+    }
+}
+```
+
+### Unit Test for Text documents:
+
+Due to the relatively simple nature of the current implementation for indexing `.txt` files, there are currently no unit testing provided. However, in the future work, as more complex indexing features are implemented or more plain-text file types are supported, detailed Unit Testing will be added.
+
+
+# Conclusion & Future Work
 
 
 <div style="page-break-after: always;"></div>
