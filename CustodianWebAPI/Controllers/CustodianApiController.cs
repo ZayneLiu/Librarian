@@ -46,9 +46,7 @@ namespace CustodianWebAPI.Controllers
         [HttpPost("folders")]
         public IActionResult IndexGivenFolder(string folderPath)
         {
-#if DEBUG
-            if (folderPath == null) folderPath = "/Users/zayne/Workspace/__Data__/Files";
-#endif
+            if (folderPath == null) return new JsonResult(new { msg = "folderPath cannot be `null`." });
 
             var result = Custodian.TakeCareOf(folderPath);
             // Console.WriteLine();
