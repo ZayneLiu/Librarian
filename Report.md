@@ -17,25 +17,30 @@
 - [Methodology & Design](#methodology--design)
   - [API Design](#api-design)
   - [UI Design](#ui-design)
-  - [Functional Requirements and Progress](#functional-requirements-and-progress)
+  - [Progress](#progress)
 - [Implementation](#implementation)
-  - [Third-party Libraries](#third-party-libraries)
-    - [LiteDB](#litedb)
-    - [Optical Character Recognition](#optical-character-recognition)
-    - [Open XML SDK](#open-xml-sdk)
-  - [Document Indexing](#document-indexing)
-    - [Inverted Index](#inverted-index-1)
-    - [Word 2007](#word-2007)
-    - [Excel 2007](#excel-2007)
-    - [PowerPoint 2007](#powerpoint-2007)
-  - [Tools](#tools)
-    - [C Sharp](#c-sharp)
-    - [.NET Core](#net-core)
-    - [<span>ASP.NET</span> Core](#aspnet-core)
-    - [NW.js](#nwjs)
-    - [Vue.js](#vuejs)
-    - [axios](#axios)
+  - [Tools & Third-party Libraries](#tools--third-party-libraries)
+    - [Languages](#languages)
+      - [C Sharp](#c-sharp)
+      - [Typescript](#typescript)
+    - [Frameworks](#frameworks)
+      - [.NET Core](#net-core)
+      - [<span>ASP.NET</span> Core](#aspnet-core)
+      - [NW.js](#nwjs)
+      - [Vue.js](#vuejs)
     - [Visual Studio Code](#visual-studio-code)
+    - [Third-party Libraries](#third-party-libraries)
+      - [LiteDB](#litedb)
+      - [Open XML SDK](#open-xml-sdk)
+      - [axios](#axios)
+  - [CustodianAPI Implementation](#custodianapi-implementation)
+    - [Document Indexing](#document-indexing)
+      - [Inverted Index](#inverted-index-1)
+      - [Word 2007](#word-2007)
+      - [Excel 2007](#excel-2007)
+      - [PowerPoint 2007](#powerpoint-2007)
+      - [Plain-text documents](#plain-text-documents)
+  - [Web API Implementation](#web-api-implementation)
 - [Testing](#testing)
   - [API](#api)
     - [Unit Tests for Custodian API:](#unit-tests-for-custodian-api)
@@ -50,7 +55,7 @@
     - [Web API Get Indexed Folders](#web-api-get-indexed-folders)
     - [Web API Search](#web-api-search)
   - [UI](#ui)
-- [Conclusion & Future Work [TBC]](#conclusion--future-work-tbc)
+- [Conclusion & Future Work](#conclusion--future-work)
 - [References](#references)
 - [Appendix](#appendix)
 
@@ -131,7 +136,7 @@ As of now, the UI is still rather simple and act only as a visual user interface
 
 ![UI%20snapshot](./Report%20Graphs/UI.png)
 
-## Functional Requirements and Progress
+## Progress
 
 |  Icon   | <input type="checkbox" disabled /> | <input type="checkbox" disabled checked /> | :construction: |
 | :-----: | :--------------------------------: | :----------------------------------------: | :------------: |
@@ -143,7 +148,7 @@ As of now, the UI is still rather simple and act only as a visual user interface
   - [x] Search function.
   - [ ] Advance search query.
   - [x] Display search result.
-- [ ] Web API
+- Web API
   - [x] API Documentation.
   - [x] Indexing.
   - [x] Searching.
@@ -182,19 +187,38 @@ As of now, the UI is still rather simple and act only as a visual user interface
   | `.xlsx`, `.xlsm` | :heavy_check_mark: |
   | `.pdf`           | :heavy_check_mark: |
 
+-  Report :construction:
 ___
 # Implementation
+## Tools & Third-party Libraries
+### Languages
 
-## Third-party Libraries
+#### C Sharp
+#### Typescript
+
+### Frameworks
+#### .NET Core
+
+
+#### <span>ASP.NET</span> Core
+
+#### NW.js
+
+#### Vue.js
+Vue.js is a progressive framework that focuses on data binding for view layer in web development. And Vue.js also has the concept of component which is perfectly for powering sophisticated SPA (i.e. Single Page Application) (Vue.js, 2020).
+
+
+### Visual Studio Code
+Visual Studio Code is an open-source cross-platform code editor developed by Microsoft, with great extensibility and support for syntax highlighting, debugging, IntelliSense (code completion tool developed by Microsoft), etc. And VSCode supports a large variety of programming languages by installing dedicated extensions (VSCode, 2020).
+
+___
+### Third-party Libraries
 This project also utilizes several third-party libraries to implement certain functionalities.
 
-### LiteDB
+#### LiteDB
 [LiteDB](https://github.com/mbdavid/LiteDB) is a embedded No-SQL single-file Database. It's used in this project as an object storage for indexed data.
 
-### Optical Character Recognition
-OCR Library
-
-### Open XML SDK
+#### Open XML SDK
 [Open-XML SDK](https://github.com/OfficeDev/Open-XML-SDK) is an SDK that provides tools for working with Office (2007+) Word, Excel, and PowerPoint documents developed by [OfficeDev Team](https://github.com/OfficeDev) at Microsoft.
 
 Office Open XML (aka. OpenXML or OOXML) is an XML-based format for office documents, including word processing documents, spreadsheets, presentations, as well as charts, diagrams, shapes, and other graphical material.
@@ -202,10 +226,18 @@ Since Office 2007 the file formats and structure of all office documents has cha
 
 OpenXML files can be decompressed into many `.xml` files by compression software or tools.
 
+#### axios
+Axios is a promise based HTTP client for the browser and node.js (Axios, 2020). Axios supports Promise API which is a built-in javascript API used to represent the eventual completion (or failure) of an asynchronous operation, and its resulting value (MDN, 2020), promise API also supports method chaining to add more asynchronous actions.
+```js
+// Promise method chaining.
+const promise2 = doSomething().then(successCallback, failureCallback);
+```
 
-## Document Indexing
+## CustodianAPI Implementation
 
-### Inverted Index
+### Document Indexing
+
+#### Inverted Index
 Code below is responsible for extract words from pre-processed paragraphs or sentences, and add each word into the Dictionary where inverted index is implemented.
 ```csharp
 protected void AddToIndex(string texts)
@@ -230,7 +262,7 @@ protected void AddToIndex(string texts)
 
 The figure above shows the partial structure of implemented inverted index in the memory. Based on current implementation each file type will eventually be processed into Dictionaries like this.
 ___
-### Word 2007
+#### Word 2007
 The structure of composing `.xml` files for `.docx` documents is similar to the picture (see [Appendix c.](#appendix)).
 
 The main document story of the simplest WordprocessingML (`.docx`) document consists of the following XML elements (Microsoft Docs, 2017):
@@ -280,7 +312,7 @@ protected override void Index()
 There are still some special formats or cases haven't been taken into consideration, which will be covered in future work.
 
 ___
-### Excel 2007
+#### Excel 2007
 The document structure of a SpreadsheetML document consists of the `workbook` element that contains `sheets` and `sheet` elements that reference the worksheets in the workbook (Microsoft Docs, 2017). (see [Appendix d.](#appendix))
 
 The main parts of a SpreadsheetML document:
@@ -411,7 +443,8 @@ protected override void Index()
 However, there's still an issue with retrieving formatted date value. Pending for further fixes.
 
 ___
-### PowerPoint 2007
+#### PowerPoint 2007
+<!-- TODO: -->
 ```csharp
 protected override void Index()
 {
@@ -436,33 +469,135 @@ protected override void Index()
     Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
 }
 ```
-
-
-## Tools
-
-### C Sharp
-
-### .NET Core
-
-
-### <span>ASP.NET</span> Core
-
-### NW.js
-
-### Vue.js
-Vue.js is a progressive framework that focuses on data binding for view layer in web development. And Vue.js also has the concept of component which is perfectly for powering sophisticated SPA (i.e. Single Page Application) (Vue.js, 2020).
-
-### axios
-Axios is a promise based HTTP client for the browser and node.js (Axios, 2020). Axios supports Promise API which is a built-in javascript API used to represent the eventual completion (or failure) of an asynchronous operation, and its resulting value (MDN, 2020), promise API also supports method chaining to add more asynchronous actions.
-```js
-// Promise method chaining.
-const promise2 = doSomething().then(successCallback, failureCallback);
-```
-
-### Visual Studio Code
-Visual Studio Code is an open-source cross-platform code editor developed by Microsoft, with great extensibility and support for syntax highlighting, debugging, IntelliSense (code completion tool developed by Microsoft), etc. And VSCode supports a large variety of programming languages by installing dedicated extensions (VSCode, 2020).
-
+#### Plain-text documents
+<!-- TODO: -->
 ___
+
+## Web API Implementation
+<b>CustodianApiController.cs:</b>
+
+```csharp
+[ApiController]
+[Route("/")]
+public class CustodianApiController : Controller
+{
+    public static readonly Custodian Custodian = new Custodian();
+    public static readonly char PathDelimiter = Path.DirectorySeparatorChar;
+
+    // Method `GET`
+    // URL: "/folders"
+    /// <summary>
+    /// Get indexed folders.
+    /// </summary>
+    /// <returns>List of indexed folders</returns>
+    [HttpGet("folders")]
+    public ActionResult<List<FolderResult>> GetIndexedFolders()
+    {
+        var result = new List<FolderResult>();
+
+        var folders = Custodian.Folders;
+        folders.ForEach(
+            folder => result.Add(
+                new FolderResult
+                {
+                    FolderName = folder.Location.Split(PathDelimiter).Last(),
+                    FolderPath = folder.Location
+                })
+        );
+        return result;
+    }
+
+    // Method `POST`
+    // URL: "/folders"
+    /// <summary>
+    /// Index given folder.
+    /// </summary>
+    /// <param name="folderPath">Path to the folder to be indexed.</param>
+    /// <returns>Indexed folder info.</returns>
+    [HttpPost("folders")]
+    public IActionResult IndexGivenFolder(string folderPath)
+    {
+        if (folderPath == null) return new JsonResult(new { msg = "folderPath cannot be `null`." });
+
+        var result = Custodian.TakeCareOf(folderPath);
+        // Console.WriteLine();
+        var folderName = result.Location.Split(PathDelimiter).Last();
+
+        return new JsonResult(
+            new
+            {
+                folder = new { location = result.Location, files = result.Documents.Count },
+                msg =
+                    $"folder {folderName} is indexed with {result.Documents.Count} in total."
+            }
+        );
+    }
+
+    // Method `POST`
+    // URL: "/search"
+    [HttpPost("search")]
+    public ActionResult<List<DocumentResult>> Search(string keyword)
+    {
+        if (keyword == null)
+        {
+            return new List<DocumentResult>();
+        }
+        keyword = keyword.ToLower();
+        var result = new List<DocumentResult>();
+        var keywords = keyword.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+        Console.WriteLine(Custodian.Search(keywords));
+        using var resultDocList = Custodian.Search(keywords).GetEnumerator();
+        while (resultDocList.MoveNext())
+        {
+            var currentDoc = resultDocList.Current;
+            if (currentDoc == null)
+                throw new Exception("No Doc!");
+
+            var resultDict = keywords.ToDictionary(kw => kw, kw => currentDoc.Thumbnail[kw]);
+            result.Add(
+                new DocumentResult()
+                {
+                    Name = currentDoc.Name,
+                    Path = currentDoc.Location,
+                    Result = resultDict
+                }
+            );
+        }
+        return result;
+    }
+    // Return type for schemas in Swagger Doc
+    public class FolderResult
+    {
+        [Required] public string FolderName { get; set; }
+
+        [Required] public string FolderPath { get; set; }
+    }
+    // Return type for schemas in Swagger Doc
+    public class DocumentResult
+    {
+        /// <summary>
+        /// File name of the document.
+        /// </summary>
+        [Required]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Path of the document.
+        /// </summary>
+        [Required]
+        public string Path { get; set; }
+
+        /// <summary>
+        /// Key-value pairs of each keyword and its occurrences.
+        /// </summary>
+        [Required]
+        public Dictionary<string, int> Result { get; set; }
+    }
+}
+```
+___
+
 # Testing
 ## API
 Unit testing was used to test the behaviours of each corresponding class for different file types.
@@ -511,7 +646,6 @@ namespace CustodianAPI.Test
     }
 }
 ```
-
 
 ### Unit Tests for Word documents:
 
@@ -616,7 +750,6 @@ namespace CustodianAPI.Test
 ```
 The unit test above found some inconsistencies where some words inside header or other non-standard elements in `.pptx` / `.pptm` files are not indexed properly. Pending for further fixes.
 
-
 ### Unit Test for PDF documents:
 
 The code below is a simple unit test for `Index` functionality of `PdfDocument` class
@@ -663,8 +796,8 @@ Web API was documented and tested with `SwaggerUI`.
 ## UI
 Basic functionality of cross-platform UI was tested manually. Some styling issue was found.
 ___
-# Conclusion & Future Work [TBC]
-
+# Conclusion & Future Work
+<!-- TODO: -->
 
 <div style="page-break-after: always;"></div>
 
