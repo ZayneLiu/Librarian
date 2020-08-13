@@ -20,15 +20,16 @@
   - [Progress](#progress)
 - [Implementation](#implementation)
   - [Tools & Third-party Libraries](#tools--third-party-libraries)
+    - [Tools](#tools)
+      - [Visual Studio Code](#visual-studio-code)
     - [Languages](#languages)
       - [C Sharp](#c-sharp)
-      - [Typescript](#typescript)
+      - [JavaScript / Typescript](#javascript--typescript)
     - [Frameworks](#frameworks)
       - [.NET Core](#net-core)
       - [<span>ASP.NET</span> Core](#aspnet-core)
       - [NW.js](#nwjs)
       - [Vue.js](#vuejs)
-    - [Visual Studio Code](#visual-studio-code)
     - [Third-party Libraries](#third-party-libraries)
       - [LiteDB](#litedb)
       - [Open XML SDK](#open-xml-sdk)
@@ -39,7 +40,9 @@
       - [Word 2007](#word-2007)
       - [Excel 2007](#excel-2007)
       - [PowerPoint 2007](#powerpoint-2007)
-      - [Plain-text documents](#plain-text-documents)
+      - [Plain-text Documents](#plain-text-documents)
+      - [PDF Documents](#pdf-documents)
+    - [Searching](#searching)
   - [Web API Implementation](#web-api-implementation)
 - [Testing](#testing)
   - [API](#api)
@@ -121,13 +124,18 @@ At first I planed to build both GUI (Graphic User Interface) and API (Applicatio
 Tika came into the picture, as I was going through DocFetcher's source code try to understand the implementations for its powerful features. Given the fact that there're no good alternatives to Tika in C# ecosystem, then it occurs to me that i should implement a similar API for text-extraction or content-analysis in C#.
 
 # Methodology & Design
-[sth. about requirement analysis in general]
+This part will demonstrate and explain the design of API and UI.
 
 ## API Design
 
 ![class%20diagram](./Report%20Graphs/class%20diagram.png)
 
-<!-- TODO: figure -->
+The class diagram above showed the structure and relationship between classes in the API project.
+
+Where `Custodian` class is the entry point of the API, which then initialise a `Folder` instance with a given folder path to index containing supported documents.
+
+`Folder` will then go through the given directory to find supported documents, and `DocumentFactory` will instantiate the correct document class for each supported document based on its file extension. Upon instantiation, each `Document` instance wil begin indexing process.
+
 
 ## UI Design
 I'm using Vue.js + NW.js for the cross-platform UI implementation.
@@ -191,14 +199,19 @@ As of now, the UI is still rather simple and act only as a visual user interface
 ___
 # Implementation
 ## Tools & Third-party Libraries
-### Languages
+This part contains general background information regarding tools, languages and third-party libraries used in this project.
 
+### Tools
+#### Visual Studio Code
+Visual Studio Code is an open-source cross-platform code editor developed by Microsoft, with great extensibility and support for syntax highlighting, debugging, IntelliSense (code completion tool developed by Microsoft), etc. And VSCode supports a large variety of programming languages by installing dedicated extensions (VSCode, 2020).
+
+### Languages
 #### C Sharp
-#### Typescript
+
+#### JavaScript / Typescript
 
 ### Frameworks
 #### .NET Core
-
 
 #### <span>ASP.NET</span> Core
 
@@ -207,11 +220,6 @@ ___
 #### Vue.js
 Vue.js is a progressive framework that focuses on data binding for view layer in web development. And Vue.js also has the concept of component which is perfectly for powering sophisticated SPA (i.e. Single Page Application) (Vue.js, 2020).
 
-
-### Visual Studio Code
-Visual Studio Code is an open-source cross-platform code editor developed by Microsoft, with great extensibility and support for syntax highlighting, debugging, IntelliSense (code completion tool developed by Microsoft), etc. And VSCode supports a large variety of programming languages by installing dedicated extensions (VSCode, 2020).
-
-___
 ### Third-party Libraries
 This project also utilizes several third-party libraries to implement certain functionalities.
 
@@ -234,6 +242,7 @@ const promise2 = doSomething().then(successCallback, failureCallback);
 ```
 
 ## CustodianAPI Implementation
+Detailed implementations regarding Indexing, Searching and WebAPI functionalities of this project will be given in the this section.
 
 ### Document Indexing
 
@@ -275,6 +284,7 @@ The main document story of the simplest WordprocessingML (`.docx`) document cons
 | t        | A range of text.                                                                                     |
 
 Following is the code to extract text from Word documents.
+`Word2007Document.cs`
 ```csharp
 protected override void Index()
 {
@@ -377,8 +387,7 @@ Hence in the implementation below, there's a part code for retrieving the `share
 
 
 
-<b>Index implementation of Excel 2007 documents:</b>
-
+`Excel2007Document.cs`
 ```csharp
 protected override void Index()
 {
@@ -437,14 +446,14 @@ protected override void Index()
     }
     #endregion
 
-    Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
+    Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms\n");
 }
 ```
 However, there's still an issue with retrieving formatted date value. Pending for further fixes.
 
 ___
 #### PowerPoint 2007
-<!-- TODO: -->
+`PowerPoint2007Document.cs`
 ```csharp
 protected override void Index()
 {
@@ -453,11 +462,13 @@ protected override void Index()
 
     # region PowerPoint
     var ppt = PresentationDocument.Open(path: Location, isEditable: false);
+    // Get all slides in current presentation.
     using var slides = ppt.PresentationPart.SlideParts.GetEnumerator();
 
     while (slides.MoveNext())
     {
         var slide = slides.Current;
+        // Get all Text elements inside current slide
         using var text = slide.Slide.Descendants<TextBody>().GetEnumerator();
         while (text.MoveNext())
         {
@@ -466,13 +477,115 @@ protected override void Index()
     }
     #endregion
 
-    Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
+    Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms\n");
 }
 ```
-#### Plain-text documents
-<!-- TODO: -->
-___
+There are already known issues with the implementation above which will be fixed in the future, thus no detailed documentation is provided at this point.
+#### Plain-text Documents
+`TextDocument.cs`
+```csharp
+protected override void Index()
+{
+    if (Location is null)
+        return;
 
+    var startTime = DateTime.Now;
+    Console.Write($"Indexing {Name}");
+
+    #region txt
+    // Get encoding of current document.
+    var encoding = new StreamReader(Location, true).CurrentEncoding;
+    // Get all lines in `.txt` file as an Enumerator.
+    using var lines = File.ReadAllLines(Location, encoding).AsEnumerable().GetEnumerator();
+
+    while (lines.MoveNext())
+    {
+        var currentLine = lines.Current;
+        if (currentLine == null) break;
+
+        this.AddToIndex(texts: currentLine);
+    }
+    #endregion
+
+    Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms\n");
+}
+```
+In all the indexing implementations mentioned above, i'm using `Enumerator` instead of `for` / `foreach` loops for performance and memory consumption concerns.
+`using` keyword is also heavily used for garbage collection (i.e. disposal of no-longer need objects).
+
+#### PDF Documents
+`PdfDocument.cs`
+```csharp
+protected override void Index()
+{
+    var startTime = DateTime.Now;
+    Console.Write($"Indexing {Name}");
+
+    # region PDF
+    // Get the PDF document from a `FileStream` via `PdfReader`.
+    var pdfDocument =
+        new Pdf.PdfDocument(new Pdf.PdfReader(new FileStream(Location, FileMode.Open, FileAccess.Read)));
+    var totalPageNumber = pdfDocument.GetNumberOfPages();
+
+    for (var i = 1; i <= totalPageNumber; i++)
+    {
+        var text = PdfTextExtractor.GetTextFromPage(pdfDocument.GetPage(i));
+
+        this.AddToIndex(texts: text);
+    }
+    #endregion
+
+    Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms\n");
+}
+```
+
+___
+### Searching
+`Custodian.cs`
+```csharp
+public List<Document> Search(string[] keywords)
+{
+    var result = new List<Document>();
+    using var folders = Folders.GetEnumerator();
+    try
+    {
+        while (folders.MoveNext())
+        {
+            var current = folders.Current;
+            if (current == null)
+                throw new Exception("no folders indexed.");
+
+            using var docs = current.Documents.GetEnumerator();
+            while (docs.MoveNext())
+            {
+                var currentDoc = docs.Current;
+                if (currentDoc == null)
+                    throw new Exception("no documents indexed.");
+                // Calculate the intersection of search keywords and index data.
+                var intersection = currentDoc.Thumbnail.Keys.Intersect(keywords);
+                // Check if there is any intersected items.
+                if (intersection.Any())
+                {
+                    result.Add(currentDoc);
+                }
+            }
+        }
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+    }
+    finally
+    {
+        folders.Dispose();
+    }
+
+    // Preliminary ranking based on the occurrences of search keyword.
+    result.Sort((a, b) => b.Thumbnail[keywords[0]].CompareTo(a.Thumbnail[keywords[0]]));
+    return result;
+}
+```
+___
 ## Web API Implementation
 <b>CustodianApiController.cs:</b>
 
@@ -779,8 +892,27 @@ namespace CustodianAPI.Test
 ```
 
 ### Unit Test for Text documents:
+```csharp
+using Xunit;
+using CustodianAPI.Utils;
 
-Due to the relatively simple nature of the current implementation for indexing `.txt` files, there are currently no unit testing provided. However, in the future work, as more complex indexing features are implemented or more plain-text file types are supported, detailed Unit Testing will be added.
+namespace CustodianAPI.Test
+{
+    public class TextTest
+    {
+        [Fact]
+        public void IndexTest()
+        {
+            //Given
+            var txt = new TextDocument(SharedTestData.TestDocFolderPath + "test.txt");
+            //When
+
+            //Then
+            Assert.Equal(30, txt.Thumbnail["castle"]);
+        }
+    }
+}
+```
 
 ## Web API
 Web API was documented and tested with `SwaggerUI`.
