@@ -4,7 +4,7 @@ namespace CustodianAPI.Test
 {
     public class SharedTestData
     {
-        public static string ProjectDirectory
+        private static string ProjectDirectory
         {
             get
             {
