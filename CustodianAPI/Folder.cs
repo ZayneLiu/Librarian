@@ -46,6 +46,7 @@ namespace CustodianAPI
                         .Equals(value: ".iCloud", comparisonType: StringComparison.OrdinalIgnoreCase))
                         Console.WriteLine($"{filename} needs to be downloaded from iCloud!");
 
+                    // FIXME: ignore ~$[xxx].docx files.
                     var allowedExt = DocumentFactory.AllowedExtensions;
                     // extensions to ignore.
                     var exclude = !new[] { ".DS_Store" }.Contains(Path.GetFileName(filename));
