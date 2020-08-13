@@ -55,6 +55,7 @@ namespace CustodianAPI
                         if (currentDoc == null)
                             throw new Exception("no documents indexed.");
 
+                        // Calculate the intersection of search keywords and index data.
                         var intersection = currentDoc.Thumbnail.Keys.Intersect(keywords);
                         if (intersection.Any())
                         {
@@ -72,6 +73,7 @@ namespace CustodianAPI
                 folders.Dispose();
             }
 
+            // Preliminary ranking based on the occurrences of search keyword.
             result.Sort((a, b) => b.Thumbnail[keywords[0]].CompareTo(a.Thumbnail[keywords[0]]));
             return result;
         }

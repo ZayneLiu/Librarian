@@ -24,7 +24,8 @@ namespace CustodianAPI.Utils
             var startTime = DateTime.Now;
             Console.Write($"Indexing {Name}");
 
-            # region PDF
+            #region PDF
+            // Get the PDF document from a `FileStream` via `PdfReader`.
             var pdfDocument =
                 new Pdf.PdfDocument(new Pdf.PdfReader(new FileStream(Location, FileMode.Open, FileAccess.Read)));
             var totalPageNumber = pdfDocument.GetNumberOfPages();

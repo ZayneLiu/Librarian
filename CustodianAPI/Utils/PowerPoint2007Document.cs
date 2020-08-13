@@ -21,13 +21,17 @@ namespace CustodianAPI.Utils
             var startTime = DateTime.Now;
             Console.Write($"Indexing {Name}");
 
-            # region PowerPoint
+            // FIXME: change implementation
+            // see https://docs.microsoft.com/en-us/office/open-xml/how-to-get-all-the-text-in-all-slides-in-a-presentation
+            #region PowerPoint
             var ppt = PresentationDocument.Open(path: Location, isEditable: false);
+            // Get all slides in current presentation.
             using var slides = ppt.PresentationPart.SlideParts.GetEnumerator();
 
             while (slides.MoveNext())
             {
                 var slide = slides.Current;
+                // Get all Text elements inside current slide
                 using var text = slide.Slide.Descendants<TextBody>().GetEnumerator();
                 while (text.MoveNext())
                 {
