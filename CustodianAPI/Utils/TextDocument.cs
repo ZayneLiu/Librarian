@@ -28,13 +28,14 @@ namespace CustodianAPI.Utils
             Console.Write($"Indexing {Name}");
 
             #region txt
+            // Get encoding of current document.
             var encoding = new StreamReader(Location, true).CurrentEncoding;
-            var lines = File.ReadAllLines(Location, encoding);
+            // Get all lines in `.txt` file as an Enumerator.
+            using var lines = File.ReadAllLines(Location, encoding).AsEnumerable().GetEnumerator();
 
-            using var linesEnum = lines.AsEnumerable().GetEnumerator();
-            while (linesEnum.MoveNext())
+            while (lines.MoveNext())
             {
-                var currentLine = linesEnum.Current;
+                var currentLine = lines.Current;
                 if (currentLine == null) break;
 
                 this.AddToIndex(texts: currentLine);
