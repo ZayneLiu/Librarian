@@ -8,7 +8,7 @@
     <div class="init" v-else-if="keyword == ''">Please Enter Search Keyword.</div>
     <template v-else>
       <div class="result-info">
-        <span>Search result: {{searchResult.length}} hit(s)</span>
+        <span>Search result for "{{keyword}}": {{searchResult.length}} hit(s)</span>
         <slot></slot>
       </div>
       <div :key="index" class="result-item" v-for="(item, index) in searchResult">

@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "nw:serve": "concurrently --kill-others --raw \"npm run serve\" \"nw src\" \"vue-devtools\""
+    "nw:serve": "concurrently --kill-others --raw \"npm run serve\" \"nw src\""
   },
   "dependencies": {
     "core-js": "^3.6.5",

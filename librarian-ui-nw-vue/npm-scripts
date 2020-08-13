@@ -1,0 +1,1 @@
+"nw:serve": "concurrently --kill-others --raw \"npm run serve\" \"nw src\" \"vue-devtools\""

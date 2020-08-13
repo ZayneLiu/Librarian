@@ -27,7 +27,7 @@
   justify-content: center;
   padding: 10px 0;
   background-color: #e1e1e1;
-
+  position: sticky;
   // width: fit-content;
   input {
     border-bottom: #616161 1px solid;
@@ -56,7 +56,7 @@ export default class SearchBar extends Vue {
   submitSearchKeword() {
     mitter.emit("keywordSubmission", this.keyword);
     // console.log(`keyword(s) are ${this.keyword.split(" ")}`);
-    console.log(this.keyword.split(" "));
+    // console.log(this.keyword.split(" "));
   }
   mounted() {
     mitter.on("clear", () => {

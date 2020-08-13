@@ -43,34 +43,38 @@ export default class App extends Vue {
   public connection: boolean = false;
 
   mounted() {
+    // Event listeners - START
     mitter.on("folderSelected", (path) => {
       if (!path) return;
       if (this.folderList.indexOf(path) >= 0) {
         alert("folder already selected!");
         return;
       }
-      // TODO: API
-      this.folderList.push(path);
+      console.log(path);
+
+      this.indexSelectedFolder(path);
     });
 
     mitter.on("keywordSubmission", (keyword) => {
       this.searchKeyword = keyword;
-      //TODO: Submit keyword
-      console.log(keyword);
-      Axios({
-        method: "POST",
-        url: "https://localhost:5001/search",
-        params: { keyword: keyword },
-      }).then((res) => {
-        this.searchResult = res.data;
-      });
+      this.submitKeywords();
     });
+    // Event listeners - END
 
     this.loadIndexedFolders();
     // API Server connectivity monitor.
     setInterval(this.loadIndexedFolders, 1500);
   }
 
+  submitKeywords() {
+    Axios({
+      method: "POST",
+      url: "https://localhost:5001/search",
+      params: { keyword: this.searchKeyword },
+    }).then((res) => {
+      this.searchResult = res.data;
+    });
+  }
   loadIndexedFolders() {
     Axios({
       method: "GET",
@@ -83,6 +87,17 @@ export default class App extends Vue {
       .catch((err: AxiosError) => {
         if (err.message == "Network Error") this.connection = false;
       });
+  }
+  indexSelectedFolder(path: string) {
+    console.log(path);
+
+    Axios({
+      method: "POST",
+      url: "https://localhost:5001/folders",
+      params: {
+        folderPath: path,
+      },
+    });
   }
   clear() {
     mitter.emit("clear");
@@ -139,17 +154,21 @@ export default class App extends Vue {
   main {
     @include flex-col();
     // background-color: lightcoral;
-    flex: 2;
+
+    flex: 1;
     z-index: 1;
     border-left: black 1px solid;
+    overflow: scroll;
   }
   aside {
+    position: sticky;
+    top: 0;
     @include flex-col();
     overflow: visible;
     // background-color: lightblue;
     max-width: 200px;
+    width: 200px;
     padding: 0;
-    flex: 1;
     // border-left: grey 0.5px solid;
     // box-shadow: #00000080 2px 0 5px 2px;
     z-index: 2;
