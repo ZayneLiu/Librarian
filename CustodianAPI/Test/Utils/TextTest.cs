@@ -1,7 +1,7 @@
 using Xunit;
 using CustodianAPI.Utils;
 
-namespace CustodianAPI.Test
+namespace CustodianAPI.Test.Utils
 {
     public class TextTest
     {

@@ -1,7 +1,7 @@
 using CustodianAPI.Utils;
 using Xunit;
 
-namespace CustodianAPI.Test
+namespace CustodianAPI.Test.Utils
 {
     public class Word2007DocumentTest
     {
