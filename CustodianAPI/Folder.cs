@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace CustodianAPI
 {
@@ -46,13 +47,15 @@ namespace CustodianAPI
                         .Equals(value: ".iCloud", comparisonType: StringComparison.OrdinalIgnoreCase))
                         Console.WriteLine($"{filename} needs to be downloaded from iCloud!");
 
-                    // FIXME: ignore ~$[xxx].docx files.
-                    var allowedExt = DocumentFactory.AllowedExtensions;
-                    // extensions to ignore.
-                    var exclude = !new[] { ".DS_Store" }.Contains(Path.GetFileName(filename));
-                    var include = allowedExt.Contains(ext.ToLower());
 
-                    return exclude & include;
+                    var allowedExt = DocumentFactory.AllowedExtensions;
+                    // ignore ~$xxx.docx files.
+                    var officeTempFiles = new Regex("~$*.*[xm]").Match(filename).Success;
+                    // extensions to ignore.
+                    var toBeExcluded = new[] { ".DS_Store" }.Contains(Path.GetFileName(filename));
+                    var toBeIncluded = allowedExt.Contains(ext.ToLower());
+
+                    return !toBeExcluded & toBeIncluded & !officeTempFiles;
                 }).GetEnumerator();
 
             while (filePaths.MoveNext())
