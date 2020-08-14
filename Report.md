@@ -7,8 +7,6 @@
   - [Full-Text Search Engine](#full-text-search-engine)
     - [Precision and Recall](#precision-and-recall)
     - [Inverted Index](#inverted-index)
-    - [Morphological Analysis (Stemming)](#morphological-analysis-stemming)
-    - [Ranking](#ranking)
   - [Semantic Search](#semantic-search)
   - [Apache Tika](#apache-tika)
   - [DocFetcher](#docfetcher)
@@ -21,27 +19,11 @@
 - [Implementation](#implementation)
   - [Tools & Third-party Libraries](#tools--third-party-libraries)
     - [Tools](#tools)
-      - [Visual Studio Code](#visual-studio-code)
     - [Languages](#languages)
-      - [C Sharp](#c-sharp)
-      - [JavaScript / Typescript](#javascript--typescript)
     - [Frameworks](#frameworks)
-      - [.NET Core](#net-core)
-      - [<span>ASP.NET</span> Core](#aspnet-core)
-      - [NW.js](#nwjs)
-      - [Vue.js](#vuejs)
     - [Third-party Libraries](#third-party-libraries)
-      - [LiteDB](#litedb)
-      - [Open XML SDK](#open-xml-sdk)
-      - [axios](#axios)
   - [CustodianAPI Implementation](#custodianapi-implementation)
     - [Document Indexing](#document-indexing)
-      - [Inverted Index](#inverted-index-1)
-      - [Word 2007](#word-2007)
-      - [Excel 2007](#excel-2007)
-      - [PowerPoint 2007](#powerpoint-2007)
-      - [Plain-text Documents](#plain-text-documents)
-      - [PDF Documents](#pdf-documents)
     - [Searching](#searching)
   - [Web API Implementation](#web-api-implementation)
 - [Testing](#testing)
@@ -59,6 +41,8 @@
     - [Web API Search](#web-api-search)
   - [UI](#ui)
 - [Conclusion & Future Work](#conclusion--future-work)
+  - [Conclusion](#conclusion)
+  - [Future Work](#future-work)
 - [References](#references)
 - [Appendix](#appendix)
 
@@ -89,15 +73,16 @@ lexical analysis or tokenization—breaking a block of unstructured text into in
 morphological analysis, or stemming—collapsing variations of a given word into one index term; for example, treating "mice" and "mouse", or "electrification" and "electric" as the same word
 ranking—measuring the similarity of a matching record to the query string -->
 
-### Morphological Analysis (Stemming)
+<!-- ### Morphological Analysis (Stemming)
 [TBC]
 
 ### Ranking
-[TBC]
+[TBC] -->
 
 ## Semantic Search
-"Semantics" refers to the concepts or ideas conveyed by words, and semantic analysis is making any topic (or search query) easy for a machine to understand.
-[TBC]
+"Semantics" means the concepts or ideas expressed by words, when people speak to each other, words are not just words but a medium that conveys semantics. Therefore when it comes to web searches, semantic analysis plays a huge part in making search queries easier for a machine to understand (Search Engine Watch, 2019), which then provides users with semantic enabled web searching services (i.e. search with meaning).
+
+Semantic search engine tries to understand the user's intent of a search query and also the contextual meaning of search keywords. Search engine providers (e.g. Google and consequently SEOs) are dealing with two main concepts behind semantic search, which are semantic mapping (i.e. finding the relationships or connections between words / phrases) and semantic coding (i.e. embedding meaning into webpages using code, to tell search engine what types of information can be found on this page) (ibid.).
 
 ## Apache Tika
 Tika was formally a sub-project of [Apache Lucene](https://lucene.apache.org/). Lucene is a Java library for indexing, searching. Lucene also has many other powerful features (e.g. spellchecking, analysis/tokenization, etc.) (Apache Lucene, 2020).
@@ -207,16 +192,16 @@ Visual Studio Code is an open-source cross-platform code editor developed by Mic
 
 ### Languages
 #### C Sharp
-
-#### JavaScript / Typescript
-
+`C#` is a modern, general-purpose, object-orient programming language which was released by Microsoft in 2000 as a part of `.NET Framework` (ECMA, 2017). C# is type-safe and the syntax of it is highly expressive. In addition, C# also benefits from Language-Integrated Query (LINQ) which provides built-in query capabilities across many different kinds of data sources (Microsoft, 2015).
+#### TypeScript
+TypeScript (abbr. TS) is an open-source language that is built on top of JavaScript. TypeScript empowers JavaScript with static type checking and type inference capabilities by adding static type definitions (Microsoft, 2020).
 ### Frameworks
 #### .NET Core
-
+.NET Core is an open-source, general-purpose development platform, which can be used to create .NET Core applications for Windows, macOS, and Linux for x64, x86, ARM32, and ARM64 processors using `C#`, `Visual Basic`, and `F#` programming languages (Microsoft Docs, 2020).
 #### <span>ASP.NET</span> Core
-
+ASP.NET Core is a high-performance cross-platform open-source framework for building web applications / cloud services, IoT, and mobile backends (Microsoft Docs, 2020).
 #### NW.js
-
+NW.js is previous called node-webkit, it's an application runtime based on `Chromium` (i.e. open-source chrome engine) and `node.js`. NW.js provides developers the ability to build cross-platform native applications with Web technologies (Nw.js, 2020).
 #### Vue.js
 Vue.js is a progressive framework that focuses on data binding for view layer in web development. And Vue.js also has the concept of component which is perfectly for powering sophisticated SPA (i.e. Single Page Application) (Vue.js, 2020).
 
@@ -233,6 +218,9 @@ Office Open XML (aka. OpenXML or OOXML) is an XML-based format for office docume
 Since Office 2007 the file formats and structure of all office documents has changed. Instead of older binary formats (i.e. `.doc`, `.xls`, and `.ppt`), they have adopted Open XML to be the default format of all Microsoft Office documents (`.docx`, `.xlsx` and `.pptx`) (Office Open XML, 2012).
 
 OpenXML files can be decompressed into many `.xml` files by compression software or tools.
+
+#### iText Core
+`iText Core` is a versatile programmable PDF solution for both .NET (C#) and Java languages. iText provides developers with the ability to create, read, modify PDF documents (iText, 2020).
 
 #### axios
 Axios is a promise based HTTP client for the browser and node.js (Axios, 2020). Axios supports Promise API which is a built-in javascript API used to represent the eventual completion (or failure) of an asynchronous operation, and its resulting value (MDN, 2020), promise API also supports method chaining to add more asynchronous actions.
@@ -481,6 +469,7 @@ protected override void Index()
 }
 ```
 There are already known issues with the implementation above which will be fixed in the future, thus no detailed documentation is provided at this point.
+
 #### Plain-text Documents
 `TextDocument.cs`
 ```csharp
@@ -929,27 +918,55 @@ Web API was documented and tested with `SwaggerUI`.
 Basic functionality of cross-platform UI was tested manually. Some styling issue was found.
 ___
 # Conclusion & Future Work
-<!-- TODO: -->
+## Conclusion
+The development progress can be found [here](#progress).
 
+Given the time constraint, unfortunately, i was unable to finish all planed features for this project, however most planned functionalities are well-implemented and tested.
+
+Indexing and searching capabilities for most supported file types are fully functional. However some potential bug fixes are needed for some file type support (which are mentioned in the [implementation](#implementation) chapter).
+
+Web API was originally planned to use `Flask` (Python), instead of `ASP.NET Core`. That was changed due to performance concerns, as HTTP requests themselves are much slower than native function calls, and given the fact that `Python` as an interpreted language is relatively slower than `C#` (compiled language).
+
+As for Cross-platform UI, it was originally planned to use `Electron`. Unfortunately, due to local file accessibility issues and flexibility concerns, `NW.js` was adopted working along with `Vue.js` serve as the cross-platform UI of this project. The UI at this stage is not fully completed as other features (e.g. Document Preview, etc.) are still pending to be implemented in future work.
+
+During the development process, I was struggle with many tech stacks, i've also done many demos to find suitable stacks for my purpose. The API is always planned to used `.NET Core` for it's great performance and cross-platform capabilities.
+
+Due the fact that native function calls is way faster than HTTP requests, I dropped planned web api + electron / nw.js structure and started exploring `Xamarin` framework (open-source cross-platform application framework using .NET and C#) for a possible work-around which later turned out to have some compatibility issues, as Xamarin.Mac is based on `.NET Standard` framework while the API is built with `.NET Core`. Thus I reverted back into web api + NW.js approach. However, there is a possibility where Custodian API is built with a CLI (Command-Line Interface) which GUI application can run shell commands to interact with Custodian API, this would possibly solve the latency issues with HTTP requests, and also improve usability to fit other use cases, this solution is for future reference.
+
+
+## Future Work
+This project was originally considered only to be a tool to do full-text searches against local file system. However, along the development process of the project, I discovered that there's a gap for full-text search (or text extraction, content analysis) framework in .NET ecosystem (even though Apache Tika has a .NET wrapper API, it's still not a pure C# implementation which might result in issues with a non-C# origin).  Thus, I decided to focus mainly on API, try to push this into next steps as a library written in C# for full-text searching. Furthermore, as mentioned earlier Custodian API as a library should also have a CLI to improve usability.
+
+Up until this point, there're still many dependencies with various licences which can be tricky for potential use cases in the future. That said, until all planned features of this project is implemented and fully tested, I'll then look into replacing some dependencies that have licence issues with other licence compatible libraries or possibly my own implementations of the dependencies.
+
+Hopefully, this project can be an alternative to Apache Tika in C# ecosystem.
 <div style="page-break-after: always;"></div>
 
 # References
-- Erickson, 2008. *sql - What is Full Text Search vs LIKE - Stack Overflow*. Available at https://stackoverflow.com/a/224726/8702601. Accessed on July 1st 2020.
-- Makhoul, J., Kubala, F., Schwartz, R. and Weischedel, R., 1999, February. Performance measures for information extraction. In Proceedings of DARPA broadcast news workshop (pp. 249-252).
-- Melton, J. Buxton, S., 2006. *Chapter 13 - What's Missing? - Querying XML | ScienceDirect*. Available at https://doi.org/10.1016/B978-155860711-8/50014-9. Accessed on July 1st 2020.
-- Microsoft Docs, 2018. *Full-Text Search - SQL Server | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/sql/relational-databases/search/full-text-search?view=sql-server-ver15. Accessed on July 1st 2020.
-- Reiner, K. Chichao, C. Farzin, M. Ravi, K.,2006. *Searching with context | ACM Digital Library*. Available at https://dl.acm.org/doi/abs/10.1145/1135777.1135847. Accessed on July 1st 2020.
-- Tekli, J., Chbeir, R.,  Traina, A., Traina, C Jr., Yetongnon, K., Ibanez, C., Assad, M., Kallas, C., 2018. *Full-fledged semantic indexing and querying model designed for seamless integration in legacy RDBMS*. Available at https://doi-org.ezproxy.herts.ac.uk/10.1016/j.datak.2018.07.007. Accessed on July 2nd 2020.
-- Office Open XML, 2012. *Office Open XML - What is OOXML?*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-wordprocessingml-document. Accessed on 5th August 2020.
-- Microsoft Docs, 2017. *Structure of a WordprocessingML document (Open XML SDK) | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-wordprocessingml-document. Accessed on 5th August 2020
-- Microsoft Docs, 2017. *Structure of a SpreadsheetML document (Open XML SDK) | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-spreadsheetml-document. Accessed on 12th August 2020.
-- Microsoft Docs, 2017. *Structure of a PresentationML document (Open XML SDK) | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-presentationml-document. Accessed on 12th August 2020.
-- Apache Tika, 2020. *Apache Tika - Apache Tika*. Available at https://tika.apache.org. Accessed on 7th Aug 2020.
 - Apache Lucene, 2020. *Apache Lucene - Welcome to Apache Lucene*. Available at https://lucene.apache.org. Accessed on 7th Aug 2020.
-- DocFetcher, 2020. *DocFetcher - Fast Document Search*. Available at http://docfetcher.sourceforge.net/en/index.html. Accessed on 7th Aug 2020.
-- VSCode, 2020. *Visual Studio Code - Code Editing. Redefined*. Available at https://code.visualstudio.com. Accessed on 12th August 2020.
+- Apache Tika, 2020. *Apache Tika - Apache Tika*. Available at https://tika.apache.org. Accessed on 7th Aug 2020.
 - Axios, 2020. *axios/axios: Promise based HTTP client for the browser and node.js | GitHub*. Available at https://github.com/axios/axios. Accessed on 12th August 2020.
+- DocFetcher, 2020. *DocFetcher - Fast Document Search*. Available at http://docfetcher.sourceforge.net/en/index.html. Accessed on 7th Aug 2020.
+- ECMA, 2017. *C# Language Specification | ECMA International*. Available at https://www.ecma-international.org/publications/files/ECMA-ST/ECMA-334.pdf. Accessed on 13th August 2020.
+- Erickson, 2008. *sql - What is Full Text Search vs LIKE - Stack Overflow*. Available at https://stackoverflow.com/a/224726/8702601. Accessed on July 1st 2020.
+- iText, 2020. *iText 7 Core: an open-source PDF development library for Java and .NET*. Available at https://itextpdf.com/en/products/itext-7/itext-7-core. Accessed on 13 August 2020.
+- Makhoul, J., Kubala, F., Schwartz, R. and Weischedel, R., 1999, February. Performance measures for information extraction. In Proceedings of DARPA broadcast news workshop (pp. 249-252).
 - MDN, 2020. *Promise - JavaScript | MDN*. Available at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise. Accessed on 12th August 2020.
+- Melton, J. Buxton, S., 2006. *Chapter 13 - What's Missing? - Querying XML | ScienceDirect*. Available at https://doi.org/10.1016/B978-155860711-8/50014-9. Accessed on July 1st 2020.
+- Microsoft Docs, 2015. *Introduction to the C# Language and the .NET Framework | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/dotnet/csharp/getting-started/introduction-to-the-csharp-language-and-the-net-framework. Accessed on 13th August 2020.
+- Microsoft Docs, 2017. *Structure of a PresentationML document (Open XML SDK) | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-presentationml-document. Accessed on 12th August 2020.
+- Microsoft Docs, 2017. *Structure of a SpreadsheetML document (Open XML SDK) | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-spreadsheetml-document. Accessed on 12th August 2020.
+- Microsoft Docs, 2017. *Structure of a WordprocessingML document (Open XML SDK) | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-wordprocessingml-document. Accessed on 5th August 2020
+- Microsoft Docs, 2018. *Full-Text Search - SQL Server | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/sql/relational-databases/search/full-text-search?view=sql-server-ver15. Accessed on July 1st 2020.
+- Microsoft Docs, 2020. *.NET Core intro and overview | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/dotnet/core/introduction. Accessed on 13th August 2020.
+- Microsoft Docs, 2020. *Introduction to ASP.NET Core | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-3.1. Accesed on 13th August 2020.
+- Microsoft, 2020.*TypeScript: Typed JavaScript at Any Scale*. Available at https://www.typescriptlang.org. Accessed on 13th August 2020.
+- NW.js, 2020. *nwjs/nw.js: Call all Node.js modules directly from DOM/WebWorker and enable a new way of writing applications with all Web technologies*. Available at https://github.com/nwjs/nw.js. Accessed on 13th August.
+- Office Open XML, 2012. *Office Open XML - What is OOXML?*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-wordprocessingml-document. Accessed on 5th August 2020.
+- Reiner, K. Chichao, C. Farzin, M. Ravi, K.,2006. *Searching with context | ACM Digital Library*. Available at https://dl.acm.org/doi/abs/10.1145/1135777.1135847. Accessed on July 1st 2020.
+- Search Engine Watch, 2019. *The beginner's guide to semantic search: Examples and tools*. Available at https://www.searchenginewatch.com/2019/12/16/the-beginners-guide-to-semantic-search/. Accessed on 13th August 2020.
+- Tekli, J., Chbeir, R.,  Traina, A., Traina, C Jr., Yetongnon, K., Ibanez, C., Assad, M., Kallas, C., 2018. *Full-fledged semantic indexing and querying model designed for seamless integration in legacy RDBMS*. Available at https://doi-org.ezproxy.herts.ac.uk/10.1016/j.datak.2018.07.007. Accessed on July 2nd 2020.
+- VSCode, 2020. *Visual Studio Code - Code Editing. Redefined*. Available at https://code.visualstudio.com. Accessed on 12th August 2020.
 - Vue.js, 2020. *Vue.js*. Available at https://vuejs.org. Accessed on 12th August 2020.
 
 <div style="page-break-after: always;"></div>
