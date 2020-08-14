@@ -28,10 +28,10 @@
   - [Web API Implementation](#web-api-implementation)
 - [Testing](#testing)
   - [API](#api)
-    - [Unit Tests for Custodian API:](#unit-tests-for-custodian-api)
-    - [Unit Tests for Word documents:](#unit-tests-for-word-documents)
-    - [Unit Tests for Excel documents:](#unit-tests-for-excel-documents)
-    - [Unit Tests for PowerPoint documents:](#unit-tests-for-powerpoint-documents)
+    - [Unit Test for Custodian API:](#unit-test-for-custodian-api)
+    - [Unit Test for Word documents:](#unit-test-for-word-documents)
+    - [Unit Test for Excel documents:](#unit-test-for-excel-documents)
+    - [Unit Test for PowerPoint documents:](#unit-test-for-powerpoint-documents)
     - [Unit Test for PDF documents:](#unit-test-for-pdf-documents)
     - [Unit Test for Text documents:](#unit-test-for-text-documents)
   - [Web API](#web-api)
@@ -56,7 +56,7 @@ Full-Text search engines perform linguistic searches against text data in target
 
 As the need of semantic-aware Full-text search and indexing against databases and documents keeps increasing in the past decade, full-text search systems became available to no-expert users who aren't familiar with documents they are searching, don't know the exact vocabulary used to index relevant documents, or don't know how to formulated advanced search queries (Tekli, Chbeir, et al., 2018). All of those issues mentioned above result in noisy or irrelevant search results and false positives & false negatives in the search result (See [Precision and Recall](#precision-and-recall)).
 ### Precision and Recall
-Precision and recall are often used to measure the performance of information retrieval or extraction systems, precision (aka. positive prediction value) is the fraction of relevant results among all results returned (in other words, how many returned results are relevant?), while recall (aka. sensitivity) is the fraction of the amount of returned relevant results among all relevant results in the dataset (in other words, how many relevant results are returned?) (Makhoul, Kubala, et al., 1999) (see [Appendix a.](#appendix)).
+Precision and recall are often used to measure the performance of information retrieval or extraction systems, precision (aka. positive prediction value) is the fraction of relevant results among all results returned (in other words, how many returned results are relevant?), while recall (aka. sensitivity) is the fraction of the amount of returned relevant results among all relevant results in the dataset (in other words, how many relevant results are returned?) (Makhoul, Kubala, et al., 1999) (see [Appendix a.](#a-precision-and-recall)).
 
 In general, there is a trade-off between "precision" and "recall". High precision means that fewer irrelevant results are returned as a result of the query (fewer false positives), while high recall means that fewer relevant results are missing (fewer false negatives). traditional text-matching systems such as the LIKE operator in SQL gives you 100% precision with no concessions for recall. A full text search facility gives you a lot of flexibility to tune down the precision for better recall (Erickson, 2008).
 
@@ -93,7 +93,7 @@ Tika was formally a sub-project of [Apache Lucene](https://lucene.apache.org/). 
 [DocFetcher](http://docfetcher.sourceforge.net/en/index.html) is an existing open-source desktop search application written in Java programming language and Apache Tika framework (see [Apache Tika](#apache-tika)). DocFetcher provides very powerful searching capabilities and as well as a wide range of support document formats (DocFetcher, 2020).
 
 ## Gantt Chart
-The planning of this project is done by utilizing Gantt chart (See [Appendix b.](#appendix)).
+The planning of this project is done by utilizing Gantt chart (See [Appendix b.](#b-gantt-chart)).
 
 There're several complications result in a shift of priority to develop a functional cross-platform full-text search API which return search result either from CLI (command-line interface) or `JSON` via REST Web API, instead of building both cross-platform UI and API.
 
@@ -106,7 +106,7 @@ As powerful as DocFetcher is, it lacks the full-support for macOS 64-bit platfor
 
 At first I planed to build both GUI (Graphic User Interface) and API (Application Programming Interface), which later turns out to be not feasible enough given the complexity of implementing GUI document previewer and the time constrain for this project. That said, I decided to shift my focus onto API alone.
 
-Tika came into the picture, as I was going through DocFetcher's source code try to understand the implementations for its powerful features. Given the fact that there're no good alternatives to Tika in C# ecosystem, then it occurs to me that i should implement a similar API for text-extraction or content-analysis in C#.
+Tika came into the picture, as I was going through DocFetcher's source code try to understand the implementations behind its powerful features. Given the fact that there're no good alternatives to Tika in C# ecosystem, then it occurs to me that i should implement a similar API for text-extraction or content-analysis in C#.
 
 # Methodology & Design
 This part will demonstrate and explain the design of API and UI.
@@ -234,7 +234,7 @@ Detailed implementations regarding Indexing, Searching and WebAPI functionalitie
 
 ### Document Indexing
 
-#### Inverted Index
+#### Inverted Index Implementation
 Code below is responsible for extract words from pre-processed paragraphs or sentences, and add each word into the Dictionary where inverted index is implemented.
 ```csharp
 protected void AddToIndex(string texts)
@@ -255,12 +255,11 @@ protected void AddToIndex(string texts)
     }
 }
 ```
-![Inverted Index](Report%20Graphs/Inverted%20Index.png)
 
-The figure above shows the partial structure of implemented inverted index in the memory. Based on current implementation each file type will eventually be processed into Dictionaries like this.
+The figure (see [Appendix r.](#r-inverted-index-memory-structure)) shows the partial structure of implemented inverted index in the memory. Based on current implementation each file type will eventually be processed into Dictionaries like this.
 ___
 #### Word 2007
-The structure of composing `.xml` files for `.docx` documents is similar to the picture (see [Appendix c.](#appendix)).
+The structure of composing `.xml` files for `.docx` documents is similar to the picture (see [Appendix c.](#c-structure-of-decompressed-docx-file)).
 
 The main document story of the simplest WordprocessingML (`.docx`) document consists of the following XML elements (Microsoft Docs, 2017):
 | Element  | Description                                                                                          |
@@ -271,47 +270,13 @@ The main document story of the simplest WordprocessingML (`.docx`) document cons
 | r        | A run.                                                                                               |
 | t        | A range of text.                                                                                     |
 
-Following is the code to extract text from Word documents.
-`Word2007Document.cs`
-```csharp
-protected override void Index()
-{
-    var startTime = DateTime.Now;
-    Console.Write($"Indexing {Name}");
+Implementation of extracting and indexing text from Word documents can be found in ([Appendix e.](#e-implementation-of-word2007documentcs))
 
-    #region Index Word Document
-    // ReadFiles
-    using var doc = WordprocessingDocument.Open(path: Location, isEditable: false);
-    var body = doc.MainDocumentPart.Document.Body;
-    // Get all <w:p> elements.
-    using var paragraphParts = body.Descendants<Paragraph>().GetEnumerator();
-    while (paragraphParts.MoveNext())
-    {
-        var currentParagraph = paragraphParts.Current;
-        // Find all <w:t> elements inside each <w:p> element.
-        var textParts = currentParagraph.Descendants<Text>().AsQueryable();
-        var paragraphTemp = from text in textParts
-                            where text.Text != ""
-                            // Last char is number, possibly page number in Table of content. Add a space manually.
-                            select char.IsNumber(text.Text, text.Text.Length - 1) ? " " + text.Text : text.Text;
-        var paragraph = string.Concat(paragraphTemp);
-
-        if (new[] { "" }.Contains(paragraph)) continue;
-        if (paragraph == null) continue;
-
-        this.AddToIndex(texts: paragraph);
-    }
-    #endregion
-
-    Console.Write(
-        $" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
-}
-```
 There are still some special formats or cases haven't been taken into consideration, which will be covered in future work.
 
 ___
 #### Excel 2007
-The document structure of a SpreadsheetML document consists of the `workbook` element that contains `sheets` and `sheet` elements that reference the worksheets in the workbook (Microsoft Docs, 2017). (see [Appendix d.](#appendix))
+The document structure of a SpreadsheetML document consists of the `workbook` element that contains `sheets` and `sheet` elements that reference the worksheets in the workbook (Microsoft Docs, 2017). (see [Appendix d.](#d-structure-of-decompressed-xlsx-file))
 
 The main parts of a SpreadsheetML document:
 | Name                 |  Element  | Description                                                                                                 |
@@ -321,8 +286,7 @@ The main parts of a SpreadsheetML document:
 | Table                |   table   | A logical construct that specifies that a range of data belongs to a single dataset.                        |
 | Shared Strings Table |    sst    | A construct that contains one occurrence of each unique string that occurs on all worksheets in a workbook. |
 
-
-`sheet1.xml`:
+Example of `sheet1.xml`:
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" >
@@ -374,8 +338,201 @@ In the example of `sheet1.xml` above, each `<c>` element with `t="s"` attribute 
 Hence in the implementation below, there's a part code for retrieving the `sharedStringTable`. And in the text extraction process,
 
 
+Implementation of extracting and indexing text from Excel documents can be found in ([Appendix f.](#f-implementation-of-excel2007documentcs))
 
-`Excel2007Document.cs`
+However, there's still an issue with retrieving formatted date value. Pending for further fixes.
+
+___
+#### PowerPoint 2007
+
+Detailed Implementation of extracting and indexing text from PowerPoint Documents can be found in ([Appendix g.](#g-implementation-of-powerpoint2007documentcs))
+
+There are already known issues with the implementation above which will be fixed in the future, thus no detailed documentation is provided at this point.
+
+#### Plain-text Documents
+
+Implementation of extracting and indexing text from plain-text documents can be found in ([Appendix h.](#h-implementation-of-textdocumentcs))
+
+In all the indexing implementations mentioned above, i'm using `Enumerator` instead of `for` / `foreach` loops for performance and memory consumption concerns.
+`using` keyword is also heavily used for garbage collection (i.e. disposal of no-longer need objects).
+
+#### PDF Documents
+Detailed implementation of extracting and indexing text from PDF documents can be found in ([Appendix i.](#i-implementation-of-pdfdocumentcs)).
+
+However, extracting text from image-only pdf documents with OCR is not yet supported, which will be added in future work.
+___
+### Searching
+
+Implementation of searching capability for `Custodian` class can be found in [Appendix j.](#j-implementation-of-searching-in-custodiancs)
+
+Advanced queries and semantic search supports will be added in future updates.
+___
+## Web API Implementation
+
+Implementation of REST Web API can be found in ([Appendix k.](#k-implementation-of-custodianapicontrollercs)).
+Including 3 routes responsible for indexing folders, retrieving indexed folders, and searching.
+
+___
+
+# Testing
+## API
+Unit testing was used to test the behaviours of each corresponding class for different file types.
+### Unit Test for Custodian API:
+
+The code in [Appendix l.](#l-unit-testing-for-custodian-api) is an unit test class for Indexing a given folder and Searching capabilities of `Custodian` class.
+
+### Unit Test for Word documents:
+
+The code [Appendix m.](#m-unit-testing-for-word-2007-documents) is an unit test class for `Index` functionality of `Word2007Document` class.
+
+### Unit Test for Excel documents:
+
+The code in [Appendix n.](#n-unit-testing-for-excel-2007-documents) is an unit test class for `Index` functionality of `Excel2007Document` class.
+
+
+
+### Unit Test for PowerPoint documents:
+
+The code in ([Appendix o.](#o-unit-testing-for-powerpoint-2007-documents)) is an unit test class for `Index` functionality of `PowerPoint2007Document` class
+
+The unit test above found some inconsistencies where some words inside header or other non-standard elements in `.pptx` / `.pptm` files are not indexed properly. Pending for further fixes.
+
+### Unit Test for PDF documents:
+
+The code in ([Appendix p.](#p-unit-testing-for-pdf-documents)) is an unit test for `Index` functionality of `PdfDocument` class.
+
+### Unit Test for Text documents:
+
+The code in ([Appendix q.](#q-unit-testing-for-textdocuments)) is an unit test for `Index` functionality of `TextDocument` class.
+
+## Web API
+Web API was documented and tested with `SwaggerUI`.
+### Web API Overview
+![WebAPI-Overview](./Report%20Graphs/WebAPI-Overview.png)
+### Web API Index Folder
+![WebAPI-Overview](./Report%20Graphs/WebAPI-Index-Folder.png)
+### Web API Get Indexed Folders
+![WebAPI-Overview](./Report%20Graphs/WebAPI-Get-Indexed-Folders.png)
+### Web API Search
+![WebAPI-Overview](./Report%20Graphs/WebAPI-Search.png)
+
+## UI
+Basic functionality of cross-platform UI was tested manually. Some styling issue was found.
+___
+# Conclusion & Future Work
+## Conclusion
+The development progress can be found [here](#progress).
+
+Given the time constraint, unfortunately, i was unable to finish all planed features for this project, however most planned functionalities are well-implemented and tested.
+
+Indexing and searching capabilities for most supported file types are fully functional. However some potential bug fixes are needed for some file type support (which are mentioned in the [implementation](#implementation) chapter).
+
+Web API was originally planned to use `Flask` (Python), instead of `ASP.NET Core`. That was changed due to performance concerns, as HTTP requests themselves are much slower than native function calls, and given the fact that `Python` as an interpreted language is relatively slower than `C#` (compiled language).
+
+As for Cross-platform UI, it was originally planned to use `Electron`. Unfortunately, due to local file accessibility issues and flexibility concerns, `NW.js` was adopted working along with `Vue.js` serve as the cross-platform UI of this project. The UI at this stage is not fully completed as other features (e.g. Document Preview, etc.) are still pending to be implemented in future work.
+
+During the development process, I was struggle with many tech stacks, i've also done many demos to find suitable stacks for my purpose. The API is always planned to used `.NET Core` for it's great performance and cross-platform capabilities.
+
+Due the fact that native function calls is way faster than HTTP requests, I dropped planned web api + electron / nw.js structure and started exploring `Xamarin` framework (open-source cross-platform application framework using .NET and C#) for a possible work-around which later turned out to have some compatibility issues, as Xamarin.Mac is based on `.NET Standard` framework while the API is built with `.NET Core`. Thus I reverted back into web api + NW.js approach. However, there is a possibility where Custodian API is built with a CLI (Command-Line Interface) which GUI application can run shell commands to interact with Custodian API, this would possibly solve the latency issues with HTTP requests, and also improve usability to fit other use cases, this solution is for future reference.
+
+
+## Future Work
+This project was originally considered only to be a tool to do full-text searches against local file system. However, along the development process of the project, I discovered that there's a gap for full-text search (or text extraction, content analysis) framework in .NET ecosystem (even though Apache Tika has a .NET wrapper API, it's still not a pure C# implementation which might result in issues with a non-C# origin).  Thus, I decided to focus mainly on API, try to push this into next steps as a library written in C# for full-text searching. Furthermore, as mentioned earlier Custodian API as a library should also have a CLI to improve usability.
+
+Up until this point, there're still many dependencies with various licences which can be tricky for potential use cases in the future. That said, until all planned features of this project is implemented and fully tested, I'll then look into replacing some dependencies that have licence issues with other licence compatible libraries or possibly my own implementations of the dependencies.
+
+Hopefully, this project can be an alternative to Apache Tika in C# ecosystem.
+<div style="page-break-after: always;"></div>
+
+# References
+- Apache Lucene, 2020. *Apache Lucene - Welcome to Apache Lucene*. Available at https://lucene.apache.org. Accessed on 7th Aug 2020.
+- Apache Tika, 2020. *Apache Tika - Apache Tika*. Available at https://tika.apache.org. Accessed on 7th Aug 2020.
+- Axios, 2020. *axios/axios: Promise based HTTP client for the browser and node.js | GitHub*. Available at https://github.com/axios/axios. Accessed on 12th August 2020.
+- DocFetcher, 2020. *DocFetcher - Fast Document Search*. Available at http://docfetcher.sourceforge.net/en/index.html. Accessed on 7th Aug 2020.
+- ECMA, 2017. *C# Language Specification | ECMA International*. Available at https://www.ecma-international.org/publications/files/ECMA-ST/ECMA-334.pdf. Accessed on 13th August 2020.
+- Erickson, 2008. *sql - What is Full Text Search vs LIKE - Stack Overflow*. Available at https://stackoverflow.com/a/224726/8702601. Accessed on July 1st 2020.
+- iText, 2020. *iText 7 Core: an open-source PDF development library for Java and .NET*. Available at https://itextpdf.com/en/products/itext-7/itext-7-core. Accessed on 13 August 2020.
+- Makhoul, J., Kubala, F., Schwartz, R. and Weischedel, R., 1999, February. Performance measures for information extraction. In Proceedings of DARPA broadcast news workshop (pp. 249-252).
+- MDN, 2020. *Promise - JavaScript | MDN*. Available at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise. Accessed on 12th August 2020.
+- Melton, J. Buxton, S., 2006. *Chapter 13 - What's Missing? - Querying XML | ScienceDirect*. Available at https://doi.org/10.1016/B978-155860711-8/50014-9. Accessed on July 1st 2020.
+- Microsoft Docs, 2015. *Introduction to the C# Language and the .NET Framework | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/dotnet/csharp/getting-started/introduction-to-the-csharp-language-and-the-net-framework. Accessed on 13th August 2020.
+- Microsoft Docs, 2017. *Structure of a PresentationML document (Open XML SDK) | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-presentationml-document. Accessed on 12th August 2020.
+- Microsoft Docs, 2017. *Structure of a SpreadsheetML document (Open XML SDK) | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-spreadsheetml-document. Accessed on 12th August 2020.
+- Microsoft Docs, 2017. *Structure of a WordprocessingML document (Open XML SDK) | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-wordprocessingml-document. Accessed on 5th August 2020
+- Microsoft Docs, 2018. *Full-Text Search - SQL Server | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/sql/relational-databases/search/full-text-search?view=sql-server-ver15. Accessed on July 1st 2020.
+- Microsoft Docs, 2020. *.NET Core intro and overview | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/dotnet/core/introduction. Accessed on 13th August 2020.
+- Microsoft Docs, 2020. *Introduction to ASP.NET Core | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-3.1. Accesed on 13th August 2020.
+- Microsoft, 2020.*TypeScript: Typed JavaScript at Any Scale*. Available at https://www.typescriptlang.org. Accessed on 13th August 2020.
+- NW.js, 2020. *nwjs/nw.js: Call all Node.js modules directly from DOM/WebWorker and enable a new way of writing applications with all Web technologies*. Available at https://github.com/nwjs/nw.js. Accessed on 13th August.
+- Office Open XML, 2012. *Office Open XML - What is OOXML?*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-wordprocessingml-document. Accessed on 5th August 2020.
+- Reiner, K. Chichao, C. Farzin, M. Ravi, K.,2006. *Searching with context | ACM Digital Library*. Available at https://dl.acm.org/doi/abs/10.1145/1135777.1135847. Accessed on July 1st 2020.
+- Search Engine Watch, 2019. *The beginner's guide to semantic search: Examples and tools*. Available at https://www.searchenginewatch.com/2019/12/16/the-beginners-guide-to-semantic-search/. Accessed on 13th August 2020.
+- Tekli, J., Chbeir, R.,  Traina, A., Traina, C Jr., Yetongnon, K., Ibanez, C., Assad, M., Kallas, C., 2018. *Full-fledged semantic indexing and querying model designed for seamless integration in legacy RDBMS*. Available at https://doi-org.ezproxy.herts.ac.uk/10.1016/j.datak.2018.07.007. Accessed on July 2nd 2020.
+- VSCode, 2020. *Visual Studio Code - Code Editing. Redefined*. Available at https://code.visualstudio.com. Accessed on 12th August 2020.
+- Vue.js, 2020. *Vue.js*. Available at https://vuejs.org. Accessed on 12th August 2020.
+
+<div style="page-break-after: always;"></div>
+
+# Appendix
+#### a. Precision and Recall
+[Back to content](#precision-and-recall)
+
+![precision&recall](Report%20Graphs/Precision%20and%20Recall.svg)
+___
+#### b. Gantt Chart
+[Back to content](#gantt-chart)
+
+![gantt chart](Report%20Graphs/Gantt%20Chart.png)
+___
+#### c. Structure of decompressed `.docx` file
+[Back to content](#word-2007)
+
+![decompressed .docx file](./Report%20Graphs/openxml-word.png)
+___
+#### d. Structure of decompressed `.xlsx` file
+[Back to content](#excel-2007)
+
+![sharedStrings.xml](Report%20Graphs/Shared%20Strings%20Table.png)
+___
+#### e. Implementation of `Word2007Document.cs`
+[Back to content](#word-2007)
+```csharp
+protected override void Index()
+{
+    var startTime = DateTime.Now;
+    Console.Write($"Indexing {Name}");
+
+    #region Index Word Document
+    // ReadFiles
+    using var doc = WordprocessingDocument.Open(path: Location, isEditable: false);
+    var body = doc.MainDocumentPart.Document.Body;
+    // Get all <w:p> elements.
+    using var paragraphParts = body.Descendants<Paragraph>().GetEnumerator();
+    while (paragraphParts.MoveNext())
+    {
+        var currentParagraph = paragraphParts.Current;
+        // Find all <w:t> elements inside each <w:p> element.
+        var textParts = currentParagraph.Descendants<Text>().AsQueryable();
+        var paragraphTemp = from text in textParts
+                            where text.Text != ""
+                            // Last char is number, possibly page number in Table of content. Add a space manually.
+                            select char.IsNumber(text.Text, text.Text.Length - 1) ? " " + text.Text : text.Text;
+        var paragraph = string.Concat(paragraphTemp);
+
+        if (new[] { "" }.Contains(paragraph)) continue;
+        if (paragraph == null) continue;
+
+        this.AddToIndex(texts: paragraph);
+    }
+    #endregion
+
+    Console.Write(
+        $" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms");
+}
+```
+___
+#### f. Implementation of `Excel2007Document.cs`
+[Back to content](#excel-2007)
 ```csharp
 protected override void Index()
 {
@@ -437,11 +594,9 @@ protected override void Index()
     Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms\n");
 }
 ```
-However, there's still an issue with retrieving formatted date value. Pending for further fixes.
-
 ___
-#### PowerPoint 2007
-`PowerPoint2007Document.cs`
+#### g. Implementation of `PowerPoint2007Document.cs`
+[Back to content](#powerpoint-2007)
 ```csharp
 protected override void Index()
 {
@@ -468,10 +623,9 @@ protected override void Index()
     Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms\n");
 }
 ```
-There are already known issues with the implementation above which will be fixed in the future, thus no detailed documentation is provided at this point.
-
-#### Plain-text Documents
-`TextDocument.cs`
+___
+#### h. Implementation of `TextDocument.cs`
+[Back to content](#plain-text-documents)
 ```csharp
 protected override void Index()
 {
@@ -499,11 +653,9 @@ protected override void Index()
     Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms\n");
 }
 ```
-In all the indexing implementations mentioned above, i'm using `Enumerator` instead of `for` / `foreach` loops for performance and memory consumption concerns.
-`using` keyword is also heavily used for garbage collection (i.e. disposal of no-longer need objects).
-
-#### PDF Documents
-`PdfDocument.cs`
+___
+#### i. Implementation of `PdfDocument.cs`
+[Back to content](#pdf-documents)
 ```csharp
 protected override void Index()
 {
@@ -527,10 +679,9 @@ protected override void Index()
     Console.Write($" >==> {Thumbnail.Count} unique words. {(DateTime.Now - startTime).TotalMilliseconds}ms\n");
 }
 ```
-
 ___
-### Searching
-`Custodian.cs`
+#### j. Implementation of searching in `Custodian.cs`
+[Back to content](#searching)
 ```csharp
 public List<Document> Search(string[] keywords)
 {
@@ -575,9 +726,8 @@ public List<Document> Search(string[] keywords)
 }
 ```
 ___
-## Web API Implementation
-<b>CustodianApiController.cs:</b>
-
+#### k. Implementation of `CustodianApiController.cs`
+[Back to Content](#web-api-implementation)
 ```csharp
 [ApiController]
 [Route("/")]
@@ -699,14 +849,10 @@ public class CustodianApiController : Controller
 }
 ```
 ___
+#### l. Unit testing for Custodian API
+[Back to content](#unit-test-for-custodian-api)
 
-# Testing
-## API
-Unit testing was used to test the behaviours of each corresponding class for different file types.
-### Unit Tests for Custodian API:
-
-The code below is a simple unit test for Indexing a given folder and Searching capabilities of `Custodian` class.
-
+`CustodianTest.cs`
 ```csharp
 using Xunit;
 
@@ -748,10 +894,11 @@ namespace CustodianAPI.Test
     }
 }
 ```
+___
+#### m. Unit testing for Word 2007 Documents
+[Back to content](#unit-test-for-word-documents)
 
-### Unit Tests for Word documents:
-
-The code below is a simple unit test for `Index` functionality of `Word2007Document` class.
+`Word2007DocumentTest.cs`
 ```csharp
 using CustodianAPI.Utils;
 using Xunit;
@@ -778,18 +925,18 @@ namespace CustodianAPI.Test
     }
 }
 ```
+___
+#### n. Unit testing for Excel 2007 Documents
+[Back to content](#unit-test-for-excel-documents)
 
-### Unit Tests for Excel documents:
-
-The code below is a simple unit test for `Index` functionality of `Excel2007Document` class.
-
+`Excel2007DocumentTest.cs`
 ```csharp
 using CustodianAPI.Utils;
 using Xunit;
 
 namespace CustodianAPI.Test
 {
-    public class Excel2007Test
+    public class Excel2007DocumentTest
     {
         [Fact]
         public void ExcelIndexTest()
@@ -812,18 +959,18 @@ namespace CustodianAPI.Test
     }
 }
 ```
+___
+#### o. Unit testing for PowerPoint 2007 Documents
+[Back to content](#unit-test-for-powerpoint-documents)
 
-
-### Unit Tests for PowerPoint documents:
-
-The code below is a simple unit test for `Index` functionality of `PowerPoint2007Document` class
+`PowerPoint2007DocumentTest.cs`
 ```csharp
 using CustodianAPI.Utils;
 using Xunit;
 
 namespace CustodianAPI.Test
 {
-    public class PowerPoint2007Test
+    public class PowerPoint2007DocumentTest
     {
         [Fact]
         public void PDFIndexTest()
@@ -850,12 +997,11 @@ namespace CustodianAPI.Test
     }
 }
 ```
-The unit test above found some inconsistencies where some words inside header or other non-standard elements in `.pptx` / `.pptm` files are not indexed properly. Pending for further fixes.
+___
+#### p. Unit testing for PDF Documents
+[Back to content](#unit-test-for-pdf-documents)
 
-### Unit Test for PDF documents:
-
-The code below is a simple unit test for `Index` functionality of `PdfDocument` class
-
+`PdfDocumentTest.cs`
 ```csharp
 using CustodianAPI.Utils;
 using Xunit;
@@ -879,15 +1025,18 @@ namespace CustodianAPI.Test
     }
 }
 ```
+___
+#### q. Unit testing for TextDocuments
+[Back to content](#unit-test-for-text-documents)
 
-### Unit Test for Text documents:
+`TextDocumentTest.cs`
 ```csharp
 using Xunit;
 using CustodianAPI.Utils;
 
 namespace CustodianAPI.Test
 {
-    public class TextTest
+    public class TextDocumentTest
     {
         [Fact]
         public void IndexTest()
@@ -902,84 +1051,8 @@ namespace CustodianAPI.Test
     }
 }
 ```
-
-## Web API
-Web API was documented and tested with `SwaggerUI`.
-### Web API Overview
-![WebAPI-Overview](./Report%20Graphs/WebAPI-Overview.png)
-### Web API Index Folder
-![WebAPI-Overview](./Report%20Graphs/WebAPI-Index-Folder.png)
-### Web API Get Indexed Folders
-![WebAPI-Overview](./Report%20Graphs/WebAPI-Get-Indexed-Folders.png)
-### Web API Search
-![WebAPI-Overview](./Report%20Graphs/WebAPI-Search.png)
-
-## UI
-Basic functionality of cross-platform UI was tested manually. Some styling issue was found.
 ___
-# Conclusion & Future Work
-## Conclusion
-The development progress can be found [here](#progress).
+#### r. Inverted index memory structure
+[Back to content](#inverted-index-implementation)
 
-Given the time constraint, unfortunately, i was unable to finish all planed features for this project, however most planned functionalities are well-implemented and tested.
-
-Indexing and searching capabilities for most supported file types are fully functional. However some potential bug fixes are needed for some file type support (which are mentioned in the [implementation](#implementation) chapter).
-
-Web API was originally planned to use `Flask` (Python), instead of `ASP.NET Core`. That was changed due to performance concerns, as HTTP requests themselves are much slower than native function calls, and given the fact that `Python` as an interpreted language is relatively slower than `C#` (compiled language).
-
-As for Cross-platform UI, it was originally planned to use `Electron`. Unfortunately, due to local file accessibility issues and flexibility concerns, `NW.js` was adopted working along with `Vue.js` serve as the cross-platform UI of this project. The UI at this stage is not fully completed as other features (e.g. Document Preview, etc.) are still pending to be implemented in future work.
-
-During the development process, I was struggle with many tech stacks, i've also done many demos to find suitable stacks for my purpose. The API is always planned to used `.NET Core` for it's great performance and cross-platform capabilities.
-
-Due the fact that native function calls is way faster than HTTP requests, I dropped planned web api + electron / nw.js structure and started exploring `Xamarin` framework (open-source cross-platform application framework using .NET and C#) for a possible work-around which later turned out to have some compatibility issues, as Xamarin.Mac is based on `.NET Standard` framework while the API is built with `.NET Core`. Thus I reverted back into web api + NW.js approach. However, there is a possibility where Custodian API is built with a CLI (Command-Line Interface) which GUI application can run shell commands to interact with Custodian API, this would possibly solve the latency issues with HTTP requests, and also improve usability to fit other use cases, this solution is for future reference.
-
-
-## Future Work
-This project was originally considered only to be a tool to do full-text searches against local file system. However, along the development process of the project, I discovered that there's a gap for full-text search (or text extraction, content analysis) framework in .NET ecosystem (even though Apache Tika has a .NET wrapper API, it's still not a pure C# implementation which might result in issues with a non-C# origin).  Thus, I decided to focus mainly on API, try to push this into next steps as a library written in C# for full-text searching. Furthermore, as mentioned earlier Custodian API as a library should also have a CLI to improve usability.
-
-Up until this point, there're still many dependencies with various licences which can be tricky for potential use cases in the future. That said, until all planned features of this project is implemented and fully tested, I'll then look into replacing some dependencies that have licence issues with other licence compatible libraries or possibly my own implementations of the dependencies.
-
-Hopefully, this project can be an alternative to Apache Tika in C# ecosystem.
-<div style="page-break-after: always;"></div>
-
-# References
-- Apache Lucene, 2020. *Apache Lucene - Welcome to Apache Lucene*. Available at https://lucene.apache.org. Accessed on 7th Aug 2020.
-- Apache Tika, 2020. *Apache Tika - Apache Tika*. Available at https://tika.apache.org. Accessed on 7th Aug 2020.
-- Axios, 2020. *axios/axios: Promise based HTTP client for the browser and node.js | GitHub*. Available at https://github.com/axios/axios. Accessed on 12th August 2020.
-- DocFetcher, 2020. *DocFetcher - Fast Document Search*. Available at http://docfetcher.sourceforge.net/en/index.html. Accessed on 7th Aug 2020.
-- ECMA, 2017. *C# Language Specification | ECMA International*. Available at https://www.ecma-international.org/publications/files/ECMA-ST/ECMA-334.pdf. Accessed on 13th August 2020.
-- Erickson, 2008. *sql - What is Full Text Search vs LIKE - Stack Overflow*. Available at https://stackoverflow.com/a/224726/8702601. Accessed on July 1st 2020.
-- iText, 2020. *iText 7 Core: an open-source PDF development library for Java and .NET*. Available at https://itextpdf.com/en/products/itext-7/itext-7-core. Accessed on 13 August 2020.
-- Makhoul, J., Kubala, F., Schwartz, R. and Weischedel, R., 1999, February. Performance measures for information extraction. In Proceedings of DARPA broadcast news workshop (pp. 249-252).
-- MDN, 2020. *Promise - JavaScript | MDN*. Available at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise. Accessed on 12th August 2020.
-- Melton, J. Buxton, S., 2006. *Chapter 13 - What's Missing? - Querying XML | ScienceDirect*. Available at https://doi.org/10.1016/B978-155860711-8/50014-9. Accessed on July 1st 2020.
-- Microsoft Docs, 2015. *Introduction to the C# Language and the .NET Framework | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/dotnet/csharp/getting-started/introduction-to-the-csharp-language-and-the-net-framework. Accessed on 13th August 2020.
-- Microsoft Docs, 2017. *Structure of a PresentationML document (Open XML SDK) | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-presentationml-document. Accessed on 12th August 2020.
-- Microsoft Docs, 2017. *Structure of a SpreadsheetML document (Open XML SDK) | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-spreadsheetml-document. Accessed on 12th August 2020.
-- Microsoft Docs, 2017. *Structure of a WordprocessingML document (Open XML SDK) | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-wordprocessingml-document. Accessed on 5th August 2020
-- Microsoft Docs, 2018. *Full-Text Search - SQL Server | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/sql/relational-databases/search/full-text-search?view=sql-server-ver15. Accessed on July 1st 2020.
-- Microsoft Docs, 2020. *.NET Core intro and overview | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/dotnet/core/introduction. Accessed on 13th August 2020.
-- Microsoft Docs, 2020. *Introduction to ASP.NET Core | Microsoft Docs*. Available at https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-3.1. Accesed on 13th August 2020.
-- Microsoft, 2020.*TypeScript: Typed JavaScript at Any Scale*. Available at https://www.typescriptlang.org. Accessed on 13th August 2020.
-- NW.js, 2020. *nwjs/nw.js: Call all Node.js modules directly from DOM/WebWorker and enable a new way of writing applications with all Web technologies*. Available at https://github.com/nwjs/nw.js. Accessed on 13th August.
-- Office Open XML, 2012. *Office Open XML - What is OOXML?*. Available at https://docs.microsoft.com/en-us/office/open-xml/structure-of-a-wordprocessingml-document. Accessed on 5th August 2020.
-- Reiner, K. Chichao, C. Farzin, M. Ravi, K.,2006. *Searching with context | ACM Digital Library*. Available at https://dl.acm.org/doi/abs/10.1145/1135777.1135847. Accessed on July 1st 2020.
-- Search Engine Watch, 2019. *The beginner's guide to semantic search: Examples and tools*. Available at https://www.searchenginewatch.com/2019/12/16/the-beginners-guide-to-semantic-search/. Accessed on 13th August 2020.
-- Tekli, J., Chbeir, R.,  Traina, A., Traina, C Jr., Yetongnon, K., Ibanez, C., Assad, M., Kallas, C., 2018. *Full-fledged semantic indexing and querying model designed for seamless integration in legacy RDBMS*. Available at https://doi-org.ezproxy.herts.ac.uk/10.1016/j.datak.2018.07.007. Accessed on July 2nd 2020.
-- VSCode, 2020. *Visual Studio Code - Code Editing. Redefined*. Available at https://code.visualstudio.com. Accessed on 12th August 2020.
-- Vue.js, 2020. *Vue.js*. Available at https://vuejs.org. Accessed on 12th August 2020.
-
-<div style="page-break-after: always;"></div>
-
-# Appendix
-a. Precision & Recall | [Back to content](#precision-and-recall)<br/>
-![precision&recall](Report%20Graphs/Precision%20and%20Recall.svg)
-
-b. Gantt Chart | [Back to content](#gantt-chart)<br/>
-![gantt chart](Report%20Graphs/Gantt%20Chart.png)
-
-c. Structure of decompressed `.docx` file | [Back to content](#word-2007)<br/>
-![decompressed .docx file](./Report%20Graphs/openxml-word.png)
-
-d. Structure of decompressed `.xlsx` file | [Back to content](#excel-2007)<br/>
-![sharedStrings.xml](Report%20Graphs/Shared%20Strings%20Table.png)
+![Inverted Index](Report%20Graphs/Inverted%20Index.png)
