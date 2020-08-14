@@ -1,4 +1,5 @@
 ### Report can be found [here](./Report.md)
+### PDF version can be found [here](./PDF/Report.pdf)
 # Librarian
 
 A cross-platform full-text search engine for local filesystem.
