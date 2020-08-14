@@ -180,7 +180,7 @@ As of now, the UI is still rather simple and act only as a visual user interface
   | `.xlsx`, `.xlsm` | :heavy_check_mark: |
   | `.pdf`           | :heavy_check_mark: |
 
--  Report :construction:
+-  Report
 ___
 # Implementation
 ## Tools & Third-party Libraries
