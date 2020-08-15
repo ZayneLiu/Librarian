@@ -2,6 +2,7 @@
 
 # Report <!-- omit in toc -->
 ## Table of Contents <!-- omit in toc -->
+- [Abstract](#abstract)
 - [Introduction](#introduction)
 - [Literature Review](#literature-review)
   - [Full-Text Search Engine](#full-text-search-engine)
@@ -46,9 +47,22 @@
 - [References](#references)
 - [Appendix](#appendix)
 
+# Abstract
+This report addresses various processes and stages of building the project - Librarian, to provide ful-text search capabilities against local filesystem.
+
+To achieve planned filetypes support, detailed documentations and third-party libraries are needed to implement a working system consists of indexing, searching, and data persistence functionalities.
+
+Most planned functionalities of Librarian were built, tested and fully-functional, including API, Web API, and Cross-platform GUI.
+However some advanced features are still under development, given the time constraint of this project.
+Some other features and additional support are planned in future work.
+
 
 # Introduction
-[TBC]
+During my pre-master, I often find myself going through nested directories with lots of documents trying to find the one I need by opening every single one of them up in different applications and searching for the keyword i need.
+Which is very annoying and time-consuming.
+Then it occurs to me, why not build an application that can do those repeated steps for me.
+The initial idea of this project was born.
+
 # Literature Review
 Following paragraphs are the literature review around the chosen topic.
 ## Full-Text Search Engine
@@ -435,11 +449,20 @@ During the development process, I was struggle with many tech stacks, i've also 
 
 Due the fact that native function calls is way faster than HTTP requests, I dropped planned web api + electron / nw.js structure and started exploring `Xamarin` framework (open-source cross-platform application framework using .NET and C#) for a possible work-around which later turned out to have some compatibility issues, as Xamarin.Mac is based on `.NET Standard` framework while the API is built with `.NET Core`. Thus I reverted back into web api + NW.js approach. However, there is a possibility where Custodian API is built with a CLI (Command-Line Interface) which GUI application can run shell commands to interact with Custodian API, this would possibly solve the latency issues with HTTP requests, and also improve usability to fit other use cases, this solution is for future reference.
 
+Apart from technical conclusion, I've leaned a lot about software development as well.
+This is the first time I actually used unit testing on a project, which revealed the importance of unit testing in software development.
+In the past, I tended to do a lot of demos using all kinds of different and interesting technologies, but none of them were a proper project.
+This occurred to me a couple weeks ago when i was browsing LinkedIn for potential job opportunities, the fact that I don't have any proper project to demonstrate my software development skills, all I've got are demos.
+And as my research showed the gap of text extraction framework in C# ecosystem, that's when I decided to treat this project more seriously, to try to following best practices, to have unit tests, to have detailed documentations, and many other things that can make it a usable and maintainable project.
 
 ## Future Work
-This project was originally considered only to be a tool to do full-text searches against local file system. However, along the development process of the project, I discovered that there's a gap for full-text search (or text extraction, content analysis) framework in .NET ecosystem (even though Apache Tika has a .NET wrapper API, it's still not a pure C# implementation which might result in issues with a non-C# origin).  Thus, I decided to focus mainly on API, try to push this into next steps as a library written in C# for full-text searching. Furthermore, as mentioned earlier Custodian API as a library should also have a CLI to improve usability.
+This project was originally considered only to be a tool to do full-text searches against local file system.
+However, along the development process of the project, I discovered that there's a gap for full-text search (or text extraction, content analysis) framework in .NET ecosystem (even though Apache Tika has a .NET wrapper API, it's still not a pure C# implementation which might result in issues with a non-C# origin).
+Thus, I decided to focus mainly on API, try to push this into next steps as a library written in C# for full-text searching.
+Furthermore, as mentioned earlier Custodian API as a library should also have a CLI to improve usability.
 
-Up until this point, there're still many dependencies with various licences which can be tricky for potential use cases in the future. That said, until all planned features of this project is implemented and fully tested, I'll then look into replacing some dependencies that have licence issues with other licence compatible libraries or possibly my own implementations of the dependencies.
+Up until this point, there're still many dependencies with various licences which can be tricky for potential use cases in the future.
+That said, until all planned features of this project is implemented and fully tested, I'll then look into replacing some dependencies that have licence issues with other licence compatible libraries or possibly my own implementations of the dependencies.
 
 Hopefully, this project can be an alternative to Apache Tika in C# ecosystem.
 <div style="page-break-after: always;"></div>
